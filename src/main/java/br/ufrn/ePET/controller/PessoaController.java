@@ -34,17 +34,28 @@ public class PessoaController {
 	@GetMapping(value="/pessoas")
 	//@PreAuthorize("hasAnyRole('ADMIN', 'TUTOR')")
 	public ResponseEntity<?> getPessoas(){
-		return new ResponseEntity<>(pessoaservice.buscar(), HttpStatus.OK);
+		if(pessoaservice.buscar() instanceof Pessoa) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping(value="/pessoas/{id}")
 	public ResponseEntity<?> getPessoas(@PathVariable Long id){
-		return new ResponseEntity<>(pessoaservice.buscar(id), HttpStatus.BAD_REQUEST);
+		if (pessoaservice.buscar(id) instanceof Pessoa) {
+			return new ResponseEntity<>(HttpStatus.OK); 
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PostMapping(value="/pessoas-cadastro/{id}")
 	public ResponseEntity<?> savePessoas(@PathVariable Long id, @RequestBody Pessoa pessoa){
-		pessoaservice.salvar(id, pessoa);
-		return new ResponseEntity<>(HttpStatus.OK);
+		if(pessoaservice.salvar(id, pessoa) instanceof Pessoa) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }

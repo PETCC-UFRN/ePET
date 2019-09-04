@@ -1,6 +1,7 @@
 package br.ufrn.ePET.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.models.Tipo_Usuario;
 import br.ufrn.ePET.repository.PessoaRepository;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
+import javassist.NotFoundException;
 
 @Service
 public class PessoaService {
@@ -25,19 +27,28 @@ public class PessoaService {
 	}
 	
 	public Pessoa buscar(Long id) {
-		Pessoa pessoa = pessoaRepository.findById(id).get();
-		return pessoa instanceof Pessoa ? pessoa : null;
+		try {
+			return pessoaRepository.findById(id).get();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public List<Pessoa> buscar(){
-		return pessoaRepository.findAll();
+		try {
+			return pessoaRepository.findAll();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public Pessoa salvar(Long id, Pessoa pessoa){
-		Tipo_Usuario tu = tipo_UsuarioRespository.findById(id).get();
-		pessoa.setTipo_usuario(tu);
-		return pessoaRepository.save(pessoa);
-		
+		try {
+			pessoa.setTipo_usuario(tipo_UsuarioRespository.findById(id).get());
+			return pessoaRepository.save(pessoa);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 }
