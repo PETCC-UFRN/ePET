@@ -41,7 +41,7 @@ public class Pessoa {
 	@NotEmpty
 	@JoinColumn(name = "id_tipo_usuario")
 	private Tipo_Usuario tipo_usuario;
-
+	
 	public long getIdPessoa() {
 		return idPessoa;
 	}

@@ -17,6 +17,11 @@ public class Tipo_Usuario{
 	@Column(columnDefinition = "VARCHAR(45)")
 	@NotEmpty
 	private String nome;
+	
+	public Tipo_Usuario(long id, String nome) {
+		this.idTipo_usuario = id;
+		this.nome = nome;
+	}
 
 	public long getIdTipo_usuario() {
 		return idTipo_usuario;
