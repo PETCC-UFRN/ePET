@@ -38,7 +38,7 @@ public class Pessoa {
 	private String senha;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_tipo_usuario")
 	private Tipo_Usuario tipo_usuario;
 

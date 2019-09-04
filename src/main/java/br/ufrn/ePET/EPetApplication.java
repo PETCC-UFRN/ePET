@@ -8,6 +8,7 @@ public class EPetApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EPetApplication.class, args);
+		//System.out.println(new BCryptPasswordEncoder().encode("password"));
 	}
 
 }

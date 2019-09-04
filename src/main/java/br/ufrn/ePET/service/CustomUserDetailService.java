@@ -1,6 +1,6 @@
 package br.ufrn.ePET.service;
 
-import java.util.List;
+/*import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.PessoaRepository;
 
-@Component
+/*@Component
 public class CustomUserDetailService implements UserDetailsService{
 	
 	private final PessoaRepository pessoaRepository;
@@ -39,4 +39,4 @@ public class CustomUserDetailService implements UserDetailsService{
 		return new User(pessoa.getNome(), pessoa.getSenha(), pessoa.getTipo_usuario().getNome().equalsIgnoreCase("petiano") ? authorityListAdmin : authorityListUser);
 	}
 
-}
+}*/

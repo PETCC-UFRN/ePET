@@ -42,7 +42,7 @@ public class Petiano {
 	private String site_pessoal;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 
