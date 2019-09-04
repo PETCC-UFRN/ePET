@@ -32,13 +32,13 @@ public class PetianoController {
 
 	@GetMapping(value="/petianos")
 	//@PreAuthorize("hasAnyRole('ADMIN', 'TUTOR')")
-	public ResponseEntity<?> getPetianos(){
-		return new ResponseEntity<>(petianoservice.buscar(), HttpStatus.OK);
+	public List<Petiano> getPetianos(){
+		return petianoservice.buscar();
 	}
 
 	@GetMapping(value="/petianos/{id}")
-	public ResponseEntity<?> getPetianos(@PathVariable Long id){
-		return new ResponseEntity<>(petianoservice.buscar(id), HttpStatus.BAD_REQUEST);
+	public Petiano getPetianos(@PathVariable Long id){
+		return petianoservice.buscar(id);
 	}
 
 	@PostMapping(value="/petianos-cadastro/{id}")
