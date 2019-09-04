@@ -19,7 +19,7 @@ public class Petiano {
 	private long idPetiano;
 	
 	@Column(name="data_ingresso", columnDefinition = "DATE")
-	@NotEmpty
+	//@NotEmpty
 	private LocalDate data_ingresso;
 	
 	@Column(name="data_egresso", columnDefinition = "DATE")
