@@ -47,7 +47,7 @@ public class PessoaController {
 	}
 	
 	@DeleteMapping("/pessoas/{id}")
-	public boolean deleteEmployee(@PathVariable Integer id) {
+	public boolean deletePessoa(@PathVariable Integer id) {
 		// Deletar um usuário específico
 		pessoarepository.deleteById(id);
 		return true;
