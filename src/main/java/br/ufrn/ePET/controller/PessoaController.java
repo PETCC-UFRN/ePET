@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 /*import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;*/
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.models.Pessoa;
-import br.ufrn.ePET.repository.PessoaRepository;
 import br.ufrn.ePET.service.PessoaService;
 
 @RestController
@@ -32,12 +32,13 @@ public class PessoaController {
 	
 	
 	@GetMapping(value="/pessoas")
-	//@PreAuthorize("hasAnyRole('ADMIN', 'TUTOR')")
+	@PreAuthorize("hasRole ('ROLE_tutor')")
 	public List<Pessoa> getPessoas(){
 		return pessoaservice.buscar();
 	}
 	
 	@GetMapping(value="/pessoas/{id}")
+	@PreAuthorize("hasRole ('ROLE_petiano')")
 	public Pessoa getPessoas(@PathVariable Long id){
 		//return new ResponseEntity<>(pessoaservice.buscar(id), HttpStatus.OK);
 		return pessoaservice.buscar(id);

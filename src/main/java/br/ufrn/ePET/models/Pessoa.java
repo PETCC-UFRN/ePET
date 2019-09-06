@@ -7,10 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pessoa {
@@ -29,18 +32,24 @@ public class Pessoa {
 	@Column(unique = true)
 	private String cpf;
 	
-	@NotEmpty
+	/*@NotEmpty
 	@Column(columnDefinition = "VARCHAR(100)", unique = true)
 	private String email;
 	
 	@NotEmpty
 	@Column(columnDefinition = "VARCHAR(512)")
-	private String senha;
+	private String senha;*/
 	
 	@ManyToOne
 	//@NotEmpty
 	@JoinColumn(name = "id_tipo_usuario")
 	private Tipo_Usuario tipo_usuario;
+	
+	@OneToOne
+	@JsonIgnore
+	//@NotEmpty
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
 
 	public long getIdPessoa() {
 		return idPessoa;
@@ -66,28 +75,20 @@ public class Pessoa {
 		this.cpf = cpf;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 	public Tipo_Usuario getTipo_usuario() {
 		return tipo_usuario;
 	}
 
 	public void setTipo_usuario(Tipo_Usuario tipo_usuario) {
 		this.tipo_usuario = tipo_usuario;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 }

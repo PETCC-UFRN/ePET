@@ -2,6 +2,7 @@ package br.ufrn.ePET.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.PessoaRepository;
@@ -20,6 +21,7 @@ public class PessoaService {
 		this.tipo_UsuarioRespository = tipo_UsuarioRespository;
 	}
 	
+	//@Secured("ROLE_petiano")
 	public Pessoa buscar(Long id) {
 		try {
 			return pessoaRepository.findById(id).get();
@@ -28,6 +30,7 @@ public class PessoaService {
 		}
 	}
 	
+	//@Secured("ROLE_tutor")
 	public List<Pessoa> buscar(){
 		try {
 			return pessoaRepository.findAll();
