@@ -32,10 +32,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		Usuario usuario = Optional.ofNullable(usuarioRepository.findByEmail(username))
 			.orElseThrow(() -> new UsernameNotFoundException("usuario não encontrado")); 
 		
-		/*Pessoa pessoa = Optional.ofNullable(pessoaRepository.findByUsuario(usuario))
-				.orElseThrow(() -> new UsernameNotFoundException("usuario não encontrado"));*/
+		Pessoa pessoa = Optional.ofNullable(pessoaRepository.findByUsuario(usuario))
+				.orElseThrow(() -> new UsernameNotFoundException("usuario não encontrado"));
 		
-		List<GrantedAuthority> listuser = AuthorityUtils.createAuthorityList("ROLE_petiano");
+		List<GrantedAuthority> listuser = AuthorityUtils.createAuthorityList("ROLE_" + pessoa.getTipo_usuario().getNome());
 		//System.out.println(pessoa.getTipo_usuario().getNome());
 		return new User(usuario.getEmail(), usuario.getSenha(), listuser);
 	}
