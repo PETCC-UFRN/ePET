@@ -1,14 +1,10 @@
 package br.ufrn.ePET.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-/*import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;*/
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,21 +28,34 @@ public class PessoaController {
 	
 	
 	@GetMapping(value="/pessoas")
-	@PreAuthorize("hasRole ('ROLE_tutor')")
-	public List<Pessoa> getPessoas(){
-		return pessoaservice.buscar();
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getPessoas(){
+		try {
+			return new ResponseEntity<>(pessoaservice.buscar(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
 	@GetMapping(value="/pessoas/{id}")
-	@PreAuthorize("hasRole ('ROLE_petiano')")
-	public Pessoa getPessoas(@PathVariable Long id){
-		//return new ResponseEntity<>(pessoaservice.buscar(id), HttpStatus.OK);
-		return pessoaservice.buscar(id);
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> getPessoas(@PathVariable Long id){
+		try {
+			return new ResponseEntity<>(pessoaservice.buscar(id), HttpStatus.OK);
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@PostMapping(value="/pessoas-cadastro/{id}")
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> savePessoas(@PathVariable Long id, @RequestBody Pessoa pessoa){
-		pessoaservice.salvar(id, pessoa);
-		return new ResponseEntity<>(HttpStatus.OK);
+		try {
+			pessoaservice.salvar(id, pessoa);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }
