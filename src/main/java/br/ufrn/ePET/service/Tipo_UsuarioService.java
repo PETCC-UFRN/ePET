@@ -19,27 +19,15 @@ public class Tipo_UsuarioService {
 	}
 	
 	public Tipo_Usuario buscar(Long id) {
-		try {
-			return tipo_UsuarioRepository.findById(id).get();
-		} catch (Exception e) {
-			return null;
-		}
+		return tipo_UsuarioRepository.findById(id).get();
 	}
 	
 	public List<Tipo_Usuario> buscar(){
-		try {
-			return tipo_UsuarioRepository.findAll();
-		} catch (Exception e) {
-			return null;
-		}
+		return tipo_UsuarioRepository.findAll();
 	}
 	
 	public Tipo_Usuario salvar(Long id, Tipo_Usuario tipoUsuario){
-		try {
-			return tipo_UsuarioRepository.save(tipoUsuario);
-		} catch (Exception e) {
-			return null;
-		}
+		return tipo_UsuarioRepository.save(tipoUsuario);
 	}
 
 }
