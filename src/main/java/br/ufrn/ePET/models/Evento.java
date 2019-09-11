@@ -35,6 +35,9 @@ public class Evento {
 	@Column(columnDefinition = "DATE")
 	private LocalDate d_inscricao_fim;
 	
+	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private boolean ativo;
+
 	@NotEmpty
 	private int qtdVagas;
 	
@@ -78,7 +81,15 @@ public class Evento {
 	public void setLocal(String local) {
 		this.local = local;
 	}
+	
+	public boolean isAtivo() {
+		return ativo;
+	}
 
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
 	public int getQtdVagas() {
 		return qtdVagas;
 	}
