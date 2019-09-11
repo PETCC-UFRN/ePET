@@ -29,13 +29,14 @@ public class EventoService {
 	
 	public List<Evento> buscarAtivos(){
 		List<Evento> lista = eventoRepository.findAll();
+		List<Evento> lista_ativos = null;
 		LocalDate ld = LocalDate.now();
 		for(Evento e : lista) {
 			if(!(ld.compareTo(e.getD_inscricao()) >= 0) && !(ld.compareTo(e.getD_inscricao_fim()) >= 0)) {
-				lista.remove(e);
+				lista_ativos.add(e);
 			}
 		}
-		return lista;
+		return lista_ativos;
 	}
 	
 	public Evento salvar(Evento evento) {

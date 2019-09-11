@@ -29,7 +29,7 @@ public class Evento {
 	private String local;
 	
 	@Column(columnDefinition = "DATE")
-	@NotEmpty
+	//@NotEmpty
 	private LocalDate d_inscricao;
 	
 	@Column(columnDefinition = "DATE")
@@ -37,17 +37,20 @@ public class Evento {
 	
 	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private boolean ativo;
+	
+	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private boolean participante_anexos;
 
-	@NotEmpty
+	//@NotEmpty
 	private int qtdVagas;
 	
-	@NotEmpty
+	//@NotEmpty
 	private int qtdCargaHoraria;
 	
-	@NotEmpty
+	//@NotEmpty
 	private int qtdDias;
 	
-	@NotEmpty
+	//@NotEmpty
 	private double valor;
 
 	public long getIdEvento() {
@@ -90,6 +93,14 @@ public class Evento {
 		this.ativo = ativo;
 	}
 	
+	public boolean isParticipante_anexos() {
+		return participante_anexos;
+	}
+
+	public void setParticipante_anexos(boolean participante_anexos) {
+		this.participante_anexos = participante_anexos;
+	}
+
 	public int getQtdVagas() {
 		return qtdVagas;
 	}

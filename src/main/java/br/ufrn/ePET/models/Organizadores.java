@@ -17,8 +17,8 @@ public class Organizadores {
 	
 	@ManyToOne
 	@NotEmpty
-	@JoinColumn(name = "id_petiano")
-	private Petiano petiano;
+	@JoinColumn(name = "id_pessoa")
+	private Pessoa pessoa;
 	
 	@ManyToOne
 	@NotEmpty
@@ -33,12 +33,12 @@ public class Organizadores {
 		this.idOrganizadores = idOrganizadores;
 	}
 
-	public Petiano getPetiano() {
-		return petiano;
+	public Pessoa getPessoa() {
+		return pessoa;
 	}
 
-	public void setPetiano(Petiano petiano) {
-		this.petiano = petiano;
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	public Evento getEvento() {

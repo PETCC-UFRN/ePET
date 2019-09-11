@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -20,7 +21,8 @@ import br.ufrn.ePET.service.EventoService;
 public class EventoController {
 	
 	private final EventoService eventoService;
-
+	
+	@Autowired
 	public EventoController(EventoService eventoService) {
 		this.eventoService = eventoService;
 	}
@@ -28,8 +30,7 @@ public class EventoController {
 	@GetMapping(value = "/eventos")
 	public ResponseEntity<?> getEventos(){
 		try {
-			eventoService.buscar();
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(eventoService.buscar(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -38,8 +39,7 @@ public class EventoController {
 	@GetMapping(value = "/eventos-abertos")
 	public ResponseEntity<?> getEventosAbertos(){
 		try {
-			eventoService.buscarAtivos();
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(eventoService.buscarAtivos(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -48,8 +48,7 @@ public class EventoController {
 	@GetMapping(value = "/eventos/{id}")
 	public ResponseEntity<?> getEventos(@PathVariable Long id){
 		try {
-			eventoService.buscar(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(eventoService.buscar(id), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
