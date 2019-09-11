@@ -45,4 +45,10 @@ public class EventoService {
 	public void remover(Long id) {
 		eventoRepository.deleteById(id);
 	}
+	
+	public void ativar(Long id) {
+		Evento evento = eventoRepository.findById(id).get();
+		evento.setAtivo(true);
+		eventoRepository.save(evento);
+	}
 }
