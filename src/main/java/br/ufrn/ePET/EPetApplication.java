@@ -2,8 +2,12 @@ package br.ufrn.ePET;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
+import br.ufrn.ePET.config.FileStorageConfig;
 
 @SpringBootApplication
+@EnableConfigurationProperties({FileStorageConfig.class})
 public class EPetApplication {
 
 	public static void main(String[] args) {

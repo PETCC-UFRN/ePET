@@ -1,6 +1,5 @@
 package br.ufrn.ePET.models;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
