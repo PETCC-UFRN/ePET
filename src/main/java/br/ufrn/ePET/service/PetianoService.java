@@ -33,13 +33,12 @@ public class PetianoService {
 	
 	public List<Petiano> buscarAtuais(){
 		List<Petiano> listPetianos = petianoRepository.findAll();
-		List<Petiano> listPetianosativos = new ArrayList<Petiano>();
 		for(Petiano petiano : listPetianos) {
 			if (petiano.getPessoa().getTipo_usuario().getNome().equalsIgnoreCase("petiano")) {
-				listPetianosativos.add(petiano);
+				listPetianos.remove(petiano);
 			}
 		}
-		return listPetianosativos;
+		return listPetianos;
 	}
 	
 	public List<Petiano> buscarAntigos(){
