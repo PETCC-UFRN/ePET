@@ -1,5 +1,7 @@
 package br.ufrn.ePET.models;
 
+import javax.persistence.Column;
+
 //import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -7,25 +9,30 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idUsuario;
 	
+	@Column(columnDefinition = "VARCHAR(100)", unique = true)
+	@NotEmpty
 	@Email
 	private String email;
 	
+	@Column(columnDefinition = "VARCHAR(20)")
+	@NotEmpty
 	private String senha;
 	
-	public Long getId() {
-		return id;
+	public Long getidUsuario() {
+		return idUsuario;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
+	
+	public void setidUsuario(Long id) {
+		this.idUsuario = id;
 	}
 
 	public String getEmail() {

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.ufrn.ePET.service.CustomUserDetailsService;
+import br.ufrn.ePET.service.UsuarioService;
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/api/pessoas-cadastro/**");
 	}
+	
+	
 	
 	
 }
