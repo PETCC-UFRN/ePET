@@ -1,5 +1,6 @@
 package br.ufrn.ePET.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,10 +26,12 @@ public class Participante {
 	@JoinColumn(name = "id_evento")
 	private Evento evento;
 	
-	@NotEmpty
+	//@NotEmpty
+	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private boolean confirmado;
 	
-	@NotEmpty
+	//@NotEmpty
+	@Column (columnDefinition = "BOOLEAN DEFAULT TRUE")
 	private boolean espera;
 
 	public long getIdParticipantes() {
@@ -62,4 +65,14 @@ public class Participante {
 	public void setConfirmado(boolean confirmado) {
 		this.confirmado = confirmado;
 	}
+
+	public boolean isEspera() {
+		return espera;
+	}
+
+	public void setEspera(boolean espera) {
+		this.espera = espera;
+	}
+	
+	
 }
