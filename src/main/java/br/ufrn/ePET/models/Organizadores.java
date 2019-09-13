@@ -16,12 +16,10 @@ public class Organizadores {
 	private long idOrganizadores;
 	
 	@ManyToOne
-	@NotEmpty
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 	
 	@ManyToOne
-	@NotEmpty
 	@JoinColumn(name = "id_evento")
 	private Evento evento;
 
