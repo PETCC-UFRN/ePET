@@ -48,11 +48,11 @@ public class PessoaController {
 		}
 	}
 	
-	@PostMapping(value="/pessoas-cadastro/{id}")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
-	public ResponseEntity<?> savePessoas(@PathVariable Long id, @RequestBody Pessoa pessoa){
+	@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
+	//@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> savePessoas(@PathVariable Long id_tipo, @PathVariable Long id_usuario,@RequestBody Pessoa pessoa){
 		try {
-			pessoaservice.salvar(id, pessoa);
+			pessoaservice.salvar(id_tipo, id_usuario,pessoa);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

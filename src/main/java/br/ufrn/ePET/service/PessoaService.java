@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.PessoaRepository;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
+import br.ufrn.ePET.repository.UsuarioRepository;
 
 
 @Service
@@ -13,23 +14,27 @@ public class PessoaService {
 	
 	private final PessoaRepository pessoaRepository;
 	private final Tipo_UsuarioRepository tipo_UsuarioRespository;
+	private final UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	public PessoaService(PessoaRepository pessoaRepository, Tipo_UsuarioRepository tipo_UsuarioRespository) {
+	public PessoaService(PessoaRepository pessoaRepository, Tipo_UsuarioRepository tipo_UsuarioRespository,
+			UsuarioRepository usuarioRepository) {
 		this.pessoaRepository = pessoaRepository;
 		this.tipo_UsuarioRespository = tipo_UsuarioRespository;
+		this.usuarioRepository = usuarioRepository;
 	}
 	
 	public Pessoa buscar(Long id) {
 		return pessoaRepository.findById(id).get();
 	}
-	
+
 	public List<Pessoa> buscar(){
 		return pessoaRepository.findAll();
 	}
 	
-	public Pessoa salvar(Long id, Pessoa pessoa){
-		pessoa.setTipo_usuario(tipo_UsuarioRespository.findById(id).get());
+	public Pessoa salvar(Long id_tipo, Long id_usuario, Pessoa pessoa){
+		pessoa.setTipo_usuario(tipo_UsuarioRespository.findById(id_tipo).get());
+		pessoa.setUsuario(usuarioRepository.findById(id_usuario).get());
 		return pessoaRepository.save(pessoa);
 	}
 }
