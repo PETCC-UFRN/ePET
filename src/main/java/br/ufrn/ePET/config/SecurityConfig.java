@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.ufrn.ePET.service.CustomUserDetailsService;
+import br.ufrn.ePET.service.UsuarioService;
 
 @Configuration
 @EnableWebSecurity
@@ -32,5 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
+	
+	
 	
 }
