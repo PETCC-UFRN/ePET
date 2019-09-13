@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.models.Evento;
@@ -56,7 +55,7 @@ public class EventoController {
 	
 	@PostMapping(value = "/eventos-ativar/{id}")
 	@Secured("ROLE_tutor")
-	public ResponseEntity<?> ativarEventos(@RequestParam Long id){
+	public ResponseEntity<?> ativarEventos(@PathVariable Long id){
 		try {
 			eventoService.ativar(id);
 			return new ResponseEntity<>(HttpStatus.OK);
