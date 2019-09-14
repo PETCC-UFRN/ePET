@@ -23,11 +23,11 @@ public class Pessoa {
 	private long idPessoa;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@NotEmpty
+	@NotEmpty(message = "{nome.not.blank}")
 	private String nome;
 	
-	@CPF
-	@NotEmpty
+	@CPF(message = "{cpf.not.valid}")
+	@NotEmpty(message = "{cpf.not.blank}")
 	@Length(min = 11, max = 11)
 	@Column(unique = true)
 	private String cpf;

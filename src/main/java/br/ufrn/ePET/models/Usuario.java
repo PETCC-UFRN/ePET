@@ -19,12 +19,12 @@ public class Usuario {
 	private Long idUsuario;
 	
 	@Column(columnDefinition = "VARCHAR(100)", unique = true)
-	@NotEmpty
-	@Email
+	@NotEmpty(message = "{email.not.blank}")
+	@Email(message = "{email.not.valid}")
 	private String email;
 	
-	@Column(columnDefinition = "VARCHAR(20)")
-	@NotEmpty
+	//@Column(columnDefinition = "VARCHAR(20)")
+	@NotEmpty(message = "{senha.not.blank}")
 	private String senha;
 	
 	public Long getidUsuario() {

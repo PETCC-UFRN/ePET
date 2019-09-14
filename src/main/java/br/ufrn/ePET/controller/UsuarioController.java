@@ -1,5 +1,7 @@
 package br.ufrn.ePET.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Usuario;
 import br.ufrn.ePET.service.UsuarioService;
 
@@ -28,21 +31,24 @@ public class UsuarioController {
 	@GetMapping(value="/usuarios/{id}")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getUsuarios(@PathVariable Long id){
-		try {
-			return new ResponseEntity<>(usuarioService.buscar(id), HttpStatus.OK);
-		} catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		Usuario usuario = usuarioService.buscar(id);
+		if (usuario == null)
+			throw new ResourceNotFoundException("Usuario com id "+ id+" não encontrado.");
+		//try {
+			return new ResponseEntity<>(usuario, HttpStatus.OK);
+		//} catch(Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
 	}
 	
 	@PostMapping(value="/usuarios-cadastrar")
-	public ResponseEntity<?> saveUsuarios(@RequestBody Usuario usuario){
-		try {
+	public ResponseEntity<?> saveUsuarios(@Valid @RequestBody Usuario usuario){
+		//try {
 			usuarioService.salvar(usuario);
 			return new ResponseEntity<>( HttpStatus.OK);
-		} catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		//} catch(Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
 	}
 	
 

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -17,19 +18,20 @@ public class Evento {
 	private long idEvento;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@NotEmpty
+	@NotEmpty(message = "{tit.not.blank}")
 	private String titulo;
 	
 	@Column(columnDefinition = "TEXT")
-	@NotEmpty
+	@NotEmpty(message = "{desc.not.blank}")
 	private String descricao;
 	
 	@Column(columnDefinition = "TEXT")
-	@NotEmpty
+	@NotEmpty(message = "{loc.not.blank}")
 	private String local;
 	
 	@Column(columnDefinition = "DATE")
 	//@NotEmpty
+	//@DateTimeFormat
 	private LocalDate d_inscricao;
 	
 	@Column(columnDefinition = "DATE")
@@ -42,15 +44,19 @@ public class Evento {
 	private boolean participante_anexos;
 
 	//@NotEmpty
+	@DecimalMin("0.0")
 	private int qtdVagas;
 	
 	//@NotEmpty
+	@DecimalMin("0.0")
 	private int qtdCargaHoraria;
 	
 	//@NotEmpty
+	@DecimalMin("0.0")
 	private int qtdDias;
 	
 	//@NotEmpty
+	@DecimalMin("0.0")
 	private double valor;
 
 	public long getIdEvento() {

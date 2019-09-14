@@ -3,6 +3,8 @@ package br.ufrn.ePET.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.PessoaRepository;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
@@ -25,7 +27,8 @@ public class PessoaService {
 	}
 	
 	public Pessoa buscar(Long id) {
-		return pessoaRepository.findById(id).get();
+		return pessoaRepository.findById(id).isPresent() ? 
+				pessoaRepository.findById(id).get(): null;
 	}
 
 	public List<Pessoa> buscar(){
@@ -33,8 +36,14 @@ public class PessoaService {
 	}
 	
 	public Pessoa salvar(Long id_tipo, Long id_usuario, Pessoa pessoa){
-		pessoa.setTipo_usuario(tipo_UsuarioRespository.findById(id_tipo).get());
-		pessoa.setUsuario(usuarioRepository.findById(id_usuario).get());
+		if(tipo_UsuarioRespository.findById(id_tipo).isPresent())
+			pessoa.setTipo_usuario(tipo_UsuarioRespository.findById(id_tipo).get());
+		else throw new ResourceNotFoundException("Nenhum tipo de usuário cadastrado com id "+ id_tipo);
+
+		if(usuarioRepository.findById(id_usuario).isPresent())
+			pessoa.setUsuario(usuarioRepository.findById(id_usuario).get());
+		else throw new ResourceNotFoundException("Nenhum usuário cadastrado com id "+ id_usuario);
+		
 		return pessoaRepository.save(pessoa);
 	}
 }

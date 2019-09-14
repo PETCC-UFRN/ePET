@@ -1,5 +1,7 @@
 package br.ufrn.ePET.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.service.EventoService;
 
@@ -28,62 +31,65 @@ public class EventoController {
 	
 	@GetMapping(value = "/eventos")
 	public ResponseEntity<?> getEventos(){
-		try {
+		//try {
 			return new ResponseEntity<>(eventoService.buscar(), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		//} catch (Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
 	}
 	
 	@GetMapping(value = "/eventos-abertos")
 	public ResponseEntity<?> getEventosAbertos(){
-		try {
+		//try {
 			return new ResponseEntity<>(eventoService.buscarAtivos(), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		//} catch (Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
 	}
 	
 	@GetMapping(value = "/eventos/{id}")
 	public ResponseEntity<?> getEventos(@PathVariable Long id){
-		try {
-			return new ResponseEntity<>(eventoService.buscar(id), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		Evento evento = eventoService.buscar(id);
+		if(evento == null)
+			throw new ResourceNotFoundException("Nenhum evento com id "+id +" encontrado.");
+		//try {
+			return new ResponseEntity<>(evento, HttpStatus.OK);
+		//} catch (Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
 	}
 	
 	@PostMapping(value = "/eventos-ativar/{id}")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> ativarEventos(@PathVariable Long id){
-		try {
+		//try {
 			eventoService.ativar(id);
 			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		//} catch (Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
 	}
 	
 	@PostMapping(value = "/eventos-cadastrar")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveEventos(@RequestBody Evento evento){
-		try {
+	public ResponseEntity<?> saveEventos(@Valid @RequestBody Evento evento){
+		//try {
 			eventoService.salvar(evento);
 			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		//} catch (Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
 	}
 	
 	@DeleteMapping(value="/eventos-remove/{id}")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removeEventos(@PathVariable Long id){
-		try {
+		//try {
 			eventoService.remover(id);;
 			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		//} catch (Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
 	}
 
 }

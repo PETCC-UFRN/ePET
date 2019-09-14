@@ -26,19 +26,19 @@ public class Petiano {
 	private LocalDate data_egresso;
 	
 	@Column(columnDefinition = "TEXT")
-	@NotEmpty
+	@NotEmpty(message = "{int.not.blank}")
 	private String area_interesse;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@NotEmpty
+	@NotEmpty(message = "{lat.not.blank}")
 	private String lattes;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@NotEmpty
+	@NotEmpty(message = "{fot.not.blank}")
 	private String foto;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@NotEmpty
+	@NotEmpty(message = "{sit.not.blank}")
 	private String site_pessoal;
 	
 	@ManyToOne
