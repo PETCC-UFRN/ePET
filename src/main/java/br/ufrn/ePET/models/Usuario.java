@@ -23,7 +23,7 @@ public class Usuario {
 	@Email
 	private String email;
 	
-	@Column(columnDefinition = "VARCHAR(20)")
+	@Column
 	@NotEmpty
 	private String senha;
 	
