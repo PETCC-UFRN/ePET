@@ -1,5 +1,7 @@
 package br.ufrn.ePET.error;
 
+import br.ufrn.ePET.error.ResourceNotFoundDetails.Builder;
+
 public class ErrorDetails {
 	
 	private String titulo;
@@ -63,10 +65,10 @@ public class ErrorDetails {
         
         private String mensagem;
         
-        private Builder() { }
-
-		public String getTitulo() {
-			return titulo;
+ private Builder() { }
+        
+        public static Builder newBuilder() {
+			return new Builder();
 		}
 
 		public Builder setTitulo(String titulo) {
@@ -74,17 +76,9 @@ public class ErrorDetails {
 			return this;
 		}
 
-		public int getStatus() {
-			return status;
-		}
-
 		public Builder setStatus(int status) {
 			this.status = status;
 			return this;
-		}
-
-		public String getDetalhes() {
-			return detalhes;
 		}
 
 		public Builder setDetalhes(String detalhes) {
@@ -92,17 +86,9 @@ public class ErrorDetails {
 			return this;
 		}
 
-		public long getTimestamp() {
-			return timestamp;
-		}
-
 		public Builder setTimestamp(long timestamp) {
 			this.timestamp = timestamp;
 			return this;
-		}
-
-		public String getMensagem() {
-			return mensagem;
 		}
 
 		public Builder setMensagem(String mensagem) {
