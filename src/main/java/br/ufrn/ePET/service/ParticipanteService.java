@@ -5,17 +5,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.models.Participante;
+import br.ufrn.ePET.models.Pessoa;
+import br.ufrn.ePET.repository.EventoRepository;
 import br.ufrn.ePET.repository.ParticipanteRepository;
+import br.ufrn.ePET.repository.PessoaRepository;
 
 @Service
 public class ParticipanteService {
 	
 	private final ParticipanteRepository participanteRepository;
+	private final EventoRepository eventoRepository;
+	private final PessoaRepository pessoaRepository;
 	
 	@Autowired
-	public ParticipanteService(ParticipanteRepository participanteRepository) {
+	public ParticipanteService(ParticipanteRepository participanteRepository, EventoRepository eventoRepository,
+			PessoaRepository pessoaRepository) {
 		this.participanteRepository = participanteRepository;
+		this.eventoRepository = eventoRepository;
+		this.pessoaRepository = pessoaRepository;
 	}
 	
 	public List<Participante> buscar(){
@@ -30,20 +39,25 @@ public class ParticipanteService {
 		return participanteRepository.findByPessoa(id);
 	}
 	
-	public List<Participante> buscarEventosAtuais(Long id){
+	/*public List<Participante> buscarEventosAtuais(Long id){
 		List<Participante> lista = participanteRepository.findByPessoa(id);
 		for(Participante p : lista) {
-			//if(p.getEvento().)
+			if(p.getEvento().get)
 		}
 		return lista;
-	}
+	}*/
 	
-	public void salvar(Participante participante) {
-		int ativos =  participanteRepository.countAtivos(participante.getEvento().getIdEvento());
-		if(!(ativos < participante.getEvento().getQtdVagas())) {
-			participante.setEspera(true);
+	public void salvar(Long id_evento, Long id_pessoa) {
+		Participante p = new Participante();
+		Evento e = eventoRepository.findById(id_evento).get();
+		Pessoa pe = pessoaRepository.findById(id_pessoa).get();
+		p.setEvento(e);
+		p.setPessoa(pe);
+		int ativos =  participanteRepository.countAtivos(e.getIdEvento());
+		if(!(ativos < e.getQtdVagas())) {
+			p.setEspera(true);
 		}
-		participanteRepository.save(participante);
+		participanteRepository.save(p);
 	}
 	
 	public void remover(Long id) {
