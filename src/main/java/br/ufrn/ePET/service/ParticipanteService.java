@@ -32,7 +32,8 @@ public class ParticipanteService {
 	}
 	
 	public Participante buscar(Long id) {
-		return participanteRepository.findById(id).get();
+		return participanteRepository.findById(id).isPresent() ? 
+				participanteRepository.findById(id).get(): null;
 	}
 	
 	public List<Participante> buscarPessoa(Long id){

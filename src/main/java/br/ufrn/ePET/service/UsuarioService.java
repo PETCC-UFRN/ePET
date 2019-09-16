@@ -1,7 +1,5 @@
 package br.ufrn.ePET.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +17,8 @@ public class UsuarioService {
 	}
 	
 	public Usuario buscar(Long id) {
-		return usuarioRepository.findById(id).get();
+		return usuarioRepository.findById(id).isPresent() ? 
+				usuarioRepository.findById(id).get(): null;
 	}
 	
 	public Usuario buscarByEmail( String email ){

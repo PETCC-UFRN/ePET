@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import br.ufrn.ePET.error.ResourceNotFoundException;
+import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.models.Organizadores;
+import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.EventoRepository;
 import br.ufrn.ePET.repository.OrganizadoresRepository;
 import br.ufrn.ePET.repository.PessoaRepository;
@@ -31,11 +33,21 @@ public class OrganizadoresService {
 	}
 
 	public Organizadores buscar(Long id) {
-		return organizadoresRepository.findById(id).get();
+		return organizadoresRepository.findById(id).isPresent() ? 
+				organizadoresRepository.findById(id).get(): null;
 	}
 	
 	public void salvar(Long id_evento, Long id_pessoa) {
 		Organizadores o = new Organizadores();
+		Evento evento = eventoRepository.findById(id_evento).isPresent() ? 
+				eventoRepository.findById(id_evento).get(): null;
+		Pessoa pessoa = pessoaRepository.findById(id_pessoa).isPresent() ? 
+				pessoaRepository.findById(id_pessoa).get(): null;
+		if(evento == null)
+			throw new ResourceNotFoundException("Evento com id "+ id_evento + " não encontrado.");
+		if(pessoa == null)
+			throw new ResourceNotFoundException("Pessoa com id "+ id_evento + " não encontrada.");
+		
 		o.setEvento(eventoRepository.findById(id_evento).get());
 		o.setPessoa(pessoaRepository.findById(id_pessoa).get());
 		organizadoresRepository.save(o);
@@ -50,6 +62,8 @@ public class OrganizadoresService {
 	}
 	
 	public void remover(Long id) {
+		if (!organizadoresRepository.findById(id).isPresent())
+			throw new ResourceNotFoundException("Nenhum organizador com id "+id+" encontrado");
 		organizadoresRepository.deleteById(id);
 	}
 }
