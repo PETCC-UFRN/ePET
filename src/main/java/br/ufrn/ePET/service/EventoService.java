@@ -47,6 +47,14 @@ public class EventoService {
 		return lista;
 	}
 	
+	public List<Evento> buscarInativos(){
+		List<Evento> lista = eventoRepository.findByInativos();
+		if(lista.isEmpty()) {
+			throw new ResourceNotFoundException("Nenhum evento inativo");
+		}
+		return lista;
+	}
+
 	public Evento salvar(Evento evento) {
 		return eventoRepository.save(evento);
 	}
