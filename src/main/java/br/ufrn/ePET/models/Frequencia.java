@@ -20,12 +20,12 @@ public class Frequencia {
 	private int assiduidade;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_periodo_evento")
 	private Periodo_Evento periodo_evento;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_participante")
 	private Participante participante;
 
