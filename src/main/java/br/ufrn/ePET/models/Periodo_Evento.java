@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Periodo_Evento {
@@ -19,10 +18,36 @@ public class Periodo_Evento {
 	private long idPeriodo_Evento;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_evento")
 	private Evento evento;
 	
 	@Column(columnDefinition = "DATE")
 	private LocalDate dia;
+
+	public long getIdPeriodo_Evento() {
+		return idPeriodo_Evento;
+	}
+
+	public void setIdPeriodo_Evento(long idPeriodo_Evento) {
+		this.idPeriodo_Evento = idPeriodo_Evento;
+	}
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
+
+	public LocalDate getDia() {
+		return dia;
+	}
+
+	public void setDia(LocalDate dia) {
+		this.dia = dia;
+	}
+	
+	
 }
