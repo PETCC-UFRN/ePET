@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +29,7 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantes(){
 		List<Participante> participantes = participanteService.buscar();
 		if (participantes.isEmpty())
@@ -61,4 +65,15 @@ public class ParticipanteController {
 		//}
 	}
 	
+	@PostMapping(value = "/participantes-cadastrar/{id_evento}/{id_pessoa}")
+	public ResponseEntity<?> salvarParticipantes(@PathVariable Long id_evento, @PathVariable Long id_pessoa){
+		participanteService.salvar(id_evento, id_pessoa);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value = "/participantes-remove/{id}")
+	public ResponseEntity<?> deleteParticipantes(@PathVariable Long id){
+		participanteService.remover(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
