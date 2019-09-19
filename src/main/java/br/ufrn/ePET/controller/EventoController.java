@@ -61,6 +61,11 @@ public class EventoController {
 		//}
 	}
 	
+	@GetMapping(value = "eventos-inativos")
+	public ResponseEntity<?> getEventosInativos(){
+		return new ResponseEntity<>(eventoService.buscarInativos(), HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/eventos-ativar/{id}")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> ativarEventos(@PathVariable Long id){
