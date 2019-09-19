@@ -37,9 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("service/api/pessoas-cadastro/**");
-		web.ignoring().antMatchers("service/api/usuario-cadastrar/**");
-		web.ignoring().antMatchers("service/api/petianos-atuais/**");
-		web.ignoring().antMatchers("service/api/petianos-antigos/**");
 	}
 	
 	
