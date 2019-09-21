@@ -54,12 +54,24 @@ public class Tutoria_MinistradaService {
 		LocalDate today = LocalDate.now();
 		
 		for(Tutoria_Ministrada tutoria : tutorias) {
-			if(tutoria.getData().isAfter(today)) {
+			if(tutoria.getData().isBefore(today)) {
 				tutorias.remove(tutoria);
 			}
 		}
 		
-		return tutorias;		
+		return tutorias;
+	}
+	
+	public List<Tutoria_Ministrada> tutoriasAtivas(Long id_tutoria){
+		List<Tutoria_Ministrada> tutorias = tutoria_Ministrada_Repository.findAll();
+		
+		for(Tutoria_Ministrada tutoria: tutorias) {
+			if(tutoria.getData().isBefore(LocalDate.now()) && !(tutoria.getTutoria().getIdTutoria() == id_tutoria)) {
+				tutorias.remove(tutoria);
+			}
+		}
+		
+		return tutorias;
 	}
 	
 
