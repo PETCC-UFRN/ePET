@@ -66,7 +66,9 @@ public class Tutoria_MinistradaService {
 		List<Tutoria_Ministrada> tutorias = tutoria_Ministrada_Repository.findAll();
 		
 		for(Tutoria_Ministrada tutoria: tutorias) {
-			if(tutoria.getData().isBefore(LocalDate.now()) && !(tutoria.getTutoria().getIdTutoria() == id_tutoria)) {
+			if(tutoria.getData().isBefore(LocalDate.now()) && 
+					!(tutoria.getTutoria().getIdTutoria() == id_tutoria)
+					&& !tutoria.getAtivo()) {
 				tutorias.remove(tutoria);
 			}
 		}
@@ -74,5 +76,12 @@ public class Tutoria_MinistradaService {
 		return tutorias;
 	}
 	
+	public void removerTutoria(Long id_tutoria) {
+		Tutoria_Ministrada tutoria = tutoria_Ministrada_Repository.findById(id_tutoria);
+		tutoria.setAtivo(false);
+		
+		tutoria_Ministrada_Repository.save(tutoria);
+		
+	}
 
 }
