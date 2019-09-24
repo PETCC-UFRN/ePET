@@ -61,7 +61,7 @@ public class PessoaController {
 		//}
 	}
 	
-	@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
+	/*@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
 	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> savePessoas(@PathVariable Long id_tipo, 
 			@PathVariable Long id_usuario, @Valid @RequestBody Pessoa pessoa){
@@ -71,5 +71,5 @@ public class PessoaController {
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
-	}
+	}*/
 }
