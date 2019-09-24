@@ -1,6 +1,6 @@
 package br.ufrn.ePET;
 
-import com.google.common.base.Predicate;
+/*import com.google.common.base.Predicate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -37,3 +37,4 @@ public class SwaggerConfig {
 				.licenseUrl("javainuse@gmail.com").version("1.0").build();
 	}
 }
+*/
