@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
+import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.models.Usuario;
+import br.ufrn.ePET.models.UsuarioDTO;
+import br.ufrn.ePET.service.PessoaService;
+import br.ufrn.ePET.service.Tipo_UsuarioService;
 import br.ufrn.ePET.service.UsuarioService;
 
 @RestController
@@ -24,8 +28,9 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 	
 	@Autowired
-	public UsuarioController(UsuarioService user) {
-		this.usuarioService = user;
+	public UsuarioController(UsuarioService usuarioService, PessoaService pessoaService,
+			Tipo_UsuarioService tuService) {
+		this.usuarioService = usuarioService;
 	}
 	
 	@GetMapping(value="/usuarios/{id}")
@@ -40,12 +45,12 @@ public class UsuarioController {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
 	}
-	
-	@PostMapping(value="/usuarios-cadastrar")
-	public ResponseEntity<?> saveUsuarios(@Valid @RequestBody Usuario usuario){
+
+	@PostMapping(value="/usuarios-cadastrar/")
+	public ResponseEntity<?> saveUsuarios(@Valid @RequestBody UsuarioDTO usuarioDTO){
 		//try {
-			usuarioService.salvar(usuario);
-			return new ResponseEntity<>( HttpStatus.OK);
+			usuarioService.salvar(usuarioDTO);
+			return new ResponseEntity<>(HttpStatus.OK);
 		//} catch(Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
