@@ -31,6 +31,9 @@ public class Tutoria_Ministrada {
 	@Column(columnDefinition = "DATE")
 	@NotEmpty
 	private LocalDate data;
+	
+	private boolean ativo;
+	
 
 	public long getIdTutoria_ministrada() {
 		return idTutoria_ministrada;
@@ -64,4 +67,11 @@ public class Tutoria_Ministrada {
 		this.data = data;
 	}
 
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
+	public boolean getAtivo() {
+		return ativo;
+	}
 }
