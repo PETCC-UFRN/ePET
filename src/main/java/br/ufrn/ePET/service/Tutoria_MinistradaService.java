@@ -77,7 +77,7 @@ public class Tutoria_MinistradaService {
 	}
 	
 	public void removerTutoria(Long id_tutoria) {
-		Tutoria_Ministrada tutoria = tutoria_Ministrada_Repository.findById(id_tutoria);
+		Tutoria_Ministrada tutoria = tutoria_Ministrada_Repository.findById(id_tutoria).get();
 		tutoria.setAtivo(false);
 		
 		tutoria_Ministrada_Repository.save(tutoria);
