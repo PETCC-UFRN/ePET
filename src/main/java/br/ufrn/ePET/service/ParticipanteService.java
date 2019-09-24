@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.models.Participante;
 import br.ufrn.ePET.models.Pessoa;
@@ -50,8 +51,16 @@ public class ParticipanteService {
 	
 	public void salvar(Long id_evento, Long id_pessoa) {
 		Participante p = new Participante();
-		Evento e = eventoRepository.findById(id_evento).get();
-		Pessoa pe = pessoaRepository.findById(id_pessoa).get();
+		//Evento e = eventoRepository.findById(id_evento).get();
+		//Pessoa pe = pessoaRepository.findById(id_pessoa).get();
+		Evento e= eventoRepository.findById(id_evento).isPresent() ? 
+				eventoRepository.findById(id_evento).get(): null;
+		Pessoa pe= pessoaRepository.findById(id_pessoa).isPresent() ? 
+				pessoaRepository.findById(id_pessoa).get(): null;
+		if(e== null)
+			throw new ResourceNotFoundException("Evento com id "+ id_evento + " não encontrado.");
+		if(pe== null)
+			throw new ResourceNotFoundException("Pessoa com id "+ id_evento + " não encontrada.");
 		p.setEvento(e);
 		p.setPessoa(pe);
 		int ativos =  participanteRepository.countAtivos(e.getIdEvento());
@@ -62,7 +71,11 @@ public class ParticipanteService {
 	}
 	
 	public void remover(Long id) {
-		Participante p = participanteRepository.findById(id).get();
+		//Participante p = participanteRepository.findById(id).get();
+		Participante p = participanteRepository.findById(id).isPresent() ? 
+				participanteRepository.findById(id).get(): null;
+		if(p == null)
+			throw new ResourceNotFoundException("Participante com id "+ id + " não encontrado.");
 		if(p.isEspera()) {
 			participanteRepository.delete(p);
 		} else {

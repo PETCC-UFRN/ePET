@@ -9,7 +9,7 @@ import br.ufrn.ePET.models.Participante;
 
 public interface ParticipanteRepository extends JpaRepository<Participante, Long> {
 	
-	@Query(value = "SELECT count(id_participante) FROM `participante` WHERE id_evento = ?1", nativeQuery = true)
+	@Query(value = "SELECT count(id_participante) FROM `participante` WHERE id_evento = ?", nativeQuery = true)
 	int countAtivos(Long id);
 	
 	List<Participante> findByEspera(boolean espera);

@@ -1,7 +1,5 @@
 package br.ufrn.ePET.error;
 
-import br.ufrn.ePET.error.ResourceNotFoundDetails.Builder;
-
 public class ErrorDetails {
 	
 	private String titulo;

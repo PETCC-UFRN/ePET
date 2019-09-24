@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Participante {
@@ -17,12 +16,10 @@ public class Participante {
 	private long idParticipante;
 	
 	@ManyToOne
-	@NotEmpty
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 	
 	@ManyToOne
-	@NotEmpty
 	@JoinColumn(name = "id_evento")
 	private Evento evento;
 	
