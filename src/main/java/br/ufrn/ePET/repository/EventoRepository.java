@@ -11,4 +11,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long>{
 	
 	@Query(value = "SELECT * FROM Evento i WHERE i.participante_anexos = ?1", nativeQuery = true)
 	List<Evento> findByParticipantesAnexos(Long id);
+	
+	@Query(value = "SELECT * FROM Evento i WHERE i.ativo = falso", nativeQuery = true)
+	List<Evento> findByInativos();
 }

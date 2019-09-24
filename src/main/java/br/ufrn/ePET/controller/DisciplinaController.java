@@ -25,7 +25,6 @@ public class DisciplinaController {
 	}
 	
 	@GetMapping(value="/disciplinas")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> getDisciplinas(){
 		try {
 			return new ResponseEntity<>(disciplinaService.buscar(), HttpStatus.OK);
@@ -35,7 +34,7 @@ public class DisciplinaController {
 	}
 	
 	@PostMapping(value="/disciplinas")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveDisciplina(@PathVariable Disciplina disciplina){
 		try {
 			disciplinaService.salvar(disciplina);
