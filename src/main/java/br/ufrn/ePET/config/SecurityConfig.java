@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 
 import br.ufrn.ePET.service.CustomUserDetailsService;
 
@@ -27,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and().httpBasic()
 		.and().csrf().disable()
-		.addFilterBefore(new CORSConfig(), ChannelProcessingFilter.class)
+		//.addFilterBefore(new CORSConfig(), ChannelProcessingFilter.class)
 		.logout().logoutSuccessUrl("/logout");
 	}
 	
@@ -38,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("service/api/pessoas-cadastro/**");
+		web.ignoring().antMatchers("/api/usuarios-cadastrar/**");
 	}
 	
 	
