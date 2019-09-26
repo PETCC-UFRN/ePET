@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.service.PessoaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
+@Api(value = "/api")
 @RequestMapping(value="/api")
 public class PessoaController {
 	
@@ -31,8 +35,8 @@ public class PessoaController {
 		this.pessoaservice = pessoaservice;
 	}
 	
-	
-	@GetMapping(value="/pessoas")
+	@ApiOperation(value = "Retorna todas as pessoas cadastradas")
+	@GetMapping(value="/pessoas", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPessoas(){
 		List<Pessoa> pessoas = pessoaservice.buscar();
