@@ -26,6 +26,7 @@ public class Noticia {
 	@NotEmpty
 	private String corpo;
 	
+	private LocalDate inicio_exibicao;
 	//@Column(columnDefinition = 	"DATE")
 	private LocalDate limite_exibicao;
 	
