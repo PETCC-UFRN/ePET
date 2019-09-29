@@ -1,7 +1,5 @@
 package br.ufrn.ePET.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -52,13 +49,15 @@ public class NoticiaController {
 		return new ResponseEntity<>(noticia, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "noticia-cadastro/{id}")
+	@PostMapping(value = "/noticia-cadastro/{id}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveNoticias(@PathVariable Long id, @Valid @RequestBody Noticia noticia){
 		noticiaService.salvar(id, noticia);
 		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 	
-	@DeleteMapping(value = "noticia-remove/{id}")
+	@DeleteMapping(value = "/noticia-remove/{id}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removeNoticias(@PathVariable Long id){
 		noticiaService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
