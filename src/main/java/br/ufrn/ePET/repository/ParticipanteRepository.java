@@ -14,6 +14,6 @@ public interface ParticipanteRepository extends JpaRepository<Participante, Long
 	
 	List<Participante> findByEspera(boolean espera);
 	
-	@Query(value = "SELECT * FROM PARTICIPANTES u WHERE u.id_pessoa = ?1 AND ORDER BY id_participante DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ?1 AND ORDER BY u.id_participante DESC", nativeQuery = true)
 	List<Participante> findByPessoa(Long id);
 }
