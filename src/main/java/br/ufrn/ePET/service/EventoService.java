@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -25,23 +27,24 @@ public class EventoService {
 				eventoRepository.findById(id).get(): null;
 	}
 	
-	public List<Evento> buscar(){
-		List<Evento> eventList = eventoRepository.findAll();
+	public Page<Evento> buscar(Pageable pageable){
+		Page<Evento> eventList = eventoRepository.findAll(pageable);
 		if (eventList.isEmpty())
 			throw new ResourceNotFoundException("Nenhum evento cadastrado");
 		return eventList;
 	}
 	
-	public List<Evento> buscarAtivos(){
-		List<Evento> lista = eventoRepository.findAll();
+	public Page<Evento> buscarAtivos(Pageable pageable){
+		/*Page<Evento> lista = eventoRepository.findAll(pageable);
 		List<Evento> lista_aux = eventoRepository.findAll();
 		LocalDate ld = LocalDate.now();
 		for(Evento e : lista_aux) {
 			if(!(ld.compareTo(e.getD_inscricao()) >= 0) && !(ld.compareTo(e.getD_inscricao_fim()) >= 0)) {
-				lista.remove(e);
+				lista_aux.remove(e);
 			}
 		}
-		lista_aux.clear();
+		//lista_aux.clear();*/
+		Page<Evento> lista = eventoRepository.findByAtivos(LocalDate.now(), pageable);
 		if(lista.isEmpty())
 			throw new ResourceNotFoundException("Nenhum evento ativo");
 		return lista;
