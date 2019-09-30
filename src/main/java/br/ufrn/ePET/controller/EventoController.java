@@ -3,6 +3,8 @@ package br.ufrn.ePET.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -32,18 +34,26 @@ public class EventoController {
 	
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/eventos")
-	public ResponseEntity<?> getEventos(){
+	public ResponseEntity<?> getEventos(Pageable pageable){
 		//try {
-			return new ResponseEntity<>(eventoService.buscar(), HttpStatus.OK);
+			Page<Evento> page = eventoService.buscar(pageable);
+			if(page.isEmpty()) {
+				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
+			}
+			return new ResponseEntity<>(page, HttpStatus.OK);
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
 	}
 	
 	@GetMapping(value = "/eventos-abertos")
-	public ResponseEntity<?> getEventosAbertos(){
+	public ResponseEntity<?> getEventosAbertos(Pageable pageable){
 		//try {
-			return new ResponseEntity<>(eventoService.buscarAtivos(), HttpStatus.OK);
+			Page<Evento> page = eventoService.buscarAtivos(pageable);
+			if(page.isEmpty()) {
+				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
+			}
+			return new ResponseEntity<>(page, HttpStatus.OK);
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
