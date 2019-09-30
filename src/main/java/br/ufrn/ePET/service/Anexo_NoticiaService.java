@@ -41,6 +41,11 @@ public class Anexo_NoticiaService {
 		if(!anexo_NoticiaRepository.findById(id).isPresent()) {
 			throw new ResourceNotFoundException("Anexo noticia com id " + id +  "não encontrado");
 		}
+		removerPorNoticia(id);
 		anexo_NoticiaRepository.deleteById(id);
+	}
+	
+	public void removerPorNoticia(Long id) {
+		anexo_NoticiaRepository.deleteByIdNoticia(id);
 	}
 }
