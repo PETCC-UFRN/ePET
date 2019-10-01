@@ -74,5 +74,13 @@ public class Noticia {
 	public void setPetiano(Petiano petiano) {
 		this.petiano = petiano;
 	}
+
+	public LocalDate getInicio_exibicao() {
+		return inicio_exibicao;
+	}
+
+	public void setInicio_exibicao(LocalDate inicio_exibicao) {
+		this.inicio_exibicao = inicio_exibicao;
+	}
 	
 }

@@ -3,6 +3,8 @@ package br.ufrn.ePET.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -28,8 +30,8 @@ public class ParticipanteService {
 		this.pessoaRepository = pessoaRepository;
 	}
 	
-	public List<Participante> buscar(){
-		return participanteRepository.findAll();
+	public Page<Participante> buscar(Pageable pageable){
+		return participanteRepository.findAll(pageable);
 	}
 	
 	public Participante buscar(Long id) {
@@ -37,8 +39,8 @@ public class ParticipanteService {
 				participanteRepository.findById(id).get(): null;
 	}
 	
-	public List<Participante> buscarPessoa(Long id){
-		return participanteRepository.findByPessoa(id);
+	public Page<Participante> buscarPessoa(Long id, Pageable pageable){
+		return participanteRepository.findByPessoa(id, pageable);
 	}
 	
 	/*public List<Participante> buscarEventosAtuais(Long id){

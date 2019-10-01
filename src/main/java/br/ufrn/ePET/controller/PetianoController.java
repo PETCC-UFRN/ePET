@@ -1,10 +1,10 @@
 package br.ufrn.ePET.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -33,8 +33,8 @@ public class PetianoController {
 	}
 
 	@GetMapping(value="/petianos-atuais")
-	public ResponseEntity<?> getPetianosAtuais(){
-		List<Petiano> petianos = petianoservice.buscarAtuais();
+	public ResponseEntity<?> getPetianosAtuais(Pageable pageable){
+		Page<Petiano> petianos = petianoservice.buscarAtuais(pageable);
 		if (petianos.isEmpty())
 			throw new ResourceNotFoundException("Nenhum petiano cadastrado!");
 		//try {
@@ -47,8 +47,8 @@ public class PetianoController {
 	
 
 	@GetMapping(value="/petianos-antigos")
-	public ResponseEntity<?> getPetianosAntigos(){
-		List<Petiano> petianos = petianoservice.buscarAntigos();
+	public ResponseEntity<?> getPetianosAntigos(Pageable pageable){
+		Page<Petiano> petianos = petianoservice.buscarAntigos(pageable);
 		if (petianos.isEmpty())
 			throw new ResourceNotFoundException("Nenhum petiano cadastrado!");
 		//try {

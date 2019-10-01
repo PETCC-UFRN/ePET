@@ -1,8 +1,8 @@
 package br.ufrn.ePET.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -28,10 +28,10 @@ public class Tutoria_MinistradaController {
 		this.tutoria_MinistradaService = tutoria_MinistradaService;
 	}
 	
-	@GetMapping(value="/tutorias-ministradas/:id")
-	@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
+	@GetMapping(value="/tutorias-ministradas/{id}")
+	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriaMinistrada(@PathVariable Long id){
-		Tutoria_Ministrada tutoria_Ministrada = this.tutoria_MinistradaService.buscar(id);
+		Tutoria_Ministrada tutoria_Ministrada = tutoria_MinistradaService.buscar(id);
 		if(tutoria_Ministrada == null)
 			throw new ResourceNotFoundException("Tutoria com o id: "+ id +" não encontrada.");
 		
@@ -40,8 +40,8 @@ public class Tutoria_MinistradaController {
 	
 	@GetMapping(value="/tutorias-ministradas")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getTutoriasMinistradas(){
-		List<Tutoria_Ministrada> tutorias = this.tutoria_MinistradaService.buscar();
+	public ResponseEntity<?> getTutoriasMinistradas(Pageable pageable){
+		Page<Tutoria_Ministrada> tutorias = tutoria_MinistradaService.buscar(pageable);
 		if( tutorias.isEmpty() )
 			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");
 		

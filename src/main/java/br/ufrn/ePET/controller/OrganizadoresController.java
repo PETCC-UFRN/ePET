@@ -3,6 +3,8 @@ package br.ufrn.ePET.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -30,8 +32,8 @@ public class OrganizadoresController {
 	
 	
 	@GetMapping(value = "/organizadores")
-	public ResponseEntity<?> getOrganizadores(){
-		List<Organizadores> organizadores = organizadoresService.buscar();
+	public ResponseEntity<?> getOrganizadores(Pageable pageable){
+		Page<Organizadores> organizadores = organizadoresService.buscar(pageable);
 		if (organizadores.isEmpty())
 			throw new ResourceNotFoundException("Nenhum organizador cadastrado.");
 		//try {

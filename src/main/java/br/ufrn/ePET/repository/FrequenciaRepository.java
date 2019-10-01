@@ -7,6 +7,7 @@ import br.ufrn.ePET.models.Frequencia;
 
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	
-	@Query(value = "SELECT SUM(assiduidade) FROM frequencia i WHERE i.id_participante = ?1", nativeQuery = true)
-	int findAssiduidadeByParticipante(Long id);
+	@Query(value = "SELECT SUM(assiduidade) FROM frequencia i, periodo_evento p WHERE i.id_participante = ?1 AND "
+			+ "i.id_periodo_evento = p.id_periodo_evento AND p.id_evento = ?2", nativeQuery = true)
+	int findAssiduidadeByParticipante(Long id, Long id_evento);
 }

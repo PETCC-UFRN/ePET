@@ -3,6 +3,8 @@ package br.ufrn.ePET.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
-import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.models.Usuario;
 import br.ufrn.ePET.models.UsuarioDTO;
 import br.ufrn.ePET.service.PessoaService;
@@ -31,6 +32,16 @@ public class UsuarioController {
 	public UsuarioController(UsuarioService usuarioService, PessoaService pessoaService,
 			Tipo_UsuarioService tuService) {
 		this.usuarioService = usuarioService;
+	}
+	
+	@GetMapping(value = "/usuarios")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getUsuarios(Pageable pageable){
+		Page<Usuario> page = usuarioService.buscar(pageable);
+		if(page.isEmpty()) {
+			throw new ResourceNotFoundException("Nenhum usuário encontrado");
+		}
+		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/usuarios/{id}")

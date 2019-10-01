@@ -1,8 +1,8 @@
 package br.ufrn.ePET.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -28,8 +28,8 @@ public class FrequenciaService {
 		this.participanteRepository = participanteRepository;
 	}
 	
-	public List<Frequencia> buscar() {
-		return frequenciaRepository.findAll();
+	public Page<Frequencia> buscar(Pageable pageable) {
+		return frequenciaRepository.findAll(pageable);
 	}
 
 	public Frequencia buscar(Long id) {
@@ -37,8 +37,8 @@ public class FrequenciaService {
 				frequenciaRepository.findById(id).get() : null;
 	}
 	
-	public int buscarPorParticipante(Long id) {
-		return frequenciaRepository.findAssiduidadeByParticipante(id);
+	public int buscarPorParticipante(Long id, Long id_evento) {
+		return frequenciaRepository.findAssiduidadeByParticipante(id, id_evento);
 	}
 	
 	public void salvar(Long id_periodo_evento, Long id_participante, Frequencia f) {

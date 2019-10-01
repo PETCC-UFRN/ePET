@@ -1,6 +1,8 @@
 package br.ufrn.ePET.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.DuplicatedEntryException;
@@ -30,6 +32,10 @@ public class UsuarioService {
 	public Usuario buscar(Long id) {
 		return usuarioRepository.findById(id).isPresent() ? 
 				usuarioRepository.findById(id).get(): null;
+	}
+	
+	public Page<Usuario> buscar(Pageable pageable){
+		return usuarioRepository.findAll(pageable);
 	}
 
 	public Usuario buscarByEmail( String email ){

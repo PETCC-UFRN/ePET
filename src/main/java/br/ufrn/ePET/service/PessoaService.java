@@ -1,7 +1,8 @@
 package br.ufrn.ePET.service;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -31,8 +32,8 @@ public class PessoaService {
 				pessoaRepository.findById(id).get(): null;
 	}
 
-	public List<Pessoa> buscar(){
-		return pessoaRepository.findAll();
+	public Page<Pessoa> buscar(Pageable pageable){
+		return pessoaRepository.findAll(pageable);
 	}
 	
 	public Pessoa salvar(Long id_tipo, Long id_usuario, Pessoa pessoa){

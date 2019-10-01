@@ -1,8 +1,8 @@
 package br.ufrn.ePET.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,8 +29,8 @@ public class FrequenciaController {
 	}
 	
 	@GetMapping(value = "/frequencia")
-	public ResponseEntity<?> getFrequencia(){
-		List<Frequencia> f = frequenciaService.buscar();
+	public ResponseEntity<?> getFrequencia(Pageable pageable){
+		Page<Frequencia> f = frequenciaService.buscar(pageable);
 		if(f.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhuma frequencia achada");
 		}
@@ -46,9 +46,9 @@ public class FrequenciaController {
 		return new ResponseEntity<>(f, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "frequencia-pessoa/{id}")
-	public ResponseEntity<?> getFrequenciaPessoa(@PathVariable Long id){
-		return new ResponseEntity<>(frequenciaService.buscarPorParticipante(id), HttpStatus.OK);
+	@GetMapping(value = "frequencia-pessoa/{id_participante}/{id_evento}")
+	public ResponseEntity<?> getFrequenciaPessoa(@PathVariable Long id_participante, @PathVariable Long id_evento){
+		return new ResponseEntity<>(frequenciaService.buscarPorParticipante(id_participante, id_evento), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "frequencia-cadastrar/{id_periodo_evento}/{id_participante}")

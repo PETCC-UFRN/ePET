@@ -1,11 +1,10 @@
 package br.ufrn.ePET.controller;
 
-
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +37,8 @@ public class PessoaController {
 	@ApiOperation(value = "Retorna todas as pessoas cadastradas")
 	@GetMapping(value="/pessoas", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getPessoas(){
-		List<Pessoa> pessoas = pessoaservice.buscar();
+	public ResponseEntity<?> getPessoas(Pageable pageable){
+		Page<Pessoa> pessoas = pessoaservice.buscar(pageable);
 		if (pessoas.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhuma pessoa cadastrada!");
 		}
@@ -65,7 +64,7 @@ public class PessoaController {
 		//}
 	}
 	
-	/*@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
+	@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
 	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> savePessoas(@PathVariable Long id_tipo, 
 			@PathVariable Long id_usuario, @Valid @RequestBody Pessoa pessoa){
@@ -75,5 +74,5 @@ public class PessoaController {
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
-	}*/
+	}
 }

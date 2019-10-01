@@ -1,9 +1,10 @@
 package br.ufrn.ePET.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -32,32 +33,12 @@ public class PetianoService {
 				petianoRepository.findById(id).get(): null;
 	}
 	
-	public List<Petiano> buscarAtuais(){
-		List<Petiano> listPetianos = petianoRepository.findAll();
-		for(Petiano petiano : listPetianos) {
-			System.out.println(petiano.getPessoa().getTipo_usuario().getNome());
-			if (!petiano.getPessoa().getTipo_usuario().getNome().equalsIgnoreCase("petiano") &&
-					!petiano.getPessoa().getTipo_usuario().getNome().equalsIgnoreCase("tutor")) {
-				listPetianos.remove(petiano);
-			}
-		}
-		if (listPetianos.isEmpty())
-			throw new ResourceNotFoundException("Nenhum petiano cadastrado");
-		return listPetianos;
+	public Page<Petiano> buscarAtuais(Pageable pageable){
+		return petianoRepository.findByAtuais(pageable); 
 	}
 	
-	public List<Petiano> buscarAntigos(){
-		List<Petiano> listPetianos = petianoRepository.findAll();
-		List<Petiano> listPetianos_aux = petianoRepository.findAll();
-		for(Petiano petiano : listPetianos_aux) {
-			if (petiano.getData_egresso() == null) {
-				listPetianos.remove(petiano);
-			}
-		}
-		listPetianos_aux.clear();
-		if (listPetianos.isEmpty())
-			throw new ResourceNotFoundException("Nenhum ex-petiano cadastrado");
-		return listPetianos;
+	public Page<Petiano> buscarAntigos(Pageable pageable){
+		return petianoRepository.findByAntigos(pageable);
 	}
 	
 	public Petiano salvar(Long id, Petiano petiano){

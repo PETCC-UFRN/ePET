@@ -1,7 +1,7 @@
 package br.ufrn.ePET.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -28,8 +28,8 @@ public class TutoriaService {
 		return tutoriaRepository.findById(id).get();
 	}
 	
-	public List<Tutoria> buscar(){
-		return tutoriaRepository.findAll();
+	public Page<Tutoria> buscar(Pageable pageable){
+		return tutoriaRepository.findAll(pageable);
 	}
 	
 	public Tutoria salvar(Long id_petiano, Long id_disciplina, Tutoria tutoria) {
@@ -46,5 +46,11 @@ public class TutoriaService {
 		
 		return tutoriaRepository.save(tutoria);
 	}
-
+	
+	public void remover(Long id) {
+		if(!tutoriaRepository.findById(id).isPresent()) {
+			throw new ResourceNotFoundException("Nenhuma tutoria com id " + id + "encontrada");
+		}
+		tutoriaRepository.deleteById(id);
+	}
 }

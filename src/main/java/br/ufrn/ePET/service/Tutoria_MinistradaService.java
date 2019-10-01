@@ -3,6 +3,8 @@ package br.ufrn.ePET.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -31,8 +33,8 @@ public class Tutoria_MinistradaService {
 		return tutoria_Ministrada_Repository.findById(id).get();
 	}
 	
-	public List<Tutoria_Ministrada> buscar(){
-		return tutoria_Ministrada_Repository.findAll();
+	public Page<Tutoria_Ministrada> buscar(Pageable pageable){
+		return tutoria_Ministrada_Repository.findAll(pageable);
 	}
 	
 	public Tutoria_Ministrada salvar(Long id_pessoa, Long id_tutoria, Tutoria_Ministrada tutoriaMinistrada) {

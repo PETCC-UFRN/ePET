@@ -1,8 +1,8 @@
 package br.ufrn.ePET.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Periodo_Evento;
 import br.ufrn.ePET.service.Periodo_EventoService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -31,20 +32,29 @@ public class Periodo_EventoController {
 	
 	@GetMapping(value = "/periodo-evento")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getPeriodoEvento(){
-		List<Periodo_Evento> pe = periodo_EventoService.buscar();
+	public ResponseEntity<?> getPeriodoEvento(Pageable pageable){
+		Page<Periodo_Evento> pe = periodo_EventoService.buscar(pageable);
 		if (pe.isEmpty())
 			throw new ResourceNotFoundException("Nenhum periodo de evento cadastrado");
 		//try {
 		return new ResponseEntity<>(pe, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "periodo-evento/{id}")
+	@GetMapping(value = "/periodo-evento/{id}")
 	public ResponseEntity<?> getPeriodoEvento(@PathVariable Long id){
 		Periodo_Evento pe = periodo_EventoService.buscar(id);
 		if(pe == null) {
 			throw new ResourceNotFoundException("Nenhum periodo de evento encontrado");
 		}
+		return new ResponseEntity<>(pe, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "buscar periodo de eventos pelo id de um evento específico")
+	@GetMapping(value = "/periodo-evento-buscar/{id}")
+	public ResponseEntity<?> getPeriodoEventoBuscar(@PathVariable Long id_evento, Pageable pageable){
+		Page<Periodo_Evento> pe = periodo_EventoService.buscarPorEvento(id_evento, pageable);
+		if (pe.isEmpty())
+			throw new ResourceNotFoundException("Nenhum periodo de evento com id de evento " + id_evento + " cadastrado");
 		return new ResponseEntity<>(pe, HttpStatus.OK);
 	}
 	

@@ -1,8 +1,8 @@
 package br.ufrn.ePET.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -30,8 +30,8 @@ public class ParticipanteController {
 	
 	@GetMapping(value = "/participantes")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getParticipantes(){
-		List<Participante> participantes = participanteService.buscar();
+	public ResponseEntity<?> getParticipantes(Pageable pageable){
+		Page<Participante> participantes = participanteService.buscar(pageable);
 		if (participantes.isEmpty())
 			throw new ResourceNotFoundException("Nenhum participante cadastrado");
 		//try {
@@ -54,8 +54,8 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes-pessoa/{id}")
-	public ResponseEntity<?> getParticipantesPessoa(@PathVariable Long id){
-		List<Participante> participantes = participanteService.buscarPessoa(id);
+	public ResponseEntity<?> getParticipantesPessoa(@PathVariable Long id, Pageable pageable){
+		Page<Participante> participantes = participanteService.buscarPessoa(id, pageable);
 		if (participantes.isEmpty())
 			throw new ResourceNotFoundException("Não há participações de uma pessoa com id" + id + " no sistema");
 		//try {

@@ -2,6 +2,8 @@ package br.ufrn.ePET.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,5 +17,5 @@ public interface ParticipanteRepository extends JpaRepository<Participante, Long
 	List<Participante> findByEspera(boolean espera);
 	
 	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ?1 AND ORDER BY u.id_participante DESC", nativeQuery = true)
-	List<Participante> findByPessoa(Long id);
+	Page<Participante> findByPessoa(Long id, Pageable pageable);
 }
