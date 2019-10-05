@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and().httpBasic()
 		.and().csrf().disable()
+		.addFilterBefore(new CORSConfig(), ChannelProcessingFilter.class)
 		.logout().logoutSuccessUrl("/logout");
 	}
 	
