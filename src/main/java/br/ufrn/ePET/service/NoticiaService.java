@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Noticia;
@@ -34,8 +35,7 @@ public class NoticiaService {
 	}
 	
 	public void salvar(Long id_petiano, Noticia noticia) {
-		Petiano petiano = petianoRepository.findById(id_petiano).isPresent() ?
-				petianoRepository.findById(id_petiano).get() : null;
+		Petiano petiano = petianoRepository.findById(id_petiano).get();
 		if(petiano == null) {
 			throw new ResourceNotFoundException("Nenhum petiano encontrado com id " + id_petiano + " encontrado");
 		}
