@@ -28,7 +28,7 @@ public class Pessoa {
 	
 	@CPF(message = "{cpf.not.valid}")
 	@NotEmpty(message = "{cpf.not.blank}")
-	@Length(min = 11, max = 11)
+	//@Length(min = 11, max = 11)
 	@Column(unique = true)
 	private String cpf;
 	
