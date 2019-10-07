@@ -78,9 +78,10 @@ public class ParticipanteService {
 				participanteRepository.findById(id).get(): null;
 		if(p == null)
 			throw new ResourceNotFoundException("Participante com id "+ id + " não encontrado.");
-		if(p.isEspera()) {
-			participanteRepository.delete(p);
+		if(!p.isEspera()) {
+			participanteRepository.deleteById(p.getIdParticipantes());
 		} else {
+			participanteRepository.deleteById(p.getIdParticipantes());
 			List<Participante> lista = participanteRepository.findByEspera(true);
 			if(lista.size() > 0) {
 				lista.get(0).setEspera(false);
