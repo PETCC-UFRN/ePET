@@ -1,5 +1,7 @@
 package br.ufrn.ePET.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +51,7 @@ public class EventoController {
 	@GetMapping(value = "/eventos-abertos")
 	public ResponseEntity<?> getEventosAbertos(Pageable pageable){
 		//try {
-			Page<Evento> page = eventoService.buscarAtivos(pageable);
+			List<Evento> page = eventoService.buscarAtivos(pageable);
 			if(page.isEmpty()) {
 				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
 			}

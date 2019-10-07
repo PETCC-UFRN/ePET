@@ -34,8 +34,8 @@ public class EventoService {
 		return eventList;
 	}
 	
-	public Page<Evento> buscarAtivos(Pageable pageable){
-		/*Page<Evento> lista = eventoRepository.findAll(pageable);
+	public List<Evento> buscarAtivos(Pageable pageable){
+		//Page<Evento> lista = eventoRepository.findAll(pageable);
 		List<Evento> lista_aux = eventoRepository.findAll();
 		LocalDate ld = LocalDate.now();
 		for(Evento e : lista_aux) {
@@ -43,11 +43,13 @@ public class EventoService {
 				lista_aux.remove(e);
 			}
 		}
-		//lista_aux.clear();*/
-		Page<Evento> lista = eventoRepository.findByAtivos(LocalDate.now(), pageable);
+		//lista_aux.clear();
+		/*java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
+		Page<Evento> lista = eventoRepository.findByAtivos(sqlDate, pageable);
+		System.out.println(LocalDate.now());
 		if(lista.isEmpty())
-			throw new ResourceNotFoundException("Nenhum evento ativo");
-		return lista;
+			throw new ResourceNotFoundException("Nenhum evento ativo");*/
+		return lista_aux;
 	}
 	
 	public List<Evento> buscarInativos(){
