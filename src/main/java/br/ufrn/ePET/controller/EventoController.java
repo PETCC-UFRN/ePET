@@ -34,7 +34,6 @@ public class EventoController {
 		this.eventoService = eventoService;
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/eventos")
 	public ResponseEntity<?> getEventos(Pageable pageable){
 		//try {

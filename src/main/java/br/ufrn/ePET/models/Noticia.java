@@ -31,7 +31,6 @@ public class Noticia {
 	private LocalDate limite_exibicao;
 	
 	@ManyToOne
-	@NotEmpty
 	@JoinColumn(name = "id_petiano")
 	private Petiano petiano;
 

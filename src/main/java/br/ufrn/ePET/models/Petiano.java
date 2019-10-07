@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Petiano {
@@ -19,30 +18,24 @@ public class Petiano {
 	private long idPetiano;
 	
 	@Column(name="data_ingresso", columnDefinition = "DATE")
-	//@NotEmpty
 	private LocalDate data_ingresso;
 	
 	@Column(name="data_egresso", columnDefinition = "DATE")
 	private LocalDate data_egresso;
 	
 	@Column(columnDefinition = "TEXT")
-	@NotEmpty(message = "{int.not.blank}")
 	private String area_interesse;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@NotEmpty(message = "{lat.not.blank}")
 	private String lattes;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@NotEmpty(message = "{fot.not.blank}")
 	private String foto;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@NotEmpty(message = "{sit.not.blank}")
 	private String site_pessoal;
 	
 	@ManyToOne
-	//@NotEmpty
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 
