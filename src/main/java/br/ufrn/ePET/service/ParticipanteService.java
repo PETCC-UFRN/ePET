@@ -78,7 +78,7 @@ public class ParticipanteService {
 				participanteRepository.findById(id).get(): null;
 		if(p == null)
 			throw new ResourceNotFoundException("Participante com id "+ id + " não encontrado.");
-		if(!p.isEspera()) {
+		if(p.isEspera()) {
 			participanteRepository.deleteById(p.getIdParticipantes());
 		} else {
 			participanteRepository.deleteById(p.getIdParticipantes());
