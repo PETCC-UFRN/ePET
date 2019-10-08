@@ -1,5 +1,7 @@
 package br.ufrn.ePET.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,15 @@ public class PessoaController {
 		//	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
 		
+	}
+	
+	@GetMapping(value = "/pessoas-usuario")
+	public ResponseEntity<?> getPessoaUsuario(Principal principal){
+		Pessoa p = pessoaservice.buscarPorEmail(principal.getName());
+		if(p == null) {
+			throw new ResourceNotFoundException("Não foi possível adquirir o id do participante atual");
+		}
+		return new ResponseEntity<>(p, HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/pessoas/{id}")

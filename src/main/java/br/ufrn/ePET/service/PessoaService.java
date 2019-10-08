@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Pessoa;
+import br.ufrn.ePET.models.Usuario;
 import br.ufrn.ePET.repository.PessoaRepository;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
 import br.ufrn.ePET.repository.UsuarioRepository;
@@ -31,7 +32,12 @@ public class PessoaService {
 		return pessoaRepository.findById(id).isPresent() ? 
 				pessoaRepository.findById(id).get(): null;
 	}
-
+	
+	public Pessoa buscarPorEmail(String email) {
+		Usuario u = usuarioRepository.findByEmail(email);
+		Pessoa p = pessoaRepository.findByUsuario(u);
+		return p;
+	}
 	public Page<Pessoa> buscar(Pageable pageable){
 		return pessoaRepository.findAll(pageable);
 	}
