@@ -78,4 +78,11 @@ public class ParticipanteController {
 		participanteService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/participantes-confirmar/{id}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> confirmarParticipantes(@PathVariable Long id){
+		participanteService.confirmar(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

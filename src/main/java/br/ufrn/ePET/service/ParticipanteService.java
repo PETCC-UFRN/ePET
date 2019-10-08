@@ -91,4 +91,14 @@ public class ParticipanteService {
 		
 	}
 	
+	public void confirmar(Long id) {
+		Participante p = participanteRepository.findById(id).isPresent() ?
+				participanteRepository.findById(id).get() : null;
+		if(p == null) {
+			throw new ResourceNotFoundException("Particiipante com id " + id + " não encontrado.");
+		}
+		p.setConfirmado(true);
+		participanteRepository.save(p);
+	}
+	
 }
