@@ -53,8 +53,8 @@ public class TutoriaController {
 	
 	@PostMapping(value="/tutoria-cadastro/{id_petiano}/{id_disciplina}")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveTutoria(@PathVariable Long id_petiano, @PathVariable Long id_disciplina,
-										 @RequestBody Tutoria tutoria){
+	public ResponseEntity<?> saveTutoria(@PathVariable Long id_petiano, @PathVariable Long id_disciplina,){
+		Tutoria tutoria = new Tutoria();
 		tutoriaService.salvar(id_petiano, id_disciplina, tutoria);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
