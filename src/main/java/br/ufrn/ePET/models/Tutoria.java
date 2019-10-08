@@ -16,12 +16,12 @@ public class Tutoria {
 	private long idTutoria;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_petiano")
 	private Petiano petiano;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_disciplina")
 	private Disciplina disciplina;
 
