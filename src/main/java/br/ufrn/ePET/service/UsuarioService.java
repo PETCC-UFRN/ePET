@@ -48,7 +48,8 @@ public class UsuarioService {
 		if(usuario == null) {
 			usuario = new Usuario();
 			usuario.setEmail(usuarioDTO.getEmail());
-			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+			String senha = new BCryptPasswordEncoder().encode(usuarioDTO.getSenha());
+			usuario.setSenha(senha);
 			usuarioRepository.save(usuario);
 		} else {
 			throw new DuplicatedEntryException("Já existe um usuário cadastrado com esses dados!");
