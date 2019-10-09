@@ -106,4 +106,14 @@ public class PetianoController {
 		
 	}
 	
+	@GetMapping(value = "/petianos-pessoa/{id_pessoa}")
+	//@Secured({"ROLE_tutor"})
+	public ResponseEntity<?> getPetianosPorPessoa(@PathVariable Long id_pessoa){
+		Petiano petiano = petianoservice.buscarPorPessoa(id_pessoa);
+		if (petiano == null)
+			throw new ResourceNotFoundException("Nenhum petiano com id de pessoa "+ id_pessoa +" cadastrado!");
+		return new ResponseEntity<>(petiano, HttpStatus.OK);
+		
+	}
+	
 }

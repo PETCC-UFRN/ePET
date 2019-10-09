@@ -15,4 +15,7 @@ public interface PetianoRepository extends JpaRepository<Petiano, Long>{
 	
 	@Query(value = "SELECT * FROM petiano p WHERE p.data_egresso IS NOT NULL", nativeQuery = true)
 	Page<Petiano> findByAntigos(Pageable pageable);
+	
+	@Query(value = "SELECT * FROM petiano p WHERE p.id_pessoa = ?1", nativeQuery = true)
+	Petiano findByPessoa(Long id);
 }

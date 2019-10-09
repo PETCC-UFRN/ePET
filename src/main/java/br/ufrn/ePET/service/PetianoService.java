@@ -33,6 +33,10 @@ public class PetianoService {
 				petianoRepository.findById(id).get(): null;
 	}
 	
+	public Petiano buscarPorPessoa(Long id) {
+		return petianoRepository.findByPessoa(id);
+	}
+	
 	public Page<Petiano> buscarAtuais(Pageable pageable){
 		return petianoRepository.findByAtuais(pageable); 
 	}
