@@ -19,12 +19,12 @@ public class Tutoria_Ministrada {
 	private long idTutoria_ministrada;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_tutoria")
 	private Tutoria tutoria;
 	
