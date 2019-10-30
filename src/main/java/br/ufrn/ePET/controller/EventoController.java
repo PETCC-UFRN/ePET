@@ -90,7 +90,7 @@ public class EventoController {
 	}
 	
 	@PostMapping(value = "/eventos-cadastrar")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveEventos(@Valid @RequestBody Evento evento){
 		//try {
 			eventoService.salvar(evento);

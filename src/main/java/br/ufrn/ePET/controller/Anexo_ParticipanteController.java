@@ -13,53 +13,48 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
-import br.ufrn.ePET.models.Anexo_Noticia;
-import br.ufrn.ePET.service.Anexo_NoticiaService;
+import br.ufrn.ePET.models.Anexo_Participante;
+import br.ufrn.ePET.service.Anexo_ParticipanteService;
 import br.ufrn.ePET.service.FileStorageService;
 
-@RestController
-@RequestMapping(value = "/api")
-public class Anexo_NoticiaController {
+public class Anexo_ParticipanteController {
 	
-	private final Anexo_NoticiaService anexo_NoticiaService;
+	private final Anexo_ParticipanteService anexo_ParticipanteService;
 	private final FileStorageService fileStorageService;
 	
 	@Autowired
-	public Anexo_NoticiaController(Anexo_NoticiaService anexo_NoticiaService, FileStorageService fileStorageService) {
-		this.anexo_NoticiaService = anexo_NoticiaService;
+	public Anexo_ParticipanteController(Anexo_ParticipanteService anexo_ParticipanteService,
+			FileStorageService fileStorageService) {
+		this.anexo_ParticipanteService = anexo_ParticipanteService;
 		this.fileStorageService = fileStorageService;
 	}
 	
-	@GetMapping(value = "/anexos-noticias/{id}")
+	@GetMapping(value = "/anexos-participantes/{id}")
 	public ResponseEntity<?> getAnexos(@PathVariable Long id){
-		List<Anexo_Noticia> lista = anexo_NoticiaService.buscarPorNoticia(id);
+		List<Anexo_Participante> lista = anexo_ParticipanteService.buscarPorParticipante(id);
 		if(lista.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhum anexo cadastrado.");
 		}
 		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/anexos-noticia-cadastro/{id_noticia}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveAnexos(@PathVariable Long id_noticia, @Valid @RequestBody Anexo_Noticia anexo_Noticia){
-		anexo_NoticiaService.salvar(id_noticia, anexo_Noticia);
+	@PostMapping(value = "/anexos-participante-cadastro/{id_noticia}")
+	public ResponseEntity<?> saveAnexos(@PathVariable Long id_participante, @Valid @RequestBody Anexo_Participante anexo_Participante){
+		anexo_ParticipanteService.salvar(id_participante, anexo_Participante);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/anexos-noticia-upload/{id_noticia}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long id_noticia) {
+	@PostMapping(value = "/anexos-participante-upload/{id_noticia}")
+	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long id_participante) {
 	     String filename = fileStorageService.storeFile(file);
 	     if(filename != null) {
-	    	 Anexo_Noticia anexo_Noticia = new Anexo_Noticia();
-	    	 anexo_Noticia.setAnexos(filename);
-	    	 anexo_NoticiaService.salvar(id_noticia, anexo_Noticia);
+	    	 Anexo_Participante anexo_Participante = new Anexo_Participante();
+	    	 anexo_Participante.setAnexos(filename);
+	    	 anexo_ParticipanteService.salvar(id_participante, anexo_Participante);
 	    	 return new ResponseEntity<>(HttpStatus.OK);
 	     } else {
 	    	 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -67,10 +62,11 @@ public class Anexo_NoticiaController {
 	}
 	
 	
-	@DeleteMapping(value = "/anexos-noticia-remove/{id}")
+	@DeleteMapping(value = "/anexos-participante-remove/{id}")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removeAnexos(@PathVariable Long id){
-		anexo_NoticiaService.remover(id);
+		anexo_ParticipanteService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
 }
