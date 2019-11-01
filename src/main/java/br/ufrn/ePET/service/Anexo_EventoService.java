@@ -3,6 +3,7 @@ package br.ufrn.ePET.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Anexo_Evento;
@@ -10,6 +11,7 @@ import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.repository.Anexo_EventoRepository;
 import br.ufrn.ePET.repository.EventoRepository;
 
+@Service
 public class Anexo_EventoService {
 	
 	private final Anexo_EventoRepository anexo_EventoRepository;

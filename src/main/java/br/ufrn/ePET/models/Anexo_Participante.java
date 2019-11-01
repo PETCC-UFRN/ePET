@@ -9,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 public class Anexo_Participante extends Anexos {
 	
 	@ManyToOne
-	@NotEmpty
+	//@NotEmpty
 	@JoinColumn(name = "id_participante")
 	private Participante participante;
 
