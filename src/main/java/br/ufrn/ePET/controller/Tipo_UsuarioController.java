@@ -3,7 +3,7 @@ package br.ufrn.ePET.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+//import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +26,7 @@ public class Tipo_UsuarioController {
 	}
 
 	@GetMapping(value="/tipo-usuario")
-	@Secured("ROLE_tutor")
+	//@Secured("ROLE_tutor")
 	public ResponseEntity<?> getTiposUsuario(){
 		try {
 			return new ResponseEntity<>(tipo_UsuarioService.buscar(), HttpStatus.OK);
@@ -37,7 +37,7 @@ public class Tipo_UsuarioController {
 	}
 	
 	@GetMapping(value="/tipo-usuario/{id}")
-	@Secured("ROLE_tutor")
+	//@Secured("ROLE_tutor")
 	public ResponseEntity<?> getTiposUsuario(@PathVariable Long id){
 		try {
 			return new ResponseEntity<>(tipo_UsuarioService.buscar(id), HttpStatus.OK);
@@ -48,7 +48,7 @@ public class Tipo_UsuarioController {
 	}
 	
 	@PostMapping(value="/tipo-usuario-cadastro/{id}")
-	@Secured("ROLE_tutor")
+	//@Secured("ROLE_tutor")
 	public ResponseEntity<?> saveTiposUsuario(@PathVariable Long id, @RequestBody Tipo_Usuario tipo_Usuario){
 		
 		try{

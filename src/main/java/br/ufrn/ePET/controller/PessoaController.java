@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+//import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +38,7 @@ public class PessoaController {
 	
 	@ApiOperation(value = "Retorna todas as pessoas cadastradas")
 	@GetMapping(value="/pessoas", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPessoas(Pageable pageable){
 		Page<Pessoa> pessoas = pessoaservice.buscar(pageable);
 		if (pessoas.isEmpty()) {
@@ -62,7 +62,7 @@ public class PessoaController {
 	}
 	
 	@GetMapping(value="/pessoas/{id}")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> getPessoas(@PathVariable Long id){
 		Pessoa pessoa = pessoaservice.buscar(id);
 		if (pessoa == null)
@@ -76,7 +76,7 @@ public class PessoaController {
 	}
 	
 	@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> savePessoas(@PathVariable Long id_tipo, 
 			@PathVariable Long id_usuario, @Valid @RequestBody Pessoa pessoa){
 		//try {

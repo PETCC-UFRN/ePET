@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+//import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,14 +46,14 @@ public class Anexo_EventoController {
 	}
 	
 	@PostMapping(value = "/anexos-evento-cadastro/{id_evento}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveAnexos(@PathVariable Long id_evento, @Valid @RequestBody Anexo_Evento anexo_Evento){
 		anexo_EventoService.salvar(id_evento, anexo_Evento);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/anexos-evento-upload/{id_evento}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long id_evento) {
 	     String filename = fileStorageService.storeFile(file);
 	     if(filename != null) {
@@ -68,7 +68,7 @@ public class Anexo_EventoController {
 	
 	
 	@DeleteMapping(value = "/anexos-evento-remove/{id}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removeAnexos(@PathVariable Long id){
 		anexo_EventoService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);

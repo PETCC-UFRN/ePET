@@ -1,5 +1,5 @@
 package br.ufrn.ePET.config;
-
+/*
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -37,4 +37,4 @@ public class ConnectorConfig {
     connector.setRedirectPort(8443);
     return connector;
   }
-}
+}*/

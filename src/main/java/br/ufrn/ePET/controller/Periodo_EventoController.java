@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+//import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +31,7 @@ public class Periodo_EventoController {
 	}
 	
 	@GetMapping(value = "/periodo-evento")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPeriodoEvento(Pageable pageable){
 		Page<Periodo_Evento> pe = periodo_EventoService.buscar(pageable);
 		if (pe.isEmpty())
@@ -59,14 +59,14 @@ public class Periodo_EventoController {
 	}
 	
 	@PostMapping(value = "periodo-evento-cadastar/{id}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> salvarPeriodoEvento(@PathVariable Long id, @RequestBody Periodo_Evento pe){
 		periodo_EventoService.salvar(id, pe);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "periodo-evento-remove/{id}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removerPeriodoEvento(@PathVariable Long id){
 		periodo_EventoService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);

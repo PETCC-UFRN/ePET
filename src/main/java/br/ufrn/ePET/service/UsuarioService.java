@@ -3,7 +3,7 @@ package br.ufrn.ePET.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.DuplicatedEntryException;
@@ -48,7 +48,8 @@ public class UsuarioService {
 		if(usuario == null) {
 			usuario = new Usuario();
 			usuario.setEmail(usuarioDTO.getEmail());
-			String senha = new BCryptPasswordEncoder().encode(usuarioDTO.getSenha());
+			//String senha = new BCryptPasswordEncoder().encode(usuarioDTO.getSenha());
+			String senha = usuarioDTO.getSenha();
 			usuario.setSenha(senha);
 			usuarioRepository.save(usuario);
 		} else {

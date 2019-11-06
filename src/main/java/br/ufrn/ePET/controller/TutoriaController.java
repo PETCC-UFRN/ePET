@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+//import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +40,7 @@ public class TutoriaController {
 	}
 	
 	@GetMapping(value="/tutorias/{id}")
-	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
+	//*@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})*//
 	public ResponseEntity<?> getTutoria(@PathVariable Long id){
 		Tutoria tutoria = tutoriaService.buscar(id);
 		if(tutoria == null) {
@@ -51,7 +51,7 @@ public class TutoriaController {
 	}
 	
 	@PostMapping(value="/tutoria-cadastro/{id_petiano}/{id_disciplina}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveTutoria(@PathVariable Long id_petiano, @PathVariable Long id_disciplina){
 		Tutoria tutoria = new Tutoria();
 		tutoriaService.salvar(id_petiano, id_disciplina, tutoria);
@@ -59,7 +59,7 @@ public class TutoriaController {
 	}
 	
 	@DeleteMapping(value = "/tutoria-remove/{id}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> deleteTutoria(@PathVariable Long id){
 		tutoriaService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);

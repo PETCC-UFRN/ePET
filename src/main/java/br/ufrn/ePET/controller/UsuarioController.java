@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+//import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +35,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping(value = "/usuarios")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getUsuarios(Pageable pageable){
 		Page<Usuario> page = usuarioService.buscar(pageable);
 		if(page.isEmpty()) {
@@ -45,7 +45,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping(value="/usuarios/{id}")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getUsuarios(@PathVariable Long id){
 		Usuario usuario = usuarioService.buscar(id);
 		if (usuario == null)
