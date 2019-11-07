@@ -1,5 +1,6 @@
 package br.ufrn.ePET.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,9 @@ public class Tutoria {
 	//@NotEmpty
 	@JoinColumn(name = "id_disciplina")
 	private Disciplina disciplina;
+	
+	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+	private boolean ativo;
 
 	public long getIdTutoria() {
 		return idTutoria;
@@ -49,4 +53,12 @@ public class Tutoria {
 		this.disciplina = disciplina;
 	}
 
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
 }

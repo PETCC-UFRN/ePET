@@ -32,6 +32,7 @@ public class Tutoria_Ministrada {
 	@NotEmpty
 	private LocalDate data;
 	
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private boolean ativo;
 	
 
