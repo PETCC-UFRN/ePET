@@ -3,6 +3,8 @@ package br.ufrn.ePET.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Tutoria;
@@ -36,7 +38,7 @@ public class TutoriaService {
 		return tutoriaRepository.findByAtivos(pageable);
 	}
 	
-	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public Tutoria salvar(Long id_petiano, Long id_disciplina, Tutoria tutoria) {
 		if(this.petianoRepository.findById(id_petiano).isPresent())
 			tutoria.setPetiano(this.petianoRepository.findById(id_petiano).get());
@@ -52,6 +54,7 @@ public class TutoriaService {
 		return tutoriaRepository.save(tutoria);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void remover(Long id) {
 		Tutoria t = tutoriaRepository.findById(id).get();
 		if(t == null) {

@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Tutoria_Ministrada;
@@ -37,6 +39,7 @@ public class Tutoria_MinistradaService {
 		return tutoria_Ministrada_Repository.findAll(pageable);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public Tutoria_Ministrada salvar(Long id_pessoa, Long id_tutoria, Tutoria_Ministrada tutoriaMinistrada) {
 		if(this.pessoaRepository.findById(id_pessoa).isPresent())
 			tutoriaMinistrada.setPessoa(this.pessoaRepository.findById(id_pessoa).get());
@@ -78,6 +81,7 @@ public class Tutoria_MinistradaService {
 		return tutorias;
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void removerTutoria(Long id_tutoria) {
 		Tutoria_Ministrada tutoria = tutoria_Ministrada_Repository.findById(id_tutoria).get();
 		tutoria.setAtivo(false);

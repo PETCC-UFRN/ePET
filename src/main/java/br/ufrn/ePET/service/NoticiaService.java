@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Noticia;
@@ -34,6 +35,7 @@ public class NoticiaService {
 		return noticiaRepository.findAll(pageable);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void salvar(Long id_petiano, Noticia noticia) {
 		Petiano petiano = petianoRepository.findById(id_petiano).get();
 		if(petiano == null) {
@@ -43,6 +45,7 @@ public class NoticiaService {
 		noticiaRepository.save(noticia);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void delete(Long id) {
 		if(!noticiaRepository.findById(id).isPresent()) {
 			throw new ResourceNotFoundException("Nenhuma notícia com id " + id + "encontrada");

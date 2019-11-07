@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Pessoa;
@@ -52,6 +54,7 @@ public class PetianoService {
 		return petianoRepository.findByAntigos(pageable);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public Petiano salvar(Long id, Petiano petiano){
 		Pessoa pessoa = new Pessoa();
 		if(pessoaRepository.findById(id).isPresent())
@@ -65,7 +68,7 @@ public class PetianoService {
 		
 	}
 	
-	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public Petiano remover(Long id){
 		Petiano petiano = new Petiano();
 		if(petianoRepository.findById(id).isPresent())
@@ -83,6 +86,7 @@ public class PetianoService {
 		return petianoRepository.save(petiano);	
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public Petiano editar(Long id_pessoa, Petiano petiano){
 		Pessoa pessoa = new Pessoa();
 		if(pessoaRepository.findById(id_pessoa).isPresent())

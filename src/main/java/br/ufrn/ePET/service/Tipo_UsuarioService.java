@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.models.Tipo_Usuario;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
@@ -26,6 +28,7 @@ public class Tipo_UsuarioService {
 		return tipo_UsuarioRepository.findAll();
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public Tipo_Usuario salvar(Long id, Tipo_Usuario tipoUsuario){
 		return tipo_UsuarioRepository.save(tipoUsuario);
 	}

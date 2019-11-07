@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
@@ -39,6 +41,7 @@ public class OrganizadoresService {
 				organizadoresRepository.findById(id).get(): null;
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void salvar(Long id_evento, Long id_pessoa) {
 		Organizadores o = new Organizadores();
 		Evento evento = eventoRepository.findById(id_evento).isPresent() ? 
@@ -63,6 +66,7 @@ public class OrganizadoresService {
 		return organizadoresRepository.findByEvento(id);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void remover(Long id) {
 		if (!organizadoresRepository.findById(id).isPresent())
 			throw new ResourceNotFoundException("Nenhum organizador com id "+id+" encontrado");

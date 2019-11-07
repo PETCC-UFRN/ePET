@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Anexo_Participante;
@@ -26,7 +28,8 @@ public class Anexo_ParticipanteService {
 	public List<Anexo_Participante> buscarPorParticipante(Long id_participante){
 		return anexo_ParticipanteRepository.findByIdParticipante(id_participante);
 	}
-
+	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void salvar(Long id_participante, Anexo_Participante anexo_Participante) {
 		Participante n = participanteRepository.findById(id_participante).isPresent() ?
 				participanteRepository.findById(id_participante).get() : null;
@@ -37,6 +40,7 @@ public class Anexo_ParticipanteService {
 		anexo_ParticipanteRepository.save(anexo_Participante);
  	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void remover(Long id) {
 		if(!anexo_ParticipanteRepository.findById(id).isPresent()) {
 			throw new ResourceNotFoundException("Anexo participante com id " + id +  "não encontrado");

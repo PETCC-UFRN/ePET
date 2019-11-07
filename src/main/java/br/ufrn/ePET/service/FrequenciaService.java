@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Frequencia;
@@ -41,6 +43,7 @@ public class FrequenciaService {
 		return frequenciaRepository.findAssiduidadeByParticipante(id, id_evento);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void salvar(Long id_periodo_evento, Long id_participante, Frequencia f) {
 		Periodo_Evento pe = peRepository.findById(id_periodo_evento).isPresent() ? 
 				peRepository.findById(id_periodo_evento).get() : null;
@@ -55,6 +58,7 @@ public class FrequenciaService {
 		frequenciaRepository.save(f);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void remover(Long id) {
 		if(!frequenciaRepository.findById(id).isPresent()) {
 			throw new ResourceNotFoundException("Frequencia com id "+ id + " não encontrada.");

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
@@ -59,17 +61,20 @@ public class EventoService {
 		}
 		return lista;
 	}
-
+	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public Evento salvar(Evento evento) {
 		return eventoRepository.save(evento);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void remover(Long id) {
 		if (!eventoRepository.findById(id).isPresent())
 			throw new ResourceNotFoundException("Nenhum evento com id "+id+" encontrado.");
 		eventoRepository.deleteById(id);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void ativar(Long id) {
 		Evento evento = new Evento();
 		if (eventoRepository.findById(id).isPresent())

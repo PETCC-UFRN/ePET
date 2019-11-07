@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufrn.ePET.error.DuplicatedEntryException;
 import br.ufrn.ePET.models.Pessoa;
@@ -43,6 +45,7 @@ public class UsuarioService {
 		return usuarioRepository.findByEmail(email);
 	}
 	
+	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void salvar(UsuarioDTO usuarioDTO) {
 		Usuario usuario = usuarioRepository.findByEmail(usuarioDTO.getEmail());
 		if(usuario == null) {
