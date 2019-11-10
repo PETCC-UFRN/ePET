@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="386.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.ePET.frontEnd.TelaAdmPrincipal">
+   <children>
+      <TabPane fx:id="tabPane" prefHeight="444.0" prefWidth="769.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabNoticias" text="Noticias">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane layoutY="-1.0" prefHeight="414.0" prefWidth="769.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="768.0">
+                                 <children>
+                                    <TableView fx:id="noticiasTable" editable="true" layoutX="5.0" layoutY="6.0" prefHeight="367.0" prefWidth="738.0">
+                                      <columns>
+                                        <TableColumn fx:id="noticiaTitulo" prefWidth="171.0" text="Titulo" />
+                                        <TableColumn fx:id="noticiaCorpo" minWidth="4.0" prefWidth="395.0" text="Corpo" />
+                                          <TableColumn fx:id="noticiaCriador" minWidth="0.0" prefWidth="171.0" text="Criador" />
+                                          <TableColumn fx:id="noticiaId" prefWidth="75.0" text="Id" visible="false" />
+                                      </columns>
+                                    </TableView>
+                                    <Button fx:id="btnEditarNoticias" layoutX="572.0" layoutY="372.0" mnemonicParsing="false" onAction="#editarNoticias" prefHeight="26.0" prefWidth="171.0" text="Editar" />
+                                    <Button fx:id="btnCadastrarNoticias" layoutX="5.0" layoutY="372.0" mnemonicParsing="false" onAction="#cadastrarNoticias" text="Cadastrar nova Noticia" />
+                                 </children></AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabEventos" text="Eventos">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane prefHeight="412.0" prefWidth="769.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="515.0" prefWidth="768.0">
+                                 <children>
+                                    <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eventos que participo" />
+                                    <TableView fx:id="tableAbertos1" editable="true" layoutX="14.0" layoutY="23.0" prefHeight="124.0" prefWidth="724.0">
+                                       <columns>
+                                          <TableColumn fx:id="abertosTitulo1" prefWidth="120.0" text="Titulo" />
+                                          <TableColumn fx:id="abertosDescricao1" prefWidth="192.0" text="Descricao" />
+                                          <TableColumn fx:id="abertosLocal1" prefWidth="50.0" text="Local" />
+                                          <TableColumn fx:id="abertosVagas1" prefWidth="54.0" text="Vagas" />
+                                          <TableColumn fx:id="abertosCH1" prefWidth="111.0" text="Carga Horaria" />
+                                          <TableColumn fx:id="abertosValor1" prefWidth="51.0" text="Valor" />
+                                          <TableColumn fx:id="abertosDataInicio1" prefWidth="46.0" text="Inicio" />
+                                          <TableColumn fx:id="abertosInscrever1" onEditCancel="#inscreverEvento" onEditCommit="#inscreverEvento" onEditStart="#inscreverEvento" prefWidth="102.0" text="Desinscrever" />
+                                          <TableColumn fx:id="abertosId1" prefWidth="75.0" text="Id" visible="false" />
+                                       </columns>
+                                    </TableView>
+                                    <Text layoutX="14.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eventos abertos " wrappingWidth="112.7294921875" />
+                                    <Button fx:id="btnRetirar" layoutX="595.0" layoutY="148.0" mnemonicParsing="false" onAction="#retirarInscricao" prefHeight="26.0" prefWidth="143.0" text="Retirar Inscriçao" />
+                                    <TableView fx:id="tableAbertos" editable="true" layoutX="14.0" layoutY="175.0" prefHeight="143.0" prefWidth="724.0">
+                                       <columns>
+                                          <TableColumn fx:id="abertosTitulo" prefWidth="120.0" text="Titulo" />
+                                          <TableColumn fx:id="abertosDescricao" prefWidth="192.0" text="Descricao" />
+                                          <TableColumn fx:id="abertosLocal" prefWidth="50.0" text="Local" />
+                                          <TableColumn fx:id="abertosVagas" prefWidth="54.0" text="Vagas" />
+                                          <TableColumn fx:id="abertosCH" prefWidth="120.0" text="Carga Horaria" />
+                                          <TableColumn fx:id="abertosValor" prefWidth="48.0" text="Valor" />
+                                          <TableColumn fx:id="abertosDataInicio" prefWidth="50.0" text="Inicio" />
+                                          <TableColumn fx:id="abertosInscrever" onEditCancel="#inscreverEvento" onEditCommit="#inscreverEvento" onEditStart="#inscreverEvento" prefWidth="92.0" text="Inscrever" />
+                                          <TableColumn fx:id="abertosId" prefWidth="75.0" text="Id" visible="false" />
+                                       </columns>
+                                    </TableView>
+                                    <Text layoutX="14.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eventos que administro" />
+                                    <Button fx:id="btnConfirmarInscri" layoutX="593.0" layoutY="318.0" mnemonicParsing="false" onAction="#inscreverEvento" text="Confirmar Inscriçao" />
+                                    <TableView fx:id="tableAbertos2" editable="true" layoutX="14.0" layoutY="344.0" prefHeight="116.0" prefWidth="724.0">
+                                       <columns>
+                                          <TableColumn fx:id="abertosTitulo2" prefWidth="120.0" text="Titulo" />
+                                          <TableColumn fx:id="abertosDescricao2" prefWidth="192.0" text="Descricao" />
+                                          <TableColumn fx:id="abertosLocal2" prefWidth="50.0" text="Local" />
+                                          <TableColumn fx:id="abertosVagas2" prefWidth="54.0" text="Vagas" />
+                                          <TableColumn fx:id="abertosCH2" prefWidth="120.0" text="Carga Horaria" />
+                                          <TableColumn fx:id="abertosValor2" prefWidth="48.0" text="Valor" />
+                                          <TableColumn fx:id="abertosDataInicio2" prefWidth="50.0" text="Inicio" />
+                                          <TableColumn fx:id="abertosInscrever2" onEditCancel="#inscreverEvento" onEditCommit="#inscreverEvento" onEditStart="#inscreverEvento" prefWidth="92.0" text="Editar" />
+                                          <TableColumn fx:id="abertosId2" prefWidth="75.0" text="Id" visible="false" />
+                                       </columns>
+                                    </TableView>
+                                    <Button fx:id="btnEditarEvento" layoutX="596.0" layoutY="467.0" mnemonicParsing="false" onAction="#editarEvento" prefWidth="143.0" text="Editar Evento" />
+                                    <Button fx:id="btnEventoCadastrar" layoutX="14.0" layoutY="460.0" mnemonicParsing="false" onAction="#cadastrarEvento" text="Cadastrar Evento" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tabDisciplinas" text="Disciplinas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableDisciplinas" editable="true" prefHeight="383.0" prefWidth="769.0">
+                          <columns>
+                            <TableColumn fx:id="tabNomeDisciplina" prefWidth="196.0" text="Nome da Disciplina" />
+                            <TableColumn fx:id="tabCodigoDisciplina" prefWidth="170.0" text="Codigo da disciplina" />
+                              <TableColumn fx:id="tabNomeTutor" prefWidth="267.0" text="Nome do Tutor" />
+                              <TableColumn fx:id="tabSolicitar" prefWidth="135.0" text="Remover" visible="false" />
+                              <TableColumn fx:id="tabIdDisciplina" prefWidth="75.0" text="id" visible="false" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="btnSolicitarTutoria" layoutX="636.0" layoutY="383.0" mnemonicParsing="false" onAction="#solicitarTutoria" prefHeight="26.0" prefWidth="133.0" text="Remover " visible="false" />
+                        <Button fx:id="btnCadastrarDisciplina" layoutY="383.0" mnemonicParsing="false" onAction="#cadastrarDisciplina" text="Cadastrar Disciplina" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tabTutorias" text="Tutorias">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableTutoriasMinistradas" editable="true" prefHeight="378.0" prefWidth="769.0">
+                          <columns>
+                            <TableColumn fx:id="tabNomeTutoriaMinistrada" prefWidth="151.0" text="Nome da Disciplina" />
+                            <TableColumn fx:id="tabCodigoTutoriaMinistrada" prefWidth="159.0" text="Codigo da Disciplina" />
+                              <TableColumn fx:id="tabNomeTutorTutoriaMinistrada" prefWidth="315.0" text="Nome do Aluno" />
+                              <TableColumn fx:id="tabEmailTutoriaMinistrada" prefWidth="143.0" text="Ativo" visible="false" />
+                              <TableColumn fx:id="tabDesmarcarTutoriaMinistrada" prefWidth="145.0" text="Desmarcar Tutoria" />
+                              <TableColumn fx:id="tabIdTutoriaMinistrada" prefWidth="75.0" text="IdTutoriaMinistrada" visible="false" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="btnDesmarcarTutoriaMinistrada" layoutX="627.0" layoutY="377.0" mnemonicParsing="false" onAction="#desmarcarTutoriaMinistrada" prefHeight="26.0" prefWidth="143.0" text="Desmarcar Tutoria" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="btnSair" layoutX="713.0" mnemonicParsing="false" onAction="#sair" prefHeight="33.0" prefWidth="56.0" text="Sair" />
+   </children>
+</AnchorPane>

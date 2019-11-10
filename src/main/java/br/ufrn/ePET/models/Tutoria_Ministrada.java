@@ -29,7 +29,7 @@ public class Tutoria_Ministrada {
 	private Tutoria tutoria;
 	
 	@Column(columnDefinition = "DATE")
-	@NotEmpty
+	//@NotEmpty
 	private LocalDate data;
 	
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")

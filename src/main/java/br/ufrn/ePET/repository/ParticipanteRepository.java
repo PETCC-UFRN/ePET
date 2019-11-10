@@ -11,11 +11,11 @@ import br.ufrn.ePET.models.Participante;
 
 public interface ParticipanteRepository extends JpaRepository<Participante, Long> {
 	
-	@Query(value = "SELECT count(id_participante) FROM `participante` WHERE id_evento = ?", nativeQuery = true)
+	@Query(value = "SELECT count(id_participante) FROM Participante WHERE id_evento = ?", nativeQuery = true)
 	int countAtivos(Long id);
 	
 	List<Participante> findByEspera(boolean espera);
 	
-	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ?1 AND ORDER BY u.id_participante DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ? ORDER BY u.id_participante DESC", nativeQuery = true)
 	Page<Participante> findByPessoa(Long id, Pageable pageable);
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="223.0" prefWidth="416.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="br.ufrn.ePET.frontEnd.TelaNoticiaCadastrar">
+   <children>
+      <Text layoutX="40.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo:" />
+      <TextField fx:id="txtTitulo" layoutX="91.0" layoutY="14.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="39.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Corpo:" />
+      <TextField fx:id="txtCorpo" layoutX="91.0" layoutY="62.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="7.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Inicio:" />
+      <TextField fx:id="txtDataInicio" layoutX="91.0" layoutY="107.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="19.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Fim:" />
+      <TextField fx:id="txtDataFim" layoutX="92.0" layoutY="149.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text fx:id="errorTitulo" fill="RED" layoutX="92.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="305.0" />
+      <Text fx:id="errorCorpo" fill="RED" layoutX="92.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="errorDataInicio" layoutX="91.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="errorDataFim" layoutX="92.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button fx:id="btnCadastrar" layoutX="176.0" layoutY="191.0" mnemonicParsing="false" onAction="#cadastrarEvento" text="Cadastrar" />
+   </children>
+</AnchorPane>

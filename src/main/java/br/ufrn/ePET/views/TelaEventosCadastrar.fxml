@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="497.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.ePET.frontEnd.TelaEventosCadastrar">
+   <children>
+      <Text layoutX="40.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo:" />
+      <TextField fx:id="txtTitulo" layoutX="91.0" layoutY="14.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="15.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descriçao:" />
+      <TextField fx:id="txtDescricao" layoutX="91.0" layoutY="62.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="43.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Local:" />
+      <TextField fx:id="txtLocal" layoutX="91.0" layoutY="107.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="8.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Inicio:" />
+      <TextField fx:id="txtDataIncricaoInicio" layoutX="92.0" layoutY="149.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text fx:id="errorTitulo" fill="RED" layoutX="92.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="305.0" />
+      <Text fx:id="errorCorpo" fill="RED" layoutX="92.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="errorDataInicio" layoutX="91.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="errorDataFim" layoutX="92.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button fx:id="btnCadastrar" layoutX="318.0" layoutY="463.0" mnemonicParsing="false" onAction="#cadastrarEvento" text="Cadastrar" />
+      <Text layoutX="13.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Final:" />
+      <TextField fx:id="txtDataIncricaoFim" layoutX="93.0" layoutY="196.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="31.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Anexos:" />
+      <TextField fx:id="txtAnexos" layoutX="92.0" layoutY="238.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="38.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vagas:" />
+      <TextField fx:id="txtVagas" layoutX="92.0" layoutY="282.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="56.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CH:" />
+      <TextField fx:id="txtCH" layoutX="92.0" layoutY="325.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="30.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="N° Dias:" />
+      <TextField fx:id="txtDias" layoutX="92.0" layoutY="368.0" prefHeight="26.0" prefWidth="305.0" />
+      <Text layoutX="45.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor:" />
+      <TextField fx:id="txtValor" layoutX="92.0" layoutY="415.0" prefHeight="26.0" prefWidth="305.0" />
+      <Button fx:id="btnVoltar" layoutX="16.0" layoutY="463.0" mnemonicParsing="false" onAction="#voltar" prefHeight="26.0" prefWidth="68.0" text="Voltar" />
+   </children>
+</AnchorPane>

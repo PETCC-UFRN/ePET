@@ -1,5 +1,5 @@
 package br.ufrn.ePET.service;
-/*
+
 import java.util.List;
 import java.util.Optional;
 
@@ -40,4 +40,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return new User(usuario.getEmail(), usuario.getSenha(), listuser);
 	}
 
-}*/
+}

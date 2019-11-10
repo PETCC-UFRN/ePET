@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="200.0" prefWidth="419.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.ePET.frontEnd.TelaTutoriaCadastrar">
+   <center>
+      <TableView fx:id="listTutorias" prefHeight="174.0" prefWidth="455.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="nomeDisciplina" prefWidth="156.0" text="Nome da Disciplina" />
+            <TableColumn fx:id="codDisciplina" prefWidth="160.0" text="Codigo da Disciplina" />
+            <TableColumn fx:id="btnSolicitar" prefWidth="102.0" text="Virar Tutor" />
+         </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltar" text="Retornar" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
