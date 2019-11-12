@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Tutoria;
+import br.ufrn.ePET.models.TutoriaPadrao;
 import br.ufrn.ePET.service.TutoriaService;
 
 @RestController
@@ -53,7 +54,7 @@ public class TutoriaController {
 	@PostMapping(value="/tutoria-cadastro/{id_petiano}/{id_disciplina}")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveTutoria(@PathVariable Long id_petiano, @PathVariable Long id_disciplina){
-		Tutoria tutoria = new Tutoria();
+		Tutoria tutoria = new TutoriaPadrao();
 		tutoriaService.salvar(id_petiano, id_disciplina, tutoria);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

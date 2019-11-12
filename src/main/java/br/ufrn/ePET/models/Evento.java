@@ -7,11 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 
-@Entity
-public class Evento {
+@MappedSuperclass
+public abstract class Evento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

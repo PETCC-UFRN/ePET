@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.EventoPresencial;
 import br.ufrn.ePET.repository.EventoRepository;
 
 @Service
@@ -32,6 +33,14 @@ public class EventoService {
 		if (eventList.isEmpty())
 			throw new ResourceNotFoundException("Nenhum evento cadastrado");
 		return eventList;
+	}
+	
+	public Page<Evento> ordenar(){
+		//Método que vai retornar ordenado de acordo com a aplicação
+		
+		List<Evento> eventos = eventoRepository.findAll();
+		
+		return null;
 	}
 	
 	public List<Evento> buscarAtivos(Pageable pageable){
@@ -71,7 +80,7 @@ public class EventoService {
 	}
 	
 	public void ativar(Long id) {
-		Evento evento = new Evento();
+		Evento evento = new EventoPresencial();
 		if (eventoRepository.findById(id).isPresent())
 			evento = eventoRepository.findById(id).get();
 		else throw new ResourceNotFoundException("Nenhum evento com id "+id+" encontrado.");

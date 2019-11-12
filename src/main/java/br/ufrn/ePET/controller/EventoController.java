@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.EventoPresencial;
 import br.ufrn.ePET.service.EventoService;
 
 @RestController
