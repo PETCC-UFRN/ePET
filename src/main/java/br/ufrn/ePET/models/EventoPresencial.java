@@ -13,4 +13,14 @@ public class EventoPresencial extends Evento{
 		
 	}
 
+	public List<String> getLocais() {
+		return Locais;
+	}
+
+	public void setLocais(List<String> locais) {
+		Locais = locais;
+	}
+	
+	
+
 }
