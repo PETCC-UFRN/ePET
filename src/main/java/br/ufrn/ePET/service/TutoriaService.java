@@ -1,7 +1,10 @@
 package br.ufrn.ePET.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -12,12 +15,13 @@ import br.ufrn.ePET.repository.PetianoRepository;
 import br.ufrn.ePET.repository.TutoriaRepository;
 
 @Service
-public class TutoriaService extends TutoriaPadrao{
+public class TutoriaService{
 	
 	private final TutoriaRepository tutoriaRepository;
 	private final PetianoRepository petianoRepository;
 	private final DisciplinaRepository disciplinaRepository;
 	
+	@Autowired
 	public TutoriaService( TutoriaRepository tutoriaRepository, PetianoRepository petianoRepository,
 						   DisciplinaRepository disciplinaRepository) {
 		this.tutoriaRepository = tutoriaRepository;
@@ -53,11 +57,5 @@ public class TutoriaService extends TutoriaPadrao{
 			throw new ResourceNotFoundException("Nenhuma tutoria com id " + id + "encontrada");
 		}
 		tutoriaRepository.deleteById(id);
-	}
-
-	@Override
-	public void marcarTutoria(Long id_petiano, Long id_disciplina, Tutoria tutoria) {
-		salvar(id_petiano, id_disciplina, tutoria);
-		/*Aqui será implementado um método para envio de emails*/
 	}
 }
