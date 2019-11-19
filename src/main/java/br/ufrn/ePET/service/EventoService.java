@@ -11,16 +11,29 @@ import org.springframework.stereotype.Service;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.models.EventoPresencial;
+import br.ufrn.ePET.models.Frequencia;
+import br.ufrn.ePET.models.Participante;
+import br.ufrn.ePET.models.Periodo_Evento;
 import br.ufrn.ePET.repository.EventoRepository;
+import br.ufrn.ePET.repository.FrequenciaRepository;
+import br.ufrn.ePET.repository.ParticipanteRepository;
+import br.ufrn.ePET.repository.Periodo_EventoReposioty;
 
 @Service
-public class EventoService {
+public class EventoService extends EventoPresencial{
 	
 	private final EventoRepository eventoRepository;
+	private final FrequenciaRepository frequenciaRepository;
+	private final Periodo_EventoReposioty periodo_EventoRepository;
+	private final ParticipanteRepository participanteRepository;
 	
 	@Autowired
-	public EventoService(EventoRepository eventoRepository) {
+	public EventoService(EventoRepository eventoRepository, FrequenciaRepository frequenciaRepository
+			, Periodo_EventoReposioty periodo_EventoRepository, ParticipanteRepository participanteRepository) {
 		this.eventoRepository = eventoRepository;
+		this.frequenciaRepository = frequenciaRepository;
+		this.periodo_EventoRepository = periodo_EventoRepository;
+		this.participanteRepository = participanteRepository;
 	}
 	
 	public Evento buscar(Long id) {
@@ -80,7 +93,7 @@ public class EventoService {
 	}
 	
 	public void ativar(Long id) {
-		Evento evento = new EventoPresencial();
+		Evento evento;
 		if (eventoRepository.findById(id).isPresent())
 			evento = eventoRepository.findById(id).get();
 		else throw new ResourceNotFoundException("Nenhum evento com id "+id+" encontrado.");
@@ -88,5 +101,26 @@ public class EventoService {
 		//Evento evento = eventoRepository.findById(id).get();
 		evento.setAtivo(true);
 		eventoRepository.save(evento);
+	}
+	
+	@Override
+	public void realizarFrequencia(Long id_periodo, Long id_participante, int presencas) {
+		Periodo_Evento pe;
+		if(periodo_EventoRepository.findById(id_periodo).isPresent())
+			pe = periodo_EventoRepository.findById(id_periodo).get();
+		else throw new ResourceNotFoundException("Nenhum periodo de evento com id "+id_periodo+" encontrado.");
+		
+		Frequencia f = new Frequencia();
+		Participante p;
+		if(participanteRepository.findById(id_participante).isPresent())
+			p = participanteRepository.findById(id_participante).get();
+		else throw new ResourceNotFoundException("Nenhum participante com id "+id_participante+" encontrado");
+		
+		int assiduidade = f.getAssiduidade() + presencas;
+		f.setAssiduidade(assiduidade);
+		f.setPeriodo_evento(pe);
+		f.setParticipante(p);
+		
+		frequenciaRepository.save(f);
 	}
 }

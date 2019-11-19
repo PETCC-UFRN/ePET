@@ -4,14 +4,12 @@ import java.util.List;
 
 import javax.persistence.Entity;
 
-@Entity
-public class EventoPresencial extends Evento{
+import br.ufrn.ePET.interfaces.EventoInterface;
+
+
+public abstract class EventoPresencial implements EventoInterface{
 	
 	private List<String> Locais;
-	
-	public void realizarFrequencia() {
-		
-	}
 
 	public List<String> getLocais() {
 		return Locais;
@@ -21,6 +19,4 @@ public class EventoPresencial extends Evento{
 		Locais = locais;
 	}
 	
-	
-
 }

@@ -11,8 +11,8 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 
-@MappedSuperclass
-public abstract class Evento {
+@Entity
+public class Evento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
