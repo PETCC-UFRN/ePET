@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Tutoria;
+import br.ufrn.ePET.models.TutoriaPadrao;
 import br.ufrn.ePET.repository.DisciplinaRepository;
 import br.ufrn.ePET.repository.PetianoRepository;
 import br.ufrn.ePET.repository.TutoriaRepository;
 
 @Service
-public class TutoriaService {
+public class TutoriaService extends TutoriaPadrao{
 	
 	private final TutoriaRepository tutoriaRepository;
 	private final PetianoRepository petianoRepository;
@@ -52,5 +53,11 @@ public class TutoriaService {
 			throw new ResourceNotFoundException("Nenhuma tutoria com id " + id + "encontrada");
 		}
 		tutoriaRepository.deleteById(id);
+	}
+
+	@Override
+	public void marcarTutoria(Long id_petiano, Long id_disciplina, Tutoria tutoria) {
+		salvar(id_petiano, id_disciplina, tutoria);
+		/*Aqui será implementado um método para envio de emails*/
 	}
 }

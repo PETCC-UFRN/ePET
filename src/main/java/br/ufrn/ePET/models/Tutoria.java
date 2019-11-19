@@ -6,11 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotEmpty;
 
-@MappedSuperclass
-public abstract class Tutoria {
+@Entity
+public class Tutoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
