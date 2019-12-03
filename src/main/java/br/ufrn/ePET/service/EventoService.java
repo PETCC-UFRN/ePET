@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
-import br.ufrn.ePET.models.EventoPresencial;
 import br.ufrn.ePET.models.Frequencia;
 import br.ufrn.ePET.models.Participante;
 import br.ufrn.ePET.models.Periodo_Evento;
+import br.ufrn.ePET.models.Seminario;
 import br.ufrn.ePET.repository.EventoRepository;
 import br.ufrn.ePET.repository.FrequenciaRepository;
 import br.ufrn.ePET.repository.ParticipanteRepository;
 import br.ufrn.ePET.repository.Periodo_EventoReposioty;
 
 @Service
-public class EventoService extends EventoPresencial{
+public class EventoService extends Seminario{
 	
 	private final EventoRepository eventoRepository;
 	private final FrequenciaRepository frequenciaRepository;
