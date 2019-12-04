@@ -116,11 +116,10 @@ public class EventoService extends Seminario{
 			p = participanteRepository.findById(id_participante).get();
 		else throw new ResourceNotFoundException("Nenhum participante com id "+id_participante+" encontrado");
 		
-		int assiduidade = f.getAssiduidade() + presencas;
+		int assiduidade = 100 - (pe.getEvento().getQtdCargaHoraria() - presencas);
 		f.setAssiduidade(assiduidade);
-		f.setPeriodo_evento(pe);
 		f.setParticipante(p);
-		
+		f.setPeriodo_evento(pe);
 		frequenciaRepository.save(f);
 	}
 }
