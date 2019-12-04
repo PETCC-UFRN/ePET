@@ -6,27 +6,29 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 //import org.springframework.mail.SimpleMailMessage;
 //import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.interfaces.TutoriaInterface;
+import br.ufrn.ePET.models.TutoriaOnline;
 import br.ufrn.ePET.models.Tutoria_Ministrada;
-import br.ufrn.ePET.models.TutorialPresencial;
 import br.ufrn.ePET.repository.PessoaRepository;
 import br.ufrn.ePET.repository.TutoriaRepository;
 import br.ufrn.ePET.repository.Tutoria_Ministrada_Repository;
 
 @Service
-public class Tutoria_MinistradaService extends TutorialPresencial implements TutoriaInterface{
+public class Tutoria_MinistradaService extends TutoriaOnline implements TutoriaInterface{
 	
 	private final Tutoria_Ministrada_Repository tutoria_Ministrada_Repository;
 	private final PessoaRepository pessoaRepository;
 	private final TutoriaRepository tutoriaRepository;
-	private TutorialPresencial tp;
-	String tema;
-	String local;
+	private JavaMailSender javaMailSender;
+	private TutoriaOnline to;
+	String horario;
 	
 	@Autowired
 	public Tutoria_MinistradaService(Tutoria_Ministrada_Repository tutoria_Ministrada_Repository,
@@ -34,7 +36,8 @@ public class Tutoria_MinistradaService extends TutorialPresencial implements Tut
 		this.tutoria_Ministrada_Repository = tutoria_Ministrada_Repository;
 		this.pessoaRepository = pessoaRepository;
 		this.tutoriaRepository = tutoriaRepository;
-		
+		to = new TutoriaOnline();
+		to.setHorario(horario);
 	}
 	
 	public Tutoria_Ministrada buscar( Long id ) {
@@ -97,9 +100,12 @@ public class Tutoria_MinistradaService extends TutorialPresencial implements Tut
 	@Override
 	public void marcarTutoria(Long id_pessoa, Long id_tutoria, Tutoria_Ministrada tutoria_Ministrada) {
 		Tutoria_Ministrada tm = salvar(id_pessoa, id_tutoria, tutoria_Ministrada);
-		tp = new TutorialPresencial();
-		tp.setData(tm.getData());
-		tp.setLocal(local);
-		tp.setTema(tema);
+		SimpleMailMessage msg = new SimpleMailMessage();
+		String petiano, pessoa;
+		petiano = tutoriaRepository.findById(id_tutoria).get().getPetiano().getPessoa().getUsuario().getEmail();
+		pessoa = pessoaRepository.findById(id_pessoa).get().getUsuario().getEmail();
+		msg.setTo(petiano, pessoa);
+		msg.setText("Tutoria de "+tm.getTutoria().getDisciplina().getNome()+" marcada para: " + to.getHorario());
+		javaMailSender.send(msg);
 	}
 }
