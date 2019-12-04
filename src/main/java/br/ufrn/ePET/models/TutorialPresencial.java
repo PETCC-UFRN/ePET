@@ -3,9 +3,12 @@ package br.ufrn.ePET.models;
 import java.time.LocalDate;
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import br.ufrn.ePET.interfaces.TutoriaInterface;
 
-public class TutorialPresencial{
+@Entity
+public class TutorialPresencial extends Tutoria{
 	
 	private LocalDate data;
 	

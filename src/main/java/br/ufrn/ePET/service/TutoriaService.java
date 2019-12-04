@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Tutoria;
 import br.ufrn.ePET.models.TutoriaPadrao;
+import br.ufrn.ePET.models.TutorialPresencial;
 import br.ufrn.ePET.repository.DisciplinaRepository;
 import br.ufrn.ePET.repository.PetianoRepository;
 import br.ufrn.ePET.repository.TutoriaRepository;
@@ -29,15 +30,15 @@ public class TutoriaService{
 		this.disciplinaRepository = disciplinaRepository;
 	}
 	
-	public Tutoria buscar(Long id) {
+	public TutorialPresencial buscar(Long id) {
 		return tutoriaRepository.findById(id).get();
 	}
 	
-	public Page<Tutoria> buscar(Pageable pageable){
+	public Page<TutorialPresencial> buscar(Pageable pageable){
 		return tutoriaRepository.findAll(pageable);
 	}
 	
-	public Tutoria salvar(Long id_petiano, Long id_disciplina, Tutoria tutoria) {
+	public TutorialPresencial salvar(Long id_petiano, Long id_disciplina, TutorialPresencial tutoria) {
 		if(this.petianoRepository.findById(id_petiano).isPresent())
 			tutoria.setPetiano(this.petianoRepository.findById(id_petiano).get());
 		else
