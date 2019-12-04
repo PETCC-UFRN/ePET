@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-//import org.springframework.mail.SimpleMailMessage;
-//import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -24,15 +24,15 @@ public class Tutoria_MinistradaService extends TutoriaPadrao{
 	private final Tutoria_Ministrada_Repository tutoria_Ministrada_Repository;
 	private final PessoaRepository pessoaRepository;
 	private final TutoriaRepository tutoriaRepository;
-	//private JavaMailSender javaMailSender;
+	private JavaMailSender javaMailSender;
 	
 	@Autowired
 	public Tutoria_MinistradaService(Tutoria_Ministrada_Repository tutoria_Ministrada_Repository,
-									 PessoaRepository pessoaRepository, TutoriaRepository tutoriaRepository) {
+									 PessoaRepository pessoaRepository, TutoriaRepository tutoriaRepository, JavaMailSender javaMailSender) {
 		this.tutoria_Ministrada_Repository = tutoria_Ministrada_Repository;
 		this.pessoaRepository = pessoaRepository;
 		this.tutoriaRepository = tutoriaRepository;
-		//this.javaMailSender = javaMailSender;
+		this.javaMailSender = javaMailSender;
 		
 	}
 	
@@ -95,14 +95,14 @@ public class Tutoria_MinistradaService extends TutoriaPadrao{
 
 	@Override
 	public void marcarTutoria(Long id_pessoa, Long id_tutoria, Tutoria_Ministrada tutoria_Ministrada) {
-		/*Tutoria_Ministrada tm = salvar(id_pessoa, id_tutoria, tutoria_Ministrada);*/
+		Tutoria_Ministrada tm = salvar(id_pessoa, id_tutoria, tutoria_Ministrada);
 		/*Aqui será implementado um método para envio de emails*/
-		/*SimpleMailMessage msg = new SimpleMailMessage();
+		SimpleMailMessage msg = new SimpleMailMessage();
 		String petiano, pessoa;
 		petiano = tutoriaRepository.findById(id_tutoria).get().getPetiano().getPessoa().getUsuario().getEmail();
 		pessoa = pessoaRepository.findById(id_pessoa).get().getUsuario().getEmail();
 		msg.setTo(petiano, pessoa);
 		msg.setText("Tutoria de "+tm.getTutoria().getDisciplina().getNome()+" marcada para: " + tm.getData());
-		javaMailSender.send(msg);*/
+		javaMailSender.send(msg);
 	}
 }
