@@ -1,17 +1,16 @@
 package br.ufrn.ePET.repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import org.hibernate.dialect.pagination.SQL2008StandardLimitHandler;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.Online;
 
-public interface EventoRepository extends JpaRepository<Evento, Long>{
+public interface EventoRepository extends JpaRepository<Online, Long>{
 	
 	@Query(value = "SELECT * FROM evento i WHERE i.participante_anexos = ?1", nativeQuery = true)
 	List<Evento> findByParticipantesAnexos(Long id);

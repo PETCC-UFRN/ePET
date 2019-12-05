@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.Online;
 import br.ufrn.ePET.service.EventoService;
 
 @RestController
@@ -37,7 +38,7 @@ public class EventoController {
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getEventos(Pageable pageable){
 		//try {
-			Page<Evento> page = eventoService.buscar(pageable);
+			Page<Online> page = eventoService.buscar(pageable);
 			if(page.isEmpty()) {
 				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
 			}
@@ -50,7 +51,7 @@ public class EventoController {
 	@GetMapping(value = "/eventos-abertos")
 	public ResponseEntity<?> getEventosAbertos(Pageable pageable){
 		//try {
-			List<Evento> page = eventoService.buscarAtivos(pageable);
+			List<Online> page = eventoService.buscarAtivos(pageable);
 			if(page.isEmpty()) {
 				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
 			}
@@ -91,7 +92,7 @@ public class EventoController {
 	
 	@PostMapping(value = "/eventos-cadastrar")
 	//@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveEventos(@Valid @RequestBody Evento evento){
+	public ResponseEntity<?> saveEventos(@Valid @RequestBody Online evento){
 		//try {
 			eventoService.salvar(evento);
 			return new ResponseEntity<>(HttpStatus.OK);

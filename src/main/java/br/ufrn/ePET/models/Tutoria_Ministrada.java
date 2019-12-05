@@ -26,7 +26,7 @@ public class Tutoria_Ministrada {
 	@ManyToOne
 	//@NotEmpty
 	@JoinColumn(name = "id_tutoria")
-	private Tutoria tutoria;
+	private TutoriaOnline tutoria;
 	
 	@Column(columnDefinition = "DATE")
 	@NotEmpty
@@ -51,11 +51,11 @@ public class Tutoria_Ministrada {
 		this.pessoa = pessoa;
 	}
 
-	public Tutoria getTutoria() {
+	public TutoriaOnline getTutoria() {
 		return tutoria;
 	}
 
-	public void setTutoria(Tutoria tutoria) {
+	public void setTutoria(TutoriaOnline tutoria) {
 		this.tutoria = tutoria;
 	}
 

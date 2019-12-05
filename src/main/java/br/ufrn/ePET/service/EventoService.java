@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
+import br.ufrn.ePET.interfaces.EventoInterface;
 import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.models.Frequencia;
 import br.ufrn.ePET.models.Online;
@@ -20,7 +21,7 @@ import br.ufrn.ePET.repository.ParticipanteRepository;
 import br.ufrn.ePET.repository.Periodo_EventoReposioty;
 
 @Service
-public class EventoService extends Online{
+public class EventoService implements EventoInterface{
 	
 	private final EventoRepository eventoRepository;
 	private final FrequenciaRepository frequenciaRepository;
@@ -41,8 +42,8 @@ public class EventoService extends Online{
 				eventoRepository.findById(id).get(): null;
 	}
 	
-	public Page<Evento> buscar(Pageable pageable){
-		Page<Evento> eventList = eventoRepository.findAll(pageable);
+	public Page<Online> buscar(Pageable pageable){
+		Page<Online> eventList = eventoRepository.findAll(pageable);
 		if (eventList.isEmpty())
 			throw new ResourceNotFoundException("Nenhum evento cadastrado");
 		return eventList;
@@ -51,14 +52,14 @@ public class EventoService extends Online{
 	public Page<Evento> ordenar(){
 		//Método que vai retornar ordenado de acordo com a aplicação
 		
-		List<Evento> eventos = eventoRepository.findAll();
+		//List<Online> eventos = eventoRepository.findAll();
 		
 		return null;
 	}
 	
-	public List<Evento> buscarAtivos(Pageable pageable){
+	public List<Online> buscarAtivos(Pageable pageable){
 		//Page<Evento> lista = eventoRepository.findAll(pageable);
-		List<Evento> lista_aux = eventoRepository.findAll();
+		List<Online> lista_aux = eventoRepository.findAll();
 		LocalDate ld = LocalDate.now();
 		for(Evento e : lista_aux) {
 			if(!(ld.compareTo(e.getD_inscricao()) >= 0) && !(ld.compareTo(e.getD_inscricao_fim()) >= 0)) {
@@ -82,7 +83,7 @@ public class EventoService extends Online{
 		return lista;
 	}
 
-	public Evento salvar(Evento evento) {
+	public Evento salvar(Online evento) {
 		return eventoRepository.save(evento);
 	}
 	
@@ -93,7 +94,7 @@ public class EventoService extends Online{
 	}
 	
 	public void ativar(Long id) {
-		Evento evento;
+		Online evento;
 		if (eventoRepository.findById(id).isPresent())
 			evento = eventoRepository.findById(id).get();
 		else throw new ResourceNotFoundException("Nenhum evento com id "+id+" encontrado.");

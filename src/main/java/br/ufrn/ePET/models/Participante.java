@@ -21,7 +21,7 @@ public class Participante {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_evento")
-	private Evento evento;
+	private Online evento;
 	
 	//@NotEmpty
 	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
@@ -51,7 +51,7 @@ public class Participante {
 		return evento;
 	}
 
-	public void setEvento(Evento evento) {
+	public void setEvento(Online evento) {
 		this.evento = evento;
 	}
 

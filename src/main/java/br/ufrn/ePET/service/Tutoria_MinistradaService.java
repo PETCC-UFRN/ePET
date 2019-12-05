@@ -21,7 +21,7 @@ import br.ufrn.ePET.repository.TutoriaRepository;
 import br.ufrn.ePET.repository.Tutoria_Ministrada_Repository;
 
 @Service
-public class Tutoria_MinistradaService extends TutoriaOnline implements TutoriaInterface{
+public class Tutoria_MinistradaService implements TutoriaInterface{
 	
 	private final Tutoria_Ministrada_Repository tutoria_Ministrada_Repository;
 	private final PessoaRepository pessoaRepository;
@@ -100,12 +100,5 @@ public class Tutoria_MinistradaService extends TutoriaOnline implements TutoriaI
 	@Override
 	public void marcarTutoria(Long id_pessoa, Long id_tutoria, Tutoria_Ministrada tutoria_Ministrada) {
 		Tutoria_Ministrada tm = salvar(id_pessoa, id_tutoria, tutoria_Ministrada);
-		SimpleMailMessage msg = new SimpleMailMessage();
-		String petiano, pessoa;
-		petiano = tutoriaRepository.findById(id_tutoria).get().getPetiano().getPessoa().getUsuario().getEmail();
-		pessoa = pessoaRepository.findById(id_pessoa).get().getUsuario().getEmail();
-		msg.setTo(petiano, pessoa);
-		msg.setText("Tutoria de "+tm.getTutoria().getDisciplina().getNome()+" marcada para: " + to.getHorario());
-		javaMailSender.send(msg);
 	}
 }

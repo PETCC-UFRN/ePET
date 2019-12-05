@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.Online;
 import br.ufrn.ePET.models.Participante;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.EventoRepository;
@@ -55,7 +56,7 @@ public class ParticipanteService {
 		Participante p = new Participante();
 		//Evento e = eventoRepository.findById(id_evento).get();
 		//Pessoa pe = pessoaRepository.findById(id_pessoa).get();
-		Evento e= eventoRepository.findById(id_evento).isPresent() ? 
+		Online e= eventoRepository.findById(id_evento).isPresent() ? 
 				eventoRepository.findById(id_evento).get(): null;
 		Pessoa pe= pessoaRepository.findById(id_pessoa).isPresent() ? 
 				pessoaRepository.findById(id_pessoa).get(): null;
