@@ -54,4 +54,10 @@ public class Tutoria_MinistradaController {
 		tutoria_MinistradaService.salvar(id_pessoa, id_tutoria, tutoria_ministrada);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@PostMapping(value="/tutorias-ministradas-ativar/{id_tutoria_ministrada}")
+	public ResponseEntity<?> ativarTutoriasMinistradas(@PathVariable Long id_tutoria_ministrada){
+		tutoria_MinistradaService.ativar(id_tutoria_ministrada);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

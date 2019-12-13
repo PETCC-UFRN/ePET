@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.ufrn.ePET.config.EmailConfig;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Tutoria_Ministrada;
 import br.ufrn.ePET.repository.PessoaRepository;
@@ -48,7 +49,27 @@ public class Tutoria_MinistradaService {
 		else
 			throw new ResourceNotFoundException("ID:  " + id_tutoria + " não encontrado!");
 		
+		marcarTutoria(tutoriaMinistrada);
 		return tutoria_Ministrada_Repository.save(tutoriaMinistrada);
+		
+	}
+	
+	public void marcarTutoria(Tutoria_Ministrada tm) {
+		EmailConfig emailConfig = new EmailConfig();
+		emailConfig.enviarEmail(tm.getTutoria().getPetiano().getPessoa().getUsuario().getEmail(), tm.getPessoa().getUsuario().getEmail(), 
+				tm.getTutoria().getDisciplina().getCodigo() + " " + tm.getTutoria().getDisciplina().getNome(), 
+				tm.getTutoria().getPetiano().getPessoa().getNome());
+	}
+	
+	public void ativar(Long id_tutoria_ministrada) {
+		if (tutoria_Ministrada_Repository.findById(id_tutoria_ministrada).isPresent()) {
+			Tutoria_Ministrada tm = tutoria_Ministrada_Repository.findById(id_tutoria_ministrada).get();
+			tm.setAtivo(true);
+			tutoria_Ministrada_Repository.save(tm);
+		} else {
+			throw new ResourceNotFoundException("ID:  " + id_tutoria_ministrada + " não encontrado!");
+		}
+			
 	}
 	
 	public List<Tutoria_Ministrada> tutoriasAtivas(){
