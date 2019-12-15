@@ -3,11 +3,13 @@ package br.ufrn.ePET.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import br.ufrn.ePET.config.EmailConfig;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Tutoria_Ministrada;
 import br.ufrn.ePET.repository.PessoaRepository;
@@ -20,14 +22,16 @@ public class Tutoria_MinistradaService {
 	private final Tutoria_Ministrada_Repository tutoria_Ministrada_Repository;
 	private final PessoaRepository pessoaRepository;
 	private final TutoriaRepository tutoriaRepository;
+	private JavaMailSender javaMailSender;
 	
-	
+	@Autowired
 	public Tutoria_MinistradaService(Tutoria_Ministrada_Repository tutoria_Ministrada_Repository,
-									 PessoaRepository pessoaRepository, TutoriaRepository tutoriaRepository) {
+									 PessoaRepository pessoaRepository, TutoriaRepository tutoriaRepository,
+									 JavaMailSender javaMailSender) {
 		this.tutoria_Ministrada_Repository = tutoria_Ministrada_Repository;
 		this.pessoaRepository = pessoaRepository;
 		this.tutoriaRepository = tutoriaRepository;
-		
+		this.javaMailSender = javaMailSender;
 	}
 	
 	public Tutoria_Ministrada buscar( Long id ) {
@@ -55,10 +59,21 @@ public class Tutoria_MinistradaService {
 	}
 	
 	public void marcarTutoria(Tutoria_Ministrada tm) {
-		EmailConfig emailConfig = new EmailConfig();
-		emailConfig.enviarEmail(tm.getTutoria().getPetiano().getPessoa().getUsuario().getEmail(), tm.getPessoa().getUsuario().getEmail(), 
+		enviarEmail(tm.getTutoria().getPetiano().getPessoa().getUsuario().getEmail(), tm.getPessoa().getUsuario().getEmail(), 
 				tm.getTutoria().getDisciplina().getCodigo() + " " + tm.getTutoria().getDisciplina().getNome(), 
 				tm.getTutoria().getPetiano().getPessoa().getNome());
+	}
+	
+	public void enviarEmail(String email_petiano, String email_requisitante, String tutoria, String petiano) {
+		SimpleMailMessage smm = new SimpleMailMessage();
+		smm.setTo(email_petiano);
+		smm.setText("Olá " + petiano + "!\n"
+				+ "Tem uma nova solicitação de tutoria da disciplina de " + tutoria + " feita por " + email_requisitante);
+		try {
+			javaMailSender.send(smm);
+		} catch (Exception e) {
+			throw new RuntimeException("Houve algum erro no envio do seu email!\n" + e);
+		}
 	}
 	
 	public void ativar(Long id_tutoria_ministrada) {

@@ -48,9 +48,10 @@ public class Tutoria_MinistradaController {
 		return new ResponseEntity<>(tutorias, HttpStatus.OK);
 	}
 	
-	@PostMapping(value="/tutorias-ministradas-cadastro/{id_pessoa}/{id_tutoria}")
+	@GetMapping(value="/tutorias-ministradas-cadastro/{id_pessoa}/{id_tutoria}")
 	public ResponseEntity<?> salvarTutoriasMinistradas(@PathVariable Long id_pessoa, @PathVariable Long id_tutoria){
 		Tutoria_Ministrada tutoria_ministrada = new Tutoria_Ministrada();
+		System.out.println("rodando aq");
 		tutoria_MinistradaService.salvar(id_pessoa, id_tutoria, tutoria_ministrada);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
