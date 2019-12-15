@@ -1,9 +1,13 @@
 package br.ufrn.ePET.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
+import org.springframework.stereotype.Component;
+/*
+@Component
 public class EmailConfig {
+	@Autowired
 	private JavaMailSender javaMailSender;
 	
 	public void enviarEmail(String email_petiano, String email_requisitante, String tutoria, String petiano) {
@@ -17,4 +21,5 @@ public class EmailConfig {
 			throw new RuntimeException("Houve algum erro no envio do seu email!\n" + e);
 		}
 	}
-}
+}*/
+
