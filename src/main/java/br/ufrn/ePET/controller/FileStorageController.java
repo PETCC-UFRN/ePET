@@ -22,22 +22,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.ufrn.ePET.service.FileStorageService;
 
-//@RestController
+@RestController
 public class FileStorageController {
 	
-	//@Autowired
+	@Autowired
 	private FileStorageService fileStorageService;
 	
-	/* //@PostMapping("/uploadfile")
+	@PostMapping("/uploadfile")
 	    public String uploadFile(@RequestParam("file") MultipartFile file) {
 	     try {
 	    	 String filename = fileStorageService.storeFile(file);
-	    	 System.out.println(filename);
+	    	 //System.out.println(filename);
 	    	 return filename;
 	     } catch(Exception e) {
 	    	 return null;
 	     }
 	 }
+	
 	@GetMapping("/downloadfile/{filename:.+}")
 		public ResponseEntity<Resource> downloadFile(@PathVariable String filename, HttpServletRequest request){
 			Resource resource = fileStorageService.loadFileAsResource(filename);
@@ -58,5 +59,5 @@ public class FileStorageController {
 	                .contentType(MediaType.parseMediaType(contentType))
 	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 	                .body(resource);
-	    }*/
+	    }
 }
