@@ -74,6 +74,17 @@ public class PessoaController {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
 	}
+
+	@GetMapping(value = "pesquisar-pessoa/{search}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getPessoasPorNomeOuCPF(@PathVariable String search, Pageable pageable){
+		Page<Pessoa> pessoas = pessoaservice.buscarPorNomeOrCpf(search, pageable);
+		if (pessoas.isEmpty()){
+			throw  new ResourceNotFoundException("nenhuma pessoa encontrada");
+		} else {
+			return new ResponseEntity<>(pessoas, HttpStatus.OK);
+		}
+	}
 	
 	@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
 	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})

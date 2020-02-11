@@ -38,6 +38,11 @@ public class PessoaService {
 		Pessoa p = pessoaRepository.findByUsuario(u);
 		return p;
 	}
+
+	public Page<Pessoa> buscarPorNomeOrCpf(String search, Pageable pageable){
+		return pessoaRepository.findByNomeOrCPF(search, pageable);
+	}
+
 	public Page<Pessoa> buscar(Pageable pageable){
 		return pessoaRepository.findAll(pageable);
 	}
