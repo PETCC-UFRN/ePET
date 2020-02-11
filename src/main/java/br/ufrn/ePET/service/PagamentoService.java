@@ -2,6 +2,7 @@ package br.ufrn.ePET.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
@@ -36,8 +37,8 @@ import br.ufrn.ePET.repository.PessoaRepository;
 public class PagamentoService {
 
 	private final PagamentoRepository pagamentoRepository;
-	private final String EMAIL = "";
-	private final String TOKEN = "";
+	private final String EMAIL = "abraaovld@gmail.com";
+	private final String TOKEN = "9068F1E6809245E08070D78DB8EAE14F";
 	private final EventoRepository eventoRepository;
 	private final PessoaRepository pessoaRepository;
 	
@@ -52,7 +53,7 @@ public class PagamentoService {
 		return Credential.sellerCredential(EMAIL, TOKEN);
 	}
 	
-	public String criarPagamento(Long id_evento, Long id_pessoa) {
+	public String criarPagamento(Long id_evento, Long id_pessoa){
 		Evento evento = new Evento();
 		if(eventoRepository.findById(id_evento).isPresent())
 			evento = eventoRepository.findById(id_evento).get();
@@ -65,6 +66,8 @@ public class PagamentoService {
 		
 		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
 				getCredentials(), PagSeguroEnv.SANDBOX);
+		
+		
 		RegisteredCheckout registeredCheckout = pagSeguro.checkouts().register(
 				new CheckoutRegistrationBuilder()
 				.withCurrency(Currency.BRL)
