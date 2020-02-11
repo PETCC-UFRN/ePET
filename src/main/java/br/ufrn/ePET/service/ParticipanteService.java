@@ -50,7 +50,14 @@ public class ParticipanteService {
 		}
 		return lista;
 	}*/
-	
+	public Page<Participante> buscarPorNomeOuCpfPessoa(String search, Pageable pageable){
+		return participanteRepository.findByNomeOuCpfPessoa(search, pageable);
+	}
+
+	public Page<Participante> buscarPorTituloEvento(String search, Pageable pageable){
+		return participanteRepository.findByTituloEvento(search, pageable);
+	}
+
 	public void salvar(Long id_evento, Long id_pessoa) {
 		Participante p = new Participante();
 		//Evento e = eventoRepository.findById(id_evento).get();

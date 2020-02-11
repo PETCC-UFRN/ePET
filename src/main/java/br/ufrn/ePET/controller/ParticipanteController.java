@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import br.ufrn.ePET.models.Pessoa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,6 +64,26 @@ public class ParticipanteController {
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
+	}
+
+	@GetMapping(value = "pesquisar-pessoa-participante/{search}")
+	public ResponseEntity<?> getParticipantesPorPessoa(@PathVariable String search, Pageable pageable){
+		Page<Participante> participantes = participanteService.buscarPorNomeOuCpfPessoa(search, pageable);
+		if(participantes.isEmpty()){
+			throw new ResourceNotFoundException("Nenhuma pessoa encontrada com esse nome");
+		} else {
+			return new ResponseEntity<>(participantes, HttpStatus.OK);
+		}
+	}
+
+	@GetMapping(value = "pesquisar-evento-participante/{search}")
+	public ResponseEntity<?> getParticipantesPorEvento(@PathVariable String search, Pageable pageable){
+		Page<Participante> participantes = participanteService.buscarPorTituloEvento(search, pageable);
+		if(participantes.isEmpty()){
+			throw new ResourceNotFoundException("Nenhuma pessoa encontrada com esse nome");
+		} else {
+			return new ResponseEntity<>(participantes, HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping(value = "/participantes-cadastrar/{id_evento}/{id_pessoa}")
