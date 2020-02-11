@@ -77,7 +77,17 @@ public class EventoController {
 	public ResponseEntity<?> getEventosInativos(){
 		return new ResponseEntity<>(eventoService.buscarInativos(), HttpStatus.OK);
 	}
-	
+
+	@GetMapping(value = "pesquisar-evento/{search}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getEventoPorTitulo(@PathVariable String search, Pageable pageable){
+		Page<Evento> eventos = eventoService.buscarPorTitulo(search, pageable);
+		if(eventos.isEmpty()){
+			throw new ResourceNotFoundException("Nenhum evento encontrado");
+		} else {
+			return new ResponseEntity<>(eventos, HttpStatus.OK);
+		}
+	}
 	@PostMapping(value = "/eventos-ativar/{id}")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> ativarEventos(@PathVariable Long id){

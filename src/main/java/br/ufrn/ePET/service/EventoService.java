@@ -51,6 +51,10 @@ public class EventoService {
 			throw new ResourceNotFoundException("Nenhum evento ativo");*/
 		return lista_aux;
 	}
+
+	public Page<Evento> buscarPorTitulo(String titulo, Pageable pageable){
+		return eventoRepository.findByTitulo(titulo, pageable);
+	}
 	
 	public List<Evento> buscarInativos(){
 		List<Evento> lista = eventoRepository.findByInativos();

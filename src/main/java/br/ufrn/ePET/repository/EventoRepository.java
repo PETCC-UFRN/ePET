@@ -21,4 +21,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long>{
 	
 	@Query(value = "SELECT * FROM evento i WHERE i.d_inscricao_fim => DATE('now') AND i.ativo = true", nativeQuery = true)
 	Page<Evento> findByAtivos(java.sql.Date d_ins_fim, Pageable pageable);
+
+	@Query(value = "SELECT * FROM evento i WHERE i.titulo LIKE %?1%", nativeQuery = true)
+	Page<Evento> findByTitulo(String titulo, Pageable pageable);
 }
