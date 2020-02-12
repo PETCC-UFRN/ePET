@@ -10,10 +10,10 @@ import br.ufrn.ePET.models.Petiano;
 
 public interface PetianoRepository extends JpaRepository<Petiano, Long>{
 	//Petiano findbyPessoa(Pessoa pessoa);
-	@Query(value = "SELECT * FROM petiano p WHERE p.data_egresso IS NULL", nativeQuery = true)
+	@Query(value = "SELECT p.id_petiano, p.area_interesse, p.data_egresso, p.data_ingresso, p.foto, p.lattes, p.site_pessoal, p.id_pessoa FROM petiano p, pessoa u WHERE p.id_pessoa = u.id_pessoa AND p.data_egresso IS NULL ORDER BY u.nome", nativeQuery = true)
 	Page<Petiano> findByAtuais(Pageable pageable);
 	
-	@Query(value = "SELECT * FROM petiano p WHERE p.data_egresso IS NOT NULL", nativeQuery = true)
+	@Query(value = "SELECT p.id_petiano, p.area_interesse, p.data_egresso, p.data_ingresso, p.foto, p.lattes, p.site_pessoal, p.id_pessoa FROM petiano p, pessoa u WHERE p.id_pessoa = u.id_pessoa AND p.data_egresso IS NOT NULL ORDER BY u.nome", nativeQuery = true)
 	Page<Petiano> findByAntigos(Pageable pageable);
 	
 	@Query(value = "SELECT * FROM petiano p WHERE p.id_pessoa = ?1", nativeQuery = true)
