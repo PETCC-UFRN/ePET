@@ -67,6 +67,7 @@ public class ParticipanteController {
 	}
 
 	@GetMapping(value = "pesquisar-pessoa-participante/{search}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantesPorPessoa(@PathVariable String search, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPorNomeOuCpfPessoa(search, pageable);
 		if(participantes.isEmpty()){
@@ -77,6 +78,7 @@ public class ParticipanteController {
 	}
 
 	@GetMapping(value = "pesquisar-evento-participante/{search}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantesPorEvento(@PathVariable String search, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPorTituloEvento(search, pageable);
 		if(participantes.isEmpty()){
