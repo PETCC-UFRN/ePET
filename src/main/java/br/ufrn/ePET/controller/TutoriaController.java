@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import br.ufrn.ePET.models.Petiano;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +50,30 @@ public class TutoriaController {
 		
 		return new ResponseEntity<>(tutoria, HttpStatus.OK);
 	}
-	
+
+	@GetMapping(value = "/pesquisar-petiano-tutoria/{search}")
+	@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
+	public ResponseEntity<?> getTutoriaPetiano(@PathVariable String search, Pageable pageable){
+		Page<Tutoria> tutorias = tutoriaService.buscarPorNomeOuCpfPetiano(search, pageable);
+		if(tutorias.isEmpty()){
+			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");
+		} else {
+			return new ResponseEntity<>(tutorias, HttpStatus.OK);
+		}
+	}
+
+	@GetMapping(value = "/pesquisar-disciplina-tutoria/{search}")
+	@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
+	public ResponseEntity<?> getTutoriaDisciplina(@PathVariable String search, Pageable pageable){
+		Page<Tutoria> tutorias = tutoriaService.buscarPorNomeOuCodigoDisciplina(search, pageable);
+		if(tutorias.isEmpty()){
+			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");
+		} else {
+			return new ResponseEntity<>(tutorias, HttpStatus.OK);
+		}
+	}
+
+
 	@PostMapping(value="/tutoria-cadastro/{id_petiano}/{id_disciplina}")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveTutoria(@PathVariable Long id_petiano, @PathVariable Long id_disciplina){

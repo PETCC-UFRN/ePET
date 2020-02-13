@@ -54,7 +54,15 @@ public class TutoriaService {
 		
 		return tutoriaRepository.save(tutoria);
 	}
-	
+
+	public Page<Tutoria> buscarPorNomeOuCpfPetiano(String search, Pageable pageable){
+		return tutoriaRepository.findByNomeOuCpf(search, pageable);
+	}
+
+	public Page<Tutoria> buscarPorNomeOuCodigoDisciplina(String search, Pageable pageable){
+		return tutoriaRepository.findByCodigoOuNome(search, pageable);
+	}
+
 	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public void remover(Long id) {
 		Tutoria t = tutoriaRepository.findById(id).get();
