@@ -38,6 +38,14 @@ public class OrganizadoresService {
 		return organizadoresRepository.findById(id).isPresent() ? 
 				organizadoresRepository.findById(id).get(): null;
 	}
+
+	public Page<Organizadores> buscarPorNomeOuCpfPessoa(String search, Pageable pageable){
+		return organizadoresRepository.findByNomeOuCpfPessoa(search, pageable);
+	}
+
+	public Page<Organizadores> buscarPorTItuloEvento(String search, Pageable pageable){
+		return organizadoresRepository.findByTituloEvento(search, pageable);
+	}
 	
 	public void salvar(Long id_evento, Long id_pessoa) {
 		Organizadores o = new Organizadores();

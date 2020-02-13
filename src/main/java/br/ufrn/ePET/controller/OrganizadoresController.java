@@ -79,6 +79,28 @@ public class OrganizadoresController {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
 	}
+
+	@GetMapping(value = "/pesquisar-pessoa-organizadores/{search}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getOrganizadoresPorPessoa(@PathVariable String search, Pageable pageable){
+		Page<Organizadores> organizadores = organizadoresService.buscarPorNomeOuCpfPessoa(search, pageable);
+		if(organizadores.isEmpty()){
+			throw new ResourceNotFoundException("Nenhuma pessoa encontrada");
+		} else {
+			return new ResponseEntity<>(organizadores, HttpStatus.OK);
+		}
+	}
+
+	@GetMapping(value = "/pesquisar-evento-organizadores/{search}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getOrganizadoresPorEvento(@PathVariable String search, Pageable pageable){
+		Page<Organizadores> organizadores = organizadoresService.buscarPorTItuloEvento(search, pageable);
+		if(organizadores.isEmpty()){
+			throw new ResourceNotFoundException("Nenhum evento encontrada");
+		} else {
+			return new ResponseEntity<>(organizadores, HttpStatus.OK);
+		}
+	}
 	
 	@PostMapping(value = "/organizadores-cadastrar/{id_evento}/{id_pessoa}")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
