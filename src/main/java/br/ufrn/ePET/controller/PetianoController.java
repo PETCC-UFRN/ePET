@@ -68,6 +68,17 @@ public class PetianoController {
 		return petiano;
 	}
 
+	@GetMapping(value = "pesquisar-petiano/{search}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getPetianosPorNomeOuCpf(@PathVariable String search, Pageable pageable){
+		Page<Petiano> petianos = petianoservice.buscarPorNomeOuCpf(search, pageable);
+		if(petianos.isEmpty()){
+			throw new ResourceNotFoundException("Nenhum petiano encontrado");
+		} else {
+			return new ResponseEntity<>(petianos, HttpStatus.OK);
+		}
+	}
+
 	@PostMapping(value="/petianos-cadastro/{id}")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> savePetianos(@PathVariable Long id, @Valid @RequestBody Petiano petiano){

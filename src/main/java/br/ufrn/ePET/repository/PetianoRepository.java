@@ -18,4 +18,8 @@ public interface PetianoRepository extends JpaRepository<Petiano, Long>{
 	
 	@Query(value = "SELECT * FROM petiano p WHERE p.id_pessoa = ?1", nativeQuery = true)
 	Petiano findByPessoa(Long id);
+
+	@Query(value = "SELECT p.id_petiano, p.area_interesse, p.data_egresso, p.data_ingresso, p.foto, p.lattes, p.site_pessoal, p.id_pessoa FROM petiano p, pessoa u WHERE p.id_pessoa = u.id_pessoa AND u.nome LIKE %?1% OR u.cpf LIKE %?1%", nativeQuery = true)
+	Page<Petiano> findByNomeOuCpf(String search, Pageable pageable);
+
 }

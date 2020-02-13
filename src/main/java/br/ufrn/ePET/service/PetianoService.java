@@ -53,6 +53,10 @@ public class PetianoService {
 	public Page<Petiano> buscarAntigos(Pageable pageable){
 		return petianoRepository.findByAntigos(pageable);
 	}
+
+	public Page<Petiano> buscarPorNomeOuCpf(String search, Pageable pageable){
+		return petianoRepository.findByNomeOuCpf(search, pageable);
+	}
 	
 	@Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
 	public Petiano salvar(Long id, Petiano petiano){
