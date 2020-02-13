@@ -3,6 +3,8 @@ package br.ufrn.ePET.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import br.ufrn.ePET.models.Pessoa;
+import br.ufrn.ePET.models.Tutoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +43,25 @@ public class Tutoria_MinistradaService {
 	public Page<Tutoria_Ministrada> buscar(Pageable pageable){
 		return tutoria_Ministrada_Repository.findAll(pageable);
 	}
-	
+
+	public Page<Tutoria_Ministrada> buscarPorPessoa(Long id, Pageable pageable){
+		if(pessoaRepository.findById(id).isPresent()) {
+			Pessoa p = pessoaRepository.findById(id).get();
+			return tutoria_Ministrada_Repository.findByPessoa(p, pageable);
+		} else {
+			throw new ResourceNotFoundException("Nenhuma Tutoria encontrada para a pessoa informada");
+		}
+	}
+
+	public Page<Tutoria_Ministrada> buscarPorTutoria(Long id, Pageable pageable){
+		if(tutoriaRepository.findById(id).isPresent()){
+			Tutoria t = tutoriaRepository.findById(id).get();
+			return tutoria_Ministrada_Repository.findByTutoria(t, pageable);
+		} else {
+			throw new ResourceNotFoundException("Nenhuma Tutoria encontrada para a disciplina informada");
+		}
+	}
+
 	public Tutoria_Ministrada salvar(Long id_pessoa, Long id_tutoria, Tutoria_Ministrada tutoriaMinistrada) {
 		if(this.pessoaRepository.findById(id_pessoa).isPresent())
 			tutoriaMinistrada.setPessoa(this.pessoaRepository.findById(id_pessoa).get());

@@ -1,5 +1,7 @@
 package br.ufrn.ePET.repository;
 
+import br.ufrn.ePET.models.Pessoa;
+import br.ufrn.ePET.models.Tutoria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +19,9 @@ public interface Tutoria_Ministrada_Repository extends JpaRepository<Tutoria_Min
 	
 	@Query(value = "SELECT * FROM tutoria_ministrada tm WHERE tm.ativo = true", nativeQuery = true)
 	Page<Tutoria_Ministrada> findByAtivos(Pageable pageable);
+
+	Page<Tutoria_Ministrada> findByPessoa(Pessoa p, Pageable pageable);
+
+	Page<Tutoria_Ministrada> findByTutoria(Tutoria t, Pageable pageable);
+
 }

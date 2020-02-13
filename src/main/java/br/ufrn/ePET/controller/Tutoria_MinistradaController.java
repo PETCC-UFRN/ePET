@@ -47,6 +47,26 @@ public class Tutoria_MinistradaController {
 		
 		return new ResponseEntity<>(tutorias, HttpStatus.OK);
 	}
+
+	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas/{id}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getTutoriasMinistradasPessoa(@PathVariable Long id, Pageable pageable){
+		try{
+			return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoa(id, pageable), HttpStatus.OK);
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping(value = "/pesquisar-tutoria-tutorias-ministradas/{id}")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getTutoriasMinistradasTutoria(@PathVariable Long id, Pageable pageable){
+		try{
+			return new ResponseEntity<>(tutoria_MinistradaService.buscarPorTutoria(id, pageable), HttpStatus.OK);
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	@GetMapping(value="/tutorias-ministradas-cadastro/{id_pessoa}/{id_tutoria}")
 	public ResponseEntity<?> salvarTutoriasMinistradas(@PathVariable Long id_pessoa, @PathVariable Long id_tutoria){
