@@ -3,7 +3,10 @@ package br.ufrn.ePET.service;
 import java.util.List;
 import java.util.Optional;
 
+import br.ufrn.ePET.error.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.models.Disciplina;
@@ -19,12 +22,24 @@ public class DisciplinaService {
 		this.disciplinaRepository = disciplinaRepository;
 	}
 	
-	public Optional<Disciplina> buscar(Long id) {
-		return disciplinaRepository.findById(id);
+	public Disciplina buscar(Long id) {
+		if(disciplinaRepository.findById(id).isPresent()) {
+			return disciplinaRepository.findById(id).get();
+		} else {
+			throw new ResourceNotFoundException("Nenhuma disciplina encontrada");
+		}
 	}
 	
-	public List<Disciplina> buscar(){
-		return disciplinaRepository.findAll();
+	public Page<Disciplina> buscar(Pageable pageable){
+		return disciplinaRepository.findAll(pageable);
+	}
+
+	public Page<Disciplina> buscarAtivos(Pageable pageable){
+		return disciplinaRepository.findByAtivos(pageable);
+	}
+
+	public Page<Disciplina> buscarPorNomeOuCodigo(String search, Pageable pageable){
+		return disciplinaRepository.findbyNomeOuCodigo(search, pageable);
 	}
 	
 	public Disciplina salvar(Disciplina disciplina) {
