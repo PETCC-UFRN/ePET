@@ -22,6 +22,10 @@ public class Disciplina {
 	@NotEmpty
 	private String codigo;
 
+	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+	@NotEmpty
+	private boolean ativo;
+
 	public long getIdDisciplina() {
 		return idDisciplina;
 	}
@@ -45,5 +49,12 @@ public class Disciplina {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
-	
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 }
