@@ -1,7 +1,6 @@
 package br.ufrn.ePET.config;
 
-import br.ufrn.ePET.security.JWTAutheticationFilter;
-import br.ufrn.ePET.security.JWTAuthorizationFilter;
+
 import br.ufrn.ePET.security.JwtTokenFilterConfigurer;
 import br.ufrn.ePET.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
