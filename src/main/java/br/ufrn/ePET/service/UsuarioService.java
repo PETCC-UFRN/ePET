@@ -1,9 +1,16 @@
 package br.ufrn.ePET.service;
 
+import br.ufrn.ePET.error.CustomException;
+import br.ufrn.ePET.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.DuplicatedEntryException;
@@ -21,7 +28,16 @@ public class UsuarioService {
 	private final UsuarioRepository usuarioRepository;
 	private final Tipo_UsuarioRepository tipoUsuarioRepository;
 	private final PessoaRepository pessoaRepository;
-	
+
+	//@Autowired
+	//private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
 	@Autowired
 	public UsuarioService(UsuarioRepository usuarioRepository, Tipo_UsuarioRepository tipoUsuarioRepository,
 			PessoaRepository pessoaRepository) {
@@ -29,7 +45,17 @@ public class UsuarioService {
 		this.tipoUsuarioRepository = tipoUsuarioRepository;
 		this.pessoaRepository = pessoaRepository;
 	}
-	
+
+	public String signin(String username, String password){
+		try{
+			Usuario u = usuarioRepository.findByEmail(username);
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			return "bearer " + jwtTokenProvider.createToken(username, pessoaRepository.findByUsuario(u).getTipo_usuario().getNome());
+		} catch (AuthenticationException e) {
+			throw  new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+
 	public Usuario buscar(Long id) {
 		return usuarioRepository.findById(id).isPresent() ? 
 				usuarioRepository.findById(id).get(): null;
