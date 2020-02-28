@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@Component
+/*@Component
 public class CORSConfig extends OncePerRequestFilter{
 	
 	 @Override
@@ -34,4 +34,4 @@ public class CORSConfig extends OncePerRequestFilter{
 	    }
 
 
-}
+}*/
