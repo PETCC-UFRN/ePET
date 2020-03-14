@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
-
+teste_imagens/**
 src/main/resources/application.properties 
 
 ### STS ###
