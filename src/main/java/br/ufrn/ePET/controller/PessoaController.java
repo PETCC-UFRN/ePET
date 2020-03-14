@@ -2,6 +2,7 @@ package br.ufrn.ePET.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +54,8 @@ public class PessoaController {
 	}
 	
 	@GetMapping(value = "/pessoas-usuario")
-	public ResponseEntity<?> getPessoaUsuario(Principal principal){
-		Pessoa p = pessoaservice.buscarPorEmail(principal.getName());
+	public ResponseEntity<?> getPessoaUsuario(HttpServletRequest req){
+		Pessoa p = pessoaservice.buscarPorEmail(req);
 		if(p == null) {
 			throw new ResourceNotFoundException("Não foi possível adquirir o id do participante atual");
 		}

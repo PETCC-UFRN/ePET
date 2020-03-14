@@ -51,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		 http.authorizeRequests()
-				 .antMatchers(SIGN_UP_URL).permitAll()
+				 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+				 .antMatchers("/swagger-resources/**").permitAll()
+				 .antMatchers("/swagger-ui.html").permitAll()
 				 .anyRequest().authenticated();
 
 		 //http.exceptionHandling().accessDeniedHandler("/login");

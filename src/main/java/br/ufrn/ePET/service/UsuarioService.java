@@ -50,7 +50,7 @@ public class UsuarioService {
 		try{
 			Usuario u = usuarioRepository.findByEmail(username);
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-			return "bearer " + jwtTokenProvider.createToken(username, pessoaRepository.findByUsuario(u).getTipo_usuario().getNome());
+			return "Bearer " + jwtTokenProvider.createToken(username, pessoaRepository.findByUsuario(u).getTipo_usuario().getNome());
 		} catch (AuthenticationException e) {
 			throw  new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}

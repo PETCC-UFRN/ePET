@@ -1,5 +1,6 @@
 package br.ufrn.ePET.service;
 
+import br.ufrn.ePET.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,8 @@ import br.ufrn.ePET.repository.PessoaRepository;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
 import br.ufrn.ePET.repository.UsuarioRepository;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Service
 public class PessoaService {
@@ -19,6 +22,9 @@ public class PessoaService {
 	private final PessoaRepository pessoaRepository;
 	private final Tipo_UsuarioRepository tipo_UsuarioRespository;
 	private final UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 	
 	@Autowired
 	public PessoaService(PessoaRepository pessoaRepository, Tipo_UsuarioRepository tipo_UsuarioRespository,
@@ -33,8 +39,8 @@ public class PessoaService {
 				pessoaRepository.findById(id).get(): null;
 	}
 	
-	public Pessoa buscarPorEmail(String email) {
-		Usuario u = usuarioRepository.findByEmail(email);
+	public Pessoa buscarPorEmail(HttpServletRequest req) {
+		Usuario u = usuarioRepository.findByEmail(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req)));
 		Pessoa p = pessoaRepository.findByUsuario(u);
 		return p;
 	}
