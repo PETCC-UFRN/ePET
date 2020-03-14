@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -33,22 +35,30 @@ public class FileStorageService {
 
     public String storeFile(MultipartFile file) {
         // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd-HH_mm_ss-");
+        LocalDateTime now = LocalDateTime.now();
+        String fileName = String.format(dtf.format(now)) + StringUtils.cleanPath(file.getOriginalFilename());
+
+        //String [] s = fileName.split(".");
+        //fileName = String.format("%s_%s.%s", s[0], dtf.format(now), s[1]);
+
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
-                //throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                throw new RuntimeException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            //System.out.println(targetLocation);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             return fileName;
         } catch (IOException ex) {
-            //throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex)
+            //System.out.println(ex);
+            throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
         }
-		return fileName;
+		//return fileName;
     }
 
     public Resource loadFileAsResource(String fileName) {
