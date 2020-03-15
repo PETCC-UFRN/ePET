@@ -2,6 +2,7 @@ package br.ufrn.ePET.controller;
 
 import javax.validation.Valid;
 
+import br.ufrn.ePET.models.AuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,13 +58,23 @@ public class UsuarioController {
 		//}
 	}
 
-	@PostMapping(value="/usuarios-cadastrar/")
+	/*@PostMapping(value="/sign-up")
 	public ResponseEntity<?> saveUsuarios(@Valid @RequestBody UsuarioDTO usuarioDTO){
 		//try {
-			usuarioService.salvar(usuarioDTO);
+			usuarioService.signup(usuarioDTO);
 			return new ResponseEntity<>(HttpStatus.OK);
 		//} catch(Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
+	}*/
+
+	@PostMapping(value="/usuarios-atualizar/")
+	public ResponseEntity<?> updateUsuarios(@Valid @RequestBody AuthDTO authDTO){
+		//try {
+		usuarioService.atualizar(authDTO.getEmail(), authDTO.getSenha());
+		return new ResponseEntity<>(HttpStatus.OK);
+		//} catch(Exception e) {
+		//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
 	}
 	
