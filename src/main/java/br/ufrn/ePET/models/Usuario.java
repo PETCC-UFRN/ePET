@@ -22,6 +22,9 @@ public class Usuario {
 	@NotEmpty(message = "{email.not.blank}")
 	@Email(message = "{email.not.valid}")
 	private String email;
+
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private boolean validado;
 	
 	@Column
 	@NotEmpty(message = "{senha.not.blank}")
@@ -51,4 +54,11 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	public boolean isValidado() {
+		return validado;
+	}
+
+	public void setValidado(boolean validado) {
+		this.validado = validado;
+	}
 }
