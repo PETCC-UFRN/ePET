@@ -22,6 +22,7 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import br.ufrn.ePET.service.CustomUserDetailsService;
 import org.springframework.web.cors.CorsConfiguration;
 
+import static br.ufrn.ePET.security.SecurityConstants.SIGN_IN_URL;
 import static br.ufrn.ePET.security.SecurityConstants.SIGN_UP_URL;
 
 @Configuration
@@ -51,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		 http.authorizeRequests()
-				 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+				 .antMatchers(HttpMethod.POST, SIGN_IN_URL).permitAll()
 				 .antMatchers("/v2/**").permitAll()
 				 .antMatchers("/swagger-ui.html").permitAll()
 				 .antMatchers("/swagger-resources/**").permitAll()
@@ -59,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 .antMatchers("/configuration/ui/**").permitAll()
 				 .antMatchers("/configuration/security/**").permitAll()
 				 .antMatchers("/css/**", "/js/**", "/fonts/**").permitAll()
+				 .antMatchers("/api/validation/**").permitAll()
+				 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
 				 .anyRequest().authenticated();
 
 		 //http.exceptionHandling().accessDeniedHandler("/login");
