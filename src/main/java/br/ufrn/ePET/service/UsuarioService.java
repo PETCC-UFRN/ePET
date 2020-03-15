@@ -1,11 +1,16 @@
 package br.ufrn.ePET.service;
 
 import br.ufrn.ePET.error.CustomException;
+import br.ufrn.ePET.error.ResourceNotFoundException;
+import br.ufrn.ePET.models.*;
+import br.ufrn.ePET.repository.ValidadorUsuarioRepository;
 import br.ufrn.ePET.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -14,13 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.DuplicatedEntryException;
-import br.ufrn.ePET.models.Pessoa;
-import br.ufrn.ePET.models.Tipo_Usuario;
-import br.ufrn.ePET.models.Usuario;
-import br.ufrn.ePET.models.UsuarioDTO;
 import br.ufrn.ePET.repository.PessoaRepository;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
 import br.ufrn.ePET.repository.UsuarioRepository;
+
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.UUID;
 
 @Service
 public class UsuarioService {
@@ -28,7 +33,8 @@ public class UsuarioService {
 	private final UsuarioRepository usuarioRepository;
 	private final Tipo_UsuarioRepository tipoUsuarioRepository;
 	private final PessoaRepository pessoaRepository;
-
+	private final ValidadorUsuarioRepository validadorUsuarioRepository;
+	private JavaMailSender javaMailSender;
 	//@Autowired
 	//private PasswordEncoder passwordEncoder;
 
@@ -40,19 +46,25 @@ public class UsuarioService {
 
 	@Autowired
 	public UsuarioService(UsuarioRepository usuarioRepository, Tipo_UsuarioRepository tipoUsuarioRepository,
-			PessoaRepository pessoaRepository) {
+			PessoaRepository pessoaRepository, ValidadorUsuarioRepository validadorUsuarioRepository, JavaMailSender javaMailSender) {
 		this.usuarioRepository = usuarioRepository;
 		this.tipoUsuarioRepository = tipoUsuarioRepository;
 		this.pessoaRepository = pessoaRepository;
+		this.validadorUsuarioRepository = validadorUsuarioRepository;
+		this.javaMailSender = javaMailSender;
 	}
 
 	public String signin(String username, String password){
 		try{
 			Usuario u = usuarioRepository.findByEmail(username);
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-			return "Bearer " + jwtTokenProvider.createToken(username, pessoaRepository.findByUsuario(u).getTipo_usuario().getNome());
+			if(u.isValidado()){
+				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+				return "Bearer " + jwtTokenProvider.createToken(username, pessoaRepository.findByUsuario(u).getTipo_usuario().getNome());
+			} else {
+				throw new CustomException("Usuario nao validado", HttpStatus.UNPROCESSABLE_ENTITY);
+			}
 		} catch (AuthenticationException e) {
-			throw  new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
@@ -69,7 +81,7 @@ public class UsuarioService {
 		return usuarioRepository.findByEmail(email);
 	}
 	
-	public void salvar(UsuarioDTO usuarioDTO) {
+	public void signup(UsuarioDTO usuarioDTO) {
 		Usuario usuario = usuarioRepository.findByEmail(usuarioDTO.getEmail());
 		if(usuario == null) {
 			usuario = new Usuario();
@@ -94,7 +106,43 @@ public class UsuarioService {
 		} else {
 			throw new DuplicatedEntryException("Já existe uma pessoa cadastrada com esses dados!");
 		}
-	
+
+		ValidadorUsuario validadorUsuario = new ValidadorUsuario();
+		validadorUsuario.setUsuario(usuario);
+		validadorUsuario.setCode(generateCode());
+		validadorUsuarioRepository.save(validadorUsuario);
+		enviarEmail(validadorUsuario, pessoa);
+	}
+
+	public void enviarEmail(ValidadorUsuario validadorUsuario, Pessoa pessoa){
+		SimpleMailMessage smm = new SimpleMailMessage();
+		smm.setTo("abraaovld@gmail.com");
+		smm.setText("Olá " + pessoa.getNome() + "!\n"
+				+ "Esse é o seu código de ativação!\n" + "https://localhost:8443/api/validation/?code=" + validadorUsuario.getCode());
+		try {
+			javaMailSender.send(smm);
+		} catch (Exception e) {
+			throw new RuntimeException("Houve algum erro no envio do seu email!\n" + e);
+		}
+	}
+
+	public String generateCode(){
+		SecureRandom secureRandom = new SecureRandom(); //threadsafe
+		Base64.Encoder base64Encoder = Base64.getUrlEncoder();
+		byte[] randomBytes = new byte[24];
+		secureRandom.nextBytes(randomBytes);
+		return base64Encoder.encodeToString(randomBytes);
+	}
+
+	public void atualizar(String email, String senha){
+		Usuario usuario = usuarioRepository.findByEmail(email);
+		if(usuario != null){
+			usuario.setEmail(email);
+			usuario.setSenha(senha);
+			usuarioRepository.save(usuario);
+		} else {
+			throw new ResourceNotFoundException("Nenhum usuario encontrado!");
+		}
 	}
 	
 	
