@@ -61,6 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 .antMatchers("/configuration/security/**").permitAll()
 				 .antMatchers("/css/**", "/js/**", "/fonts/**").permitAll()
 				 .antMatchers("/api/validation/**").permitAll()
+				 .antMatchers("/api/noticia**").permitAll()
+				 .antMatchers("/api/eventos-abertos").permitAll()
 				 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
 				 .anyRequest().authenticated();
 
