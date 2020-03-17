@@ -116,9 +116,9 @@ public class UsuarioService {
 
 	public void enviarEmail(ValidadorUsuario validadorUsuario, Pessoa pessoa){
 		SimpleMailMessage smm = new SimpleMailMessage();
-		smm.setTo("abraaovld@gmail.com");
+		smm.setTo(pessoa.getUsuario().getEmail());
 		smm.setText("Olá " + pessoa.getNome() + "!\n"
-				+ "Esse é o seu código de ativação!\n" + "https://localhost:8443/api/validation/?code=" + validadorUsuario.getCode());
+				+ "Esse é o seu código de ativação!\n" + "https://epet.imd.ufrn.br:8443/api/validation/?code=" + validadorUsuario.getCode());
 		try {
 			javaMailSender.send(smm);
 		} catch (Exception e) {
