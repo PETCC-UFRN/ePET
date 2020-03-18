@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
 
+import br.com.uol.pagseguro.api.direct.preapproval.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -102,7 +103,7 @@ public class PagamentoService {
 		
 	}
 	
-	public void redirectPagseguro(String transaction_id) {
+	/*public void redirectPagseguro(String transaction_id) {
 		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
 				getCredentials(), PagSeguroEnv.SANDBOX);
 		TransactionDetail transaction = pagSeguro.transactions().search().byCode(transaction_id);
@@ -127,5 +128,13 @@ public class PagamentoService {
 		p.setStatus(t.getStatus().getStatus().name());
 		pagamentoRepository.save(p);
 		return p;
+	}*/
+
+	public void verifiarStatusPagamento(String nCode, String nType){
+		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
+				getCredentials(), PagSeguroEnv.SANDBOX);
+
+		TransactionDetail transactionDetail = pagSeguro.transactions().search().byNotificationCode(nCode);
+		System.out.println(transactionDetail.toString());
 	}
 }

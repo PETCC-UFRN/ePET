@@ -122,3 +122,17 @@
 13/01/2020 19:40:27 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Parseando XML de resposta
 13/01/2020 19:40:27 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Parseamento finalizado
 13/01/2020 19:40:27 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Checkout finalizado
+18/03/2020 00:04:23 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Iniciando checkout
+18/03/2020 00:04:23 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Convertendo valores
+18/03/2020 00:04:23 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Valores convertidos
+18/03/2020 00:04:23 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[FINE]: Parametros: RequestMap{map={reference=PETCC-1-1, itemId1=1, itemQuantity1=1, extraAmount=1.00, itemDescription1=teste pagseguro, currency=BRL, itemAmount1=10.00, paymentMethodConfigKey1_1=MAX_INSTALLMENTS_LIMIT, paymentMethodConfigValue1_1=1, paymentMethodGroup1=CREDIT_CARD}}
+18/03/2020 00:04:23 PagSeguro.br.com.uol.pagseguro.api.http.AuthenticatedHttpClient[INFO]: Correlation Id: 3561c842-6cd5-4407-b6af-f3272bafe525
+18/03/2020 00:04:23 PagSeguro.br.com.uol.pagseguro.api.http.JSEHttpClient[INFO]: Executando [POST] em [https://ws.sandbox.pagseguro.uol.com.br/v2/checkout?email=abraaovld@gmail.com&token=9068F1E6809245E08070D78DB8EAE14F&correlationId=3561c842-6cd5-4407-b6af-f3272bafe525]
+18/03/2020 00:04:23 PagSeguro.br.com.uol.pagseguro.api.http.JSEHttpClient[INFO]: Abrindo conexao
+18/03/2020 00:04:23 PagSeguro.br.com.uol.pagseguro.api.http.JSEHttpClient[INFO]: Escrevendo body
+18/03/2020 00:04:26 PagSeguro.br.com.uol.pagseguro.api.http.JSEHttpClient[INFO]: Lendo resposta
+18/03/2020 00:04:26 PagSeguro.br.com.uol.pagseguro.api.http.JSEHttpClient[INFO]: Fechando conexao
+18/03/2020 00:04:26 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[FINE]: Resposta: HttpResponse{responseAsString='<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?><checkout><code>67CCDA7D3333E42884A57FB41FD8E3A3</code><date>2020-03-18T00:04:24.000-03:00</date></checkout>', status=200}
+18/03/2020 00:04:26 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Parseando XML de resposta
+18/03/2020 00:04:26 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Parseamento finalizado
+18/03/2020 00:04:26 PagSeguro.br.com.uol.pagseguro.api.checkout.CheckoutsResource[INFO]: Checkout finalizado

@@ -5,11 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.ufrn.ePET.service.PagamentoService;
 
@@ -30,7 +26,7 @@ public class PagamentoController {
 		return new ResponseEntity<>(link, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/redirecionamento-pagamento")
+	/*@GetMapping(value = "/redirecionamento-pagamento")
 	public ResponseEntity<?> redirecionamento(@RequestParam("transaction_id") String transaction_id){
 		pagamentoService.redirectPagseguro(transaction_id);
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -44,5 +40,10 @@ public class PagamentoController {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
 		}
+	}*/
+	@PostMapping(value = "/pagseguro-notificacao/")
+	public ResponseEntity<?> verificar(@RequestParam("notificationCode") String nCode, @RequestParam("NotificationType") String nType){
+		pagamentoService.verifiarStatusPagamento(nCode, nType);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
