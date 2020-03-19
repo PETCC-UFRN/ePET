@@ -9,5 +9,5 @@ import br.ufrn.ePET.models.Pagamento;
 
 public interface PagamentoRepository extends JpaRepository<Pagamento, Long>{
 	@Query(value = "SELECT * FROM pagamento WHERE referencia_pagseguro = ?", nativeQuery = true)
-	List<Pagamento> findByReferencia(String referencia);
+	Pagamento findByReferencia(String referencia);
 }
