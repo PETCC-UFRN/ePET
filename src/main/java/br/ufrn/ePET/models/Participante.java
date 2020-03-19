@@ -28,7 +28,7 @@ public class Participante {
 	private boolean confirmado;
 	
 	//@NotEmpty
-	@Column (columnDefinition = "BOOLEAN DEFAULT TRUE")
+	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private boolean espera;
 
 	public long getIdParticipantes() {
