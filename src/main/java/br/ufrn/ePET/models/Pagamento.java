@@ -1,6 +1,9 @@
 package br.ufrn.ePET.models;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,16 +21,15 @@ public class Pagamento {
 	private int idPagamento;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_pessoa")
-	private Pessoa pessoa;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_evento")
-	private Evento evento;
-	
+	@JoinColumn(name = "id_participante")
+	private Participante participante;
+
 	@Column(columnDefinition = "DATE")
-	private LocalDate data;
-	
+	private Date data_criacao;
+
+	@Column(columnDefinition = "DATE")
+	private Date data_atualizacao;
+
 	private String status;
 	
 	private String referencia_pagseguro;
@@ -42,28 +44,28 @@ public class Pagamento {
 		this.idPagamento = idPagamento;
 	}
 
-	public Pessoa getPessoa() {
-		return pessoa;
+	public Participante getParticipante() {
+		return participante;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setParticipante(Participante participante) {
+		this.participante = participante;
 	}
 
-	public Evento getEvento() {
-		return evento;
+	public Date getData_criacao() {
+		return data_criacao;
 	}
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
+	public void setData_criacao(Date data_criacao) {
+		this.data_criacao = data_criacao;
 	}
 
-	public LocalDate getData() {
-		return data;
+	public Date getData_atualizacao() {
+		return data_atualizacao;
 	}
 
-	public void setData(LocalDate data) {
-		this.data = data;
+	public void setData_atualizacao(Date data_atualizacao) {
+		this.data_atualizacao = data_atualizacao;
 	}
 
 	public String getStatus() {
