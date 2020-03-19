@@ -8,7 +8,10 @@ import java.time.ZoneId;
 import java.util.List;
 
 import br.com.uol.pagseguro.api.direct.preapproval.Transaction;
+import br.ufrn.ePET.models.Participante;
+import br.ufrn.ePET.repository.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Service;
 
 import br.com.uol.pagseguro.api.PagSeguro;
@@ -42,38 +45,46 @@ public class PagamentoService {
 	private final String TOKEN = "9068F1E6809245E08070D78DB8EAE14F";
 	private final EventoRepository eventoRepository;
 	private final PessoaRepository pessoaRepository;
+	private final ParticipanteRepository participanteRepository;
 	
 	@Autowired
-	public PagamentoService(PagamentoRepository pagamentoRepository, EventoRepository eventoRepository, PessoaRepository pessoaRepository) {
+	public PagamentoService(PagamentoRepository pagamentoRepository, EventoRepository eventoRepository, PessoaRepository pessoaRepository, ParticipanteRepository participanteRepository) {
 		this.pagamentoRepository = pagamentoRepository;
 		this.eventoRepository = eventoRepository;
 		this.pessoaRepository = pessoaRepository;
+		this.participanteRepository = participanteRepository;
 	}
 	
 	private Credential getCredentials() {
 		return Credential.sellerCredential(EMAIL, TOKEN);
 	}
 	
-	public String criarPagamento(Long id_evento, Long id_pessoa){
-		Evento evento = new Evento();
-		if(eventoRepository.findById(id_evento).isPresent())
+	public String criarPagamento(Long id_participante){
+		//Evento evento = new Evento();
+		/*if(eventoRepository.findById(id_evento).isPresent())
 			evento = eventoRepository.findById(id_evento).get();
 		else throw new ResourceNotFoundException("Evento com id "+ id_evento + " não encontrado");
 		
 		Pessoa pessoa = new Pessoa();
 		if(pessoaRepository.findById(id_pessoa).isPresent())
 			pessoa = pessoaRepository.findById(id_pessoa).get();
-		else throw new ResourceNotFoundException("Pessoa com id "+ id_pessoa + " não encontrada");
+		else throw new ResourceNotFoundException("Pessoa com id "+ id_pessoa + " não encontrada");*/
+		Participante participante = new Participante();
+		if(participanteRepository.findById(id_participante).isPresent())
+			participante = participanteRepository.findById(id_participante).get();
+		else throw new ResourceNotFoundException("Participante com id "+ id_participante + " não encontrada");
 		
 		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
 				getCredentials(), PagSeguroEnv.SANDBOX);
 		
-		
+		Pessoa pessoa = participante.getPessoa();
+		Evento evento = participante.getEvento();
+
 		RegisteredCheckout registeredCheckout = pagSeguro.checkouts().register(
 				new CheckoutRegistrationBuilder()
 				.withCurrency(Currency.BRL)
 				.withExtraAmount(BigDecimal.ONE)
-				.withReference("PETCC-"+id_pessoa+"-"+id_evento)
+				.withReference("PETCC-"+participante.getPessoa().getIdPessoa()+"-"+participante.getEvento().getIdEvento())
 				.addItem(new PaymentItemBuilder()
 						.withId(evento.getIdEvento() + "")
 						.withDescription(evento.getDescricao())
@@ -95,24 +106,34 @@ public class PagamentoService {
 				);
 	
 		Pagamento p = new Pagamento();
-		p.setPessoa(pessoa);
-		p.setEvento(evento);
-		p.setReferencia_pagseguro("PETCC-"+id_pessoa+"-"+id_evento);
+		p.setParticipante(participante);
+		p.setReferencia_pagseguro("PETCC-"+pessoa.getIdPessoa()+"-"+evento.getIdEvento());
 		pagamentoRepository.save(p);
 		return registeredCheckout.getRedirectURL();
 		
 	}
 	
-	/*public void redirectPagseguro(String transaction_id) {
+	public void redirectPagseguro(String transaction_id) {
 		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
 				getCredentials(), PagSeguroEnv.SANDBOX);
-		TransactionDetail transaction = pagSeguro.transactions().search().byCode(transaction_id);
+		TransactionDetail transactionDetail = pagSeguro.transactions().search().byCode(transaction_id);
 		//System.out.println(transaction.getReference());
-		List<Pagamento> p = pagamentoRepository.findByReferencia(transaction.getReference());
-		p.get(0).setId_transacao_pagseguro(transaction_id);
-		pagamentoRepository.save(p.get(0));
+		//List<Pagamento> p = pagamentoRepository.findByReferencia(transaction.getReference());
+		//p.get(0).setId_transacao_pagseguro(transaction_id);
+		//pagamentoRepository.save(p.get(0));
+		Pagamento p  = pagamentoRepository.findByReferencia(transactionDetail.getReference());
+		if(p != null){
+			p.setData_criacao(transactionDetail.getDate());
+			p.setData_atualizacao(transactionDetail.getLastEvent());
+			p.setId_transacao_pagseguro(transactionDetail.getCode());
+			p.setStatus(transactionDetail.getStatus().getStatus().toString());
+			pagamentoRepository.save(p);
+		} else {
+			throw new ResourceNotFoundException("Nenhuma solicitação de pagamento encontrada!");
+		}
+
 	}
-	
+	/*
 	public Pagamento verificarStatusPagamento(String reference) throws IOException{
 		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
 				getCredentials(), PagSeguroEnv.SANDBOX);
@@ -133,8 +154,36 @@ public class PagamentoService {
 	public void verifiarStatusPagamento(String nCode, String nType){
 		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
 				getCredentials(), PagSeguroEnv.SANDBOX);
-
+		//System.out.println("Rodou ate aqui");
 		TransactionDetail transactionDetail = pagSeguro.transactions().search().byNotificationCode(nCode);
-		System.out.println(transactionDetail.toString());
+		//System.out.println(transactionDetail.getReference());
+		Pagamento p  = pagamentoRepository.findByReferencia(transactionDetail.getReference());
+		if(p != null){
+			p.setData_criacao(transactionDetail.getDate());
+			p.setData_atualizacao(transactionDetail.getLastEvent());
+			p.setId_transacao_pagseguro(transactionDetail.getCode());
+			p.setStatus(transactionDetail.getStatus().getStatus().toString());
+			pagamentoRepository.save(p);
+			if(transactionDetail.getStatus().getStatusId() == 3){
+				Participante participante = p.getParticipante();
+				if(participante != null){
+					participante.setConfirmado(true);
+					participanteRepository.save(participante);
+				} else {
+					throw new ResourceNotFoundException("Não encontramos o participante");
+				}
+			} else if(transactionDetail.getStatus().getStatusId() >= 5) {
+				Participante participante = p.getParticipante();
+				if(participante != null){
+					participante.setConfirmado(false);
+					participanteRepository.save(participante);
+				} else {
+					throw new ResourceNotFoundException("Não encontramos o participante");
+				}
+			}
+		} else {
+			throw new ResourceNotFoundException("Nenhuma solicitação de pagamento encontrada!");
+		}
+
 	}
 }
