@@ -21,17 +21,18 @@ public class PagamentoController {
 	}
 	
 	@GetMapping(value = "/criar-pagamento/{id_pessoa}/{id_evento}")
-	public ResponseEntity<?> pagar(@PathVariable Long id_pessoa, @PathVariable Long id_evento){
-		String link = pagamentoService.criarPagamento(id_evento, id_pessoa);
+	public ResponseEntity<?> pagar(@PathVariable Long id_participante){
+		String link = pagamentoService.criarPagamento(id_participante);
 		return new ResponseEntity<>(link, HttpStatus.OK);
 	}
 	
-	/*@GetMapping(value = "/redirecionamento-pagamento")
+	@GetMapping(value = "/redirecionamento-pagamento/")
 	public ResponseEntity<?> redirecionamento(@RequestParam("transaction_id") String transaction_id){
 		pagamentoService.redirectPagseguro(transaction_id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
+	/*
 	@GetMapping(value = "/verificar-status/{reference}")
 	public ResponseEntity<?> verificar(@PathVariable String reference){
 		try {
@@ -42,7 +43,8 @@ public class PagamentoController {
 		}
 	}*/
 	@PostMapping(value = "/pagseguro-notificacao/")
-	public ResponseEntity<?> verificar(@RequestParam("notificationCode") String nCode, @RequestParam("NotificationType") String nType){
+	public ResponseEntity<?> verificar(@RequestParam("notificationCode") String nCode, @RequestParam("notificationType") String nType){
+		System.out.println();
 		pagamentoService.verifiarStatusPagamento(nCode, nType);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
