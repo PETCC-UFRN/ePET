@@ -63,7 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 .antMatchers("/api/validation/**").permitAll()
 				 .antMatchers("/api/noticia**").permitAll()
 				 .antMatchers("/api/eventos-abertos").permitAll()
-				 .antMatchers(HttpMethod.POST, "**/api/pagseguro-notificacao/").permitAll()
+				 .antMatchers(HttpMethod.POST, "/api/pagseguro-notificacao/**").permitAll()
+				 .antMatchers("/api/redirecionamento-pagamento/**").permitAll()
 				 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
 				 .anyRequest().authenticated();
 
