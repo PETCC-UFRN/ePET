@@ -11,7 +11,7 @@ import br.ufrn.ePET.models.Participante;
 
 public interface ParticipanteRepository extends JpaRepository<Participante, Long> {
 	
-	@Query(value = "SELECT count(id_participante) FROM participante WHERE id_evento = 1 AND confirmado = true;", nativeQuery = true)
+	@Query(value = "SELECT count(id_participante) FROM participante WHERE id_evento = ?1 AND confirmado = true;", nativeQuery = true)
 	int countAtivos(Long id);
 	
 	List<Participante> findByEspera(boolean espera);
@@ -24,4 +24,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante, Long
 
 	@Query(value = "SELECT u.id_participante, u.confirmado, u.espera, u.id_evento, u.id_pessoa FROM participante u INNER JOIN evento e ON e.id_evento = u.id_evento WHERE e.titulo LIKE %?1%", nativeQuery = true)
 	Page<Participante> findByTituloEvento(String titulo, Pageable pageable);
+
+	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ?1 AND u.id_evento = ?2", nativeQuery = true)
+	Participante findByPessoaAndAndEvento(Long id_pessoa, Long id_evento);
 }
