@@ -37,6 +37,12 @@ public class Evento {
 	@Column(columnDefinition = "DATE")
 	private LocalDate d_inscricao_fim;
 	
+	@Column(columnDefinition = "DATE")
+	private LocalDate d_evento_inicio;
+	
+	@Column(columnDefinition = "DATE")
+	private LocalDate d_evento_fim;
+	
 	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private boolean ativo;
 	
@@ -154,4 +160,21 @@ public class Evento {
 	public void setD_inscricao_fim(LocalDate d_inscricao_fim) {
 		this.d_inscricao_fim = d_inscricao_fim;
 	}
+
+	public LocalDate getD_evento_inicio() {
+		return d_evento_inicio;
+	}
+
+	public void setD_evento_inicio(LocalDate d_evento_inicio) {
+		this.d_evento_inicio = d_evento_inicio;
+	}
+
+	public LocalDate getD_evento_fim() {
+		return d_evento_fim;
+	}
+
+	public void setD_evento_fim(LocalDate d_evento_fim) {
+		this.d_evento_fim = d_evento_fim;
+	}
+	
 }
