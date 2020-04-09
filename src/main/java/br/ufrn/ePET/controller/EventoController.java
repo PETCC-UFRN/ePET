@@ -50,7 +50,7 @@ public class EventoController {
 	@GetMapping(value = "/eventos-abertos")
 	public ResponseEntity<?> getEventosAbertos(Pageable pageable){
 		//try {
-			List<Evento> page = eventoService.buscarAtivos(pageable);
+			List<Evento> page = eventoService.buscarAtivos();
 			if(page.isEmpty()) {
 				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
 			}
