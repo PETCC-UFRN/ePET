@@ -23,7 +23,6 @@ public class Disciplina {
 	private String codigo;
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-	@NotEmpty
 	private boolean ativo;
 
 	public long getIdDisciplina() {
