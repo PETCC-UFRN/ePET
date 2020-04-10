@@ -1,5 +1,6 @@
 package br.ufrn.ePET.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,7 @@ public class ParticipanteService {
 			throw new ResourceNotFoundException("Pessoa com id "+ id_evento + " não encontrada.");
 		p.setEvento(e);
 		p.setPessoa(pe);
+		p.setData_maxima(LocalDate.now().plusDays(5));
 		int ativos =  participanteRepository.countAtivos(e.getIdEvento());
 		if(!(ativos < e.getQtdVagas())) {
 			p.setEspera(true);
@@ -79,7 +81,7 @@ public class ParticipanteService {
 		participanteRepository.save(p);
 	}
 	
-	public void remover(Long id) {
+	public Participante remover(Long id) {
 		//Participante p = participanteRepository.findById(id).get();
 		Participante p = participanteRepository.findById(id).isPresent() ? 
 				participanteRepository.findById(id).get(): null;
@@ -89,13 +91,15 @@ public class ParticipanteService {
 			participanteRepository.deleteById(p.getIdParticipantes());
 		} else {
 			participanteRepository.deleteById(p.getIdParticipantes());
-			List<Participante> lista = participanteRepository.findByEspera(true);
-			if(lista.size() > 0) {
-				lista.get(0).setEspera(false);
-				participanteRepository.save(lista.get(0));
+			Participante lista = participanteRepository.findByEspera(p.getEvento().getIdEvento(), true);
+			if(lista != null) {
+				lista.setEspera(false);
+				lista.setData_maxima(LocalDate.now().plusDays(5));
+				participanteRepository.save(lista);
+				return lista;
 			}
 		}
-		
+		return null;
 	}
 	
 	public void confirmar(Long id) {

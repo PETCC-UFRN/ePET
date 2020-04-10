@@ -34,12 +34,12 @@ public class EventoService {
 		return eventList;
 	}
 	
-	public List<Evento> buscarAtivos(Pageable pageable){
+	public List<Evento> buscarAtivos(){
 		//Page<Evento> lista = eventoRepository.findAll(pageable);
 		List<Evento> lista_aux = eventoRepository.findAll();
 		LocalDate ld = LocalDate.now();
 		for(Evento e : lista_aux) {
-			if(!(ld.compareTo(e.getD_inscricao()) >= 0) && !(ld.compareTo(e.getD_inscricao_fim()) >= 0)) {
+			if((ld.compareTo(e.getD_inscricao()) < 0) && (ld.compareTo(e.getD_inscricao_fim()) > 0) && !e.isAtivo()) {
 				lista_aux.remove(e);
 			}
 		}
