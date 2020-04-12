@@ -38,9 +38,9 @@ public class NoticiaController {
 	@CrossOrigin(origins="*")
 	public ResponseEntity<?> getNoticias(Pageable pageable){
 		Page<Noticia> page = noticiaService.buscar(pageable);
-		if(page.isEmpty()) {
+		/*if(page.isEmpty()) {
 			throw new ResourceNotFoundException("Não há notícias cadastradas");
-		}
+		}*/
 		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
 	
