@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ public class FrequenciaController {
 	}
 	
 	@GetMapping(value = "/frequencia")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getFrequencia(Pageable pageable){
 		Page<Frequencia> f = frequenciaService.buscar(pageable);
 		if(f.isEmpty()) {
@@ -38,6 +40,7 @@ public class FrequenciaController {
 	}
 	
 	@GetMapping(value = "/frequencia/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getFrequencia(@PathVariable Long id){
 		Frequencia f = frequenciaService.buscar(id);
 		if(f == null) {
@@ -47,11 +50,13 @@ public class FrequenciaController {
 	}
 	
 	@GetMapping(value = "frequencia-pessoa/{id_participante}/{id_evento}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getFrequenciaPessoa(@PathVariable Long id_participante, @PathVariable Long id_evento){
 		return new ResponseEntity<>(frequenciaService.buscarPorParticipante(id_participante, id_evento), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "frequencia-cadastrar/{id_periodo_evento}/{id_participante}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> salvarFrequencia(@PathVariable Long id_periodo_evento, 
 			@PathVariable Long id_participante, @RequestBody Frequencia f){
 		frequenciaService.salvar(id_periodo_evento, id_participante, f);
@@ -59,6 +64,7 @@ public class FrequenciaController {
 	}
 	
 	@DeleteMapping(value = "frequencia-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> removerFrequencia(@PathVariable Long id){
 		frequenciaService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);

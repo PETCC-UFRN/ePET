@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,7 @@ public class Periodo_EventoController {
 	}
 	
 	@GetMapping(value = "/periodo-evento")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPeriodoEvento(Pageable pageable){
 		Page<Periodo_Evento> pe = periodo_EventoService.buscar(pageable);
@@ -41,6 +43,7 @@ public class Periodo_EventoController {
 	}
 	
 	@GetMapping(value = "/periodo-evento/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getPeriodoEvento(@PathVariable Long id){
 		Periodo_Evento pe = periodo_EventoService.buscar(id);
 		if(pe == null) {
@@ -50,6 +53,7 @@ public class Periodo_EventoController {
 	}
 	
 	@ApiOperation(value = "buscar periodo de eventos pelo id de um evento específico")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@GetMapping(value = "/periodo-evento-buscar/{id}")
 	public ResponseEntity<?> getPeriodoEventoBuscar(@PathVariable Long id_evento, Pageable pageable){
 		Page<Periodo_Evento> pe = periodo_EventoService.buscarPorEvento(id_evento, pageable);
@@ -59,6 +63,7 @@ public class Periodo_EventoController {
 	}
 	
 	@PostMapping(value = "periodo-evento-cadastar/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> salvarPeriodoEvento(@PathVariable Long id, @RequestBody Periodo_Evento pe){
 		periodo_EventoService.salvar(id, pe);
@@ -66,6 +71,7 @@ public class Periodo_EventoController {
 	}
 	
 	@DeleteMapping(value = "periodo-evento-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removerPeriodoEvento(@PathVariable Long id){
 		periodo_EventoService.delete(id);

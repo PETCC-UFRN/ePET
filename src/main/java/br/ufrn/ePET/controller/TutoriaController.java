@@ -1,6 +1,7 @@
 package br.ufrn.ePET.controller;
 
 import br.ufrn.ePET.models.Petiano;
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,7 @@ public class TutoriaController {
 	}
 	
 	@GetMapping(value="/tutorias")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutorias(Pageable pageable){
 		Page<Tutoria> tutorias = tutoriaService.buscar(pageable);
@@ -41,6 +43,7 @@ public class TutoriaController {
 	}
 	
 	@GetMapping(value="/tutorias/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoria(@PathVariable Long id){
 		Tutoria tutoria = tutoriaService.buscar(id);
@@ -52,6 +55,7 @@ public class TutoriaController {
 	}
 
 	@GetMapping(value = "/pesquisar-petiano-tutoria/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriaPetiano(@PathVariable String search, Pageable pageable){
 		Page<Tutoria> tutorias = tutoriaService.buscarPorNomeOuCpfPetiano(search, pageable);
@@ -63,6 +67,7 @@ public class TutoriaController {
 	}
 
 	@GetMapping(value = "/pesquisar-disciplina-tutoria/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriaDisciplina(@PathVariable String search, Pageable pageable){
 		Page<Tutoria> tutorias = tutoriaService.buscarPorNomeOuCodigoDisciplina(search, pageable);
@@ -75,6 +80,7 @@ public class TutoriaController {
 
 
 	@PostMapping(value="/tutoria-cadastro/{id_petiano}/{id_disciplina}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveTutoria(@PathVariable Long id_petiano, @PathVariable Long id_disciplina){
 		Tutoria tutoria = new Tutoria();
@@ -83,6 +89,7 @@ public class TutoriaController {
 	}
 	
 	@DeleteMapping(value = "/tutoria-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> deleteTutoria(@PathVariable Long id){
 		tutoriaService.remover(id);

@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ public class Tipo_UsuarioController {
 	}
 
 	@GetMapping(value="/tipo-usuario")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> getTiposUsuario(){
 		try {
@@ -37,6 +39,7 @@ public class Tipo_UsuarioController {
 	}
 	
 	@GetMapping(value="/tipo-usuario/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> getTiposUsuario(@PathVariable Long id){
 		try {
@@ -48,6 +51,7 @@ public class Tipo_UsuarioController {
 	}
 	
 	@PostMapping(value="/tipo-usuario-cadastro/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> saveTiposUsuario(@PathVariable Long id, @RequestBody Tipo_Usuario tipo_Usuario){
 		

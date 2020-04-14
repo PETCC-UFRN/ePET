@@ -2,6 +2,7 @@ package br.ufrn.ePET.controller;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,6 +61,7 @@ public class PetianoController {
 	}
 
 	@GetMapping(value="/petianos/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public Petiano getPetianos(@PathVariable Long id){
 		Petiano petiano = petianoservice.buscar(id);
@@ -69,6 +71,7 @@ public class PetianoController {
 	}
 
 	@GetMapping(value = "pesquisar-petiano/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPetianosPorNomeOuCpf(@PathVariable String search, Pageable pageable){
 		Page<Petiano> petianos = petianoservice.buscarPorNomeOuCpf(search, pageable);
@@ -80,6 +83,7 @@ public class PetianoController {
 	}
 
 	@PostMapping(value="/petianos-cadastro/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> savePetianos(@PathVariable Long id, @Valid @RequestBody Petiano petiano){
 		//try{
@@ -91,6 +95,7 @@ public class PetianoController {
 	}
 
 	@DeleteMapping(value="/petianos-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> removePetianos(@PathVariable Long id){
 		Petiano petiano = petianoservice.buscar(id);
@@ -106,6 +111,7 @@ public class PetianoController {
 
 
 	@PutMapping(value="/petianos-editar/{id_pessoa}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> editaPetianos(@PathVariable Long id_pessoa , @Valid @RequestBody Petiano petiano){
 		//try{
@@ -118,6 +124,7 @@ public class PetianoController {
 	}
 	
 	@GetMapping(value = "/petianos-pessoa/{id_pessoa}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	//@Secured({"ROLE_tutor"})
 	public ResponseEntity<?> getPetianosPorPessoa(@PathVariable Long id_pessoa){
 		Petiano petiano = petianoservice.buscarPorPessoa(id_pessoa);

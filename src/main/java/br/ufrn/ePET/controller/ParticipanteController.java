@@ -1,6 +1,7 @@
 package br.ufrn.ePET.controller;
 
 import br.ufrn.ePET.models.Pessoa;
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,7 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantes(Pageable pageable){
 		Page<Participante> participantes = participanteService.buscar(pageable);
@@ -43,6 +45,7 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getParticipantes(@PathVariable Long id){
 		Participante participantes = participanteService.buscar(id);
 		if (participantes.isEspera())
@@ -55,6 +58,7 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes-pessoa/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getParticipantesPessoa(@PathVariable Long id, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPessoa(id, pageable);
 		if (participantes.isEmpty())
@@ -67,6 +71,7 @@ public class ParticipanteController {
 	}
 
 	@GetMapping(value = "pesquisar-pessoa-participante/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantesPorPessoa(@PathVariable String search, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPorNomeOuCpfPessoa(search, pageable);
@@ -78,6 +83,7 @@ public class ParticipanteController {
 	}
 
 	@GetMapping(value = "pesquisar-evento-participante/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantesPorEvento(@PathVariable String search, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPorTituloEvento(search, pageable);
@@ -89,6 +95,7 @@ public class ParticipanteController {
 	}
 	
 	@PostMapping(value = "/participantes-cadastrar/{id_evento}/{id_pessoa}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> salvarParticipantes(@PathVariable Long id_evento, @PathVariable Long id_pessoa){
 		participanteService.salvar(id_evento, id_pessoa);
@@ -96,6 +103,7 @@ public class ParticipanteController {
 	}
 	
 	@DeleteMapping(value = "/participantes-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> deleteParticipantes(@PathVariable Long id){
 		participanteService.remover(id);
@@ -103,6 +111,7 @@ public class ParticipanteController {
 	}
 	
 	@PostMapping(value = "/participantes-confirmar/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> confirmarParticipantes(@PathVariable Long id){
 		participanteService.confirmar(id);
