@@ -36,8 +36,8 @@ public class Periodo_EventoController {
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPeriodoEvento(Pageable pageable){
 		Page<Periodo_Evento> pe = periodo_EventoService.buscar(pageable);
-		if (pe.isEmpty())
-			throw new ResourceNotFoundException("Nenhum periodo de evento cadastrado");
+		/*if (pe.isEmpty())
+			throw new ResourceNotFoundException("Nenhum periodo de evento cadastrado");*/
 		//try {
 		return new ResponseEntity<>(pe, HttpStatus.OK);
 	}

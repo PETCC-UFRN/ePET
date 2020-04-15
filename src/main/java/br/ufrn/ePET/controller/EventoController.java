@@ -40,9 +40,9 @@ public class EventoController {
 	public ResponseEntity<?> getEventos(Pageable pageable){
 		//try {
 			Page<Evento> page = eventoService.buscar(pageable);
-			if(page.isEmpty()) {
+			/*if(page.isEmpty()) {
 				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
-			}
+			}*/
 			return new ResponseEntity<>(page, HttpStatus.OK);
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -53,9 +53,9 @@ public class EventoController {
 	public ResponseEntity<?> getEventosAbertos(Pageable pageable){
 		//try {
 			List<Evento> page = eventoService.buscarAtivos();
-			if(page.isEmpty()) {
+			/*if(page.isEmpty()) {
 				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
-			}
+			}*/
 			return new ResponseEntity<>(page, HttpStatus.OK);
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);

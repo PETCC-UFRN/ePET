@@ -35,8 +35,8 @@ public class ParticipanteController {
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantes(Pageable pageable){
 		Page<Participante> participantes = participanteService.buscar(pageable);
-		if (participantes.isEmpty())
-			throw new ResourceNotFoundException("Nenhum participante cadastrado");
+		/*if (participantes.isEmpty())
+			throw new ResourceNotFoundException("Nenhum participante cadastrado");*/
 		//try {
 			return new ResponseEntity<>(participantes, HttpStatus.OK);
 		//} catch (Exception e) {

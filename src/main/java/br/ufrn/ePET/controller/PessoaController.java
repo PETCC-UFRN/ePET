@@ -44,9 +44,9 @@ public class PessoaController {
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPessoas(Pageable pageable){
 		Page<Pessoa> pessoas = pessoaservice.buscar(pageable);
-		if (pessoas.isEmpty()) {
+		/*if (pessoas.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhuma pessoa cadastrada!");
-		}
+		}*/
 		//try {
 			return new ResponseEntity<>(pessoas, HttpStatus.OK);
 		//} catch (Exception e) {

@@ -45,8 +45,8 @@ public class Tutoria_MinistradaController {
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriasMinistradas(Pageable pageable){
 		Page<Tutoria_Ministrada> tutorias = tutoria_MinistradaService.buscar(pageable);
-		if( tutorias.isEmpty() )
-			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");
+		/*if( tutorias.isEmpty() )
+			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");*/
 		
 		return new ResponseEntity<>(tutorias, HttpStatus.OK);
 	}

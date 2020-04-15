@@ -36,8 +36,8 @@ public class PetianoController {
 	@GetMapping(value="/petianos-atuais")
 	public ResponseEntity<?> getPetianosAtuais(Pageable pageable){
 		Page<Petiano> petianos = petianoservice.buscarAtuais(pageable);
-		if (petianos.isEmpty())
-			throw new ResourceNotFoundException("Nenhum petiano cadastrado!");
+		/*if (petianos.isEmpty())
+			throw new ResourceNotFoundException("Nenhum petiano cadastrado!");*/
 		//try {
 			return new ResponseEntity<>(petianos, HttpStatus.OK);
 		//} catch (Exception e) {
@@ -50,8 +50,8 @@ public class PetianoController {
 	@GetMapping(value="/petianos-antigos")
 	public ResponseEntity<?> getPetianosAntigos(Pageable pageable){
 		Page<Petiano> petianos = petianoservice.buscarAntigos(pageable);
-		if (petianos.isEmpty())
-			throw new ResourceNotFoundException("Nenhum petiano cadastrado!");
+		/*if (petianos.isEmpty())
+			throw new ResourceNotFoundException("Nenhum petiano cadastrado!");*/
 		//try {
 			return new ResponseEntity<>(petianos, HttpStatus.OK);
 		//} catch (Exception e) {

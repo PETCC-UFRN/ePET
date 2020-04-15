@@ -33,9 +33,9 @@ public class FrequenciaController {
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getFrequencia(Pageable pageable){
 		Page<Frequencia> f = frequenciaService.buscar(pageable);
-		if(f.isEmpty()) {
+		/*if(f.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhuma frequencia achada");
-		}
+		}*/
 		return new ResponseEntity<>(f, HttpStatus.OK);
 	}
 	

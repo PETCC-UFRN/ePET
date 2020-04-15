@@ -36,8 +36,8 @@ public class OrganizadoresController {
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getOrganizadores(Pageable pageable){
 		Page<Organizadores> organizadores = organizadoresService.buscar(pageable);
-		if (organizadores.isEmpty())
-			throw new ResourceNotFoundException("Nenhum organizador cadastrado.");
+		/*if (organizadores.isEmpty())
+			throw new ResourceNotFoundException("Nenhum organizador cadastrado.");*/
 		//try {
 			return new ResponseEntity<>(organizadores, HttpStatus.OK);
 		//} catch (Exception e) {
