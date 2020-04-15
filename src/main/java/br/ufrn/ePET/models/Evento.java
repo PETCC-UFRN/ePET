@@ -43,6 +43,9 @@ public class Evento {
 	@Column(columnDefinition = "DATE")
 	private LocalDate fim_rolagem;
 
+	@Column(columnDefinition = "INT DEFAULT 5")
+	private int dias_compensacao;
+
 	@Column
 	private int percentual;
 
@@ -186,5 +189,13 @@ public class Evento {
 
 	public void setPercentual(int percentual) {
 		this.percentual = percentual;
+	}
+
+	public int getDias_compensacao() {
+		return dias_compensacao;
+	}
+
+	public void setDias_compensacao(int dias_compensacao) {
+		this.dias_compensacao = dias_compensacao;
 	}
 }
