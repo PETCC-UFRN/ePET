@@ -30,4 +30,10 @@ public class AuthController {
         //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         //}
     }
+
+    @GetMapping(value = "/forgot")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email){
+        usuarioService.esqueceuSenha(email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
