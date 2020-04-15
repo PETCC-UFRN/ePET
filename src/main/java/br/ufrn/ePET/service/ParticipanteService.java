@@ -73,7 +73,7 @@ public class ParticipanteService {
 			throw new ResourceNotFoundException("Pessoa com id "+ id_evento + " não encontrada.");
 		p.setEvento(e);
 		p.setPessoa(pe);
-		p.setData_maxima(LocalDate.now().plusDays(5));
+		p.setData_maxima(LocalDate.now().plusDays(e.getDias_compensacao()));
 		int ativos =  participanteRepository.countAtivos(e.getIdEvento());
 		if(!(ativos < e.getQtdVagas())) {
 			p.setEspera(true);
@@ -94,7 +94,7 @@ public class ParticipanteService {
 			Participante lista = participanteRepository.findByEspera(p.getEvento().getIdEvento(), true);
 			if(lista != null) {
 				lista.setEspera(false);
-				lista.setData_maxima(LocalDate.now().plusDays(5));
+				lista.setData_maxima(LocalDate.now().plusDays(lista.getEvento().getDias_compensacao()));
 				participanteRepository.save(lista);
 				return lista;
 			}

@@ -49,7 +49,7 @@ public class RolagemFilaService {
                     enviarEmail(participante);
                 } else if (participanteRepository.countAtivos(e.getIdEvento()) < e.getQtdVagas()){
                     Participante p_ = participanteRepository.findByEspera(e.getIdEvento(), true);
-                    p_.setData_maxima(LocalDate.now().plusDays(5));
+                    p_.setData_maxima(LocalDate.now().plusDays(p_.getEvento().getDias_compensacao()));
                     p_.setEspera(false);
                     enviarEmail(p_);
                 }
