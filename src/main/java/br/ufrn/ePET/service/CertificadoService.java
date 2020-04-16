@@ -19,9 +19,6 @@ import br.ufrn.ePET.repository.CertificadoRepository;
 import br.ufrn.ePET.repository.ParticipanteRepository;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 
 @Service
@@ -81,12 +78,12 @@ public class CertificadoService {
             PdfStamper pdfStamper = new PdfStamper(pdfReader,
                     new FileOutputStream(pathSaida));
 
-            Image image = Image.getInstance("./assinatura/assin.png");
+            //Image image = Image.getInstance("./assinatura/assin.png");
 
             //Inserindo assinatura
             PdfContentByte content = pdfStamper.getOverContent(1);
-            image.setAbsolutePosition(590f, 60f);
-            content.addImage(image);
+            //image.setAbsolutePosition(590f, 60f);
+            //content.addImage(image);
 
             //Inserindo texto
             Rectangle rectText = new Rectangle(130, 350, 715, 180);
@@ -102,7 +99,18 @@ public class CertificadoService {
             paragraphText.setAlignment(Element.ALIGN_JUSTIFIED);
             ctText.addElement(paragraphText);
             ctText.go();
-
+            
+            //Inserindo texto
+            Rectangle rectLink = new Rectangle(83, 20, 515, 60);
+            rectLink.setBorder(Rectangle.BOX);
+            content.rectangle(rectLink);
+            ColumnText ctLink= new ColumnText(content);
+            ctLink.setSimpleColumn(rectLink);
+            Font catLink = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
+            Paragraph paragraphLink = new Paragraph("Para validar essa declaração acesse: https://epet.imd.ufrn.br/validacao", catLink);
+            paragraphLink.setAlignment(Element.ALIGN_JUSTIFIED);
+            ctLink.addElement(paragraphLink);
+            ctLink.go();
 
             //Inserindo data
             Rectangle rectData = new Rectangle(390, 150, 715, 180);
@@ -158,10 +166,9 @@ public class CertificadoService {
 		return pathSaida; 
 	}
 	
-	public Certificado verificarCertificado(String nome, String cpf, String hash) {
+	public Certificado verificarCertificado(String hash) {
 		Certificado certificado = certificadoRepository.findByHash(hash);
-		if (certificado == null || certificado.getParticipante().getPessoa().getNome() == nome || 
-				certificado.getParticipante().getPessoa().getCpf() == cpf) {
+		if (certificado == null) {
 			throw new ResourceNotFoundException("Certificado inválido!");
 		}
 		return certificado;
