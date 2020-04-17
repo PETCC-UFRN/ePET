@@ -2,6 +2,7 @@ package br.ufrn.ePET.controller;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,10 +33,11 @@ public class OrganizadoresController {
 	
 	
 	@GetMapping(value = "/organizadores")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getOrganizadores(Pageable pageable){
 		Page<Organizadores> organizadores = organizadoresService.buscar(pageable);
-		if (organizadores.isEmpty())
-			throw new ResourceNotFoundException("Nenhum organizador cadastrado.");
+		/*if (organizadores.isEmpty())
+			throw new ResourceNotFoundException("Nenhum organizador cadastrado.");*/
 		//try {
 			return new ResponseEntity<>(organizadores, HttpStatus.OK);
 		//} catch (Exception e) {
@@ -44,6 +46,7 @@ public class OrganizadoresController {
 	}
 	
 	@GetMapping(value = "/organizadores/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getOrganizadores(@PathVariable Long id){
 		Organizadores organizadores =  organizadoresService.buscar(id);
 		if(organizadores == null)
@@ -56,6 +59,7 @@ public class OrganizadoresController {
 	}
 	
 	@GetMapping(value = "/organizadores-pessoa/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getOrganizadoresPessoa(@PathVariable Long id){
 		List<Organizadores> organizadores = organizadoresService.buscarPessoa(id);
 		if(organizadores.isEmpty())
@@ -69,6 +73,7 @@ public class OrganizadoresController {
 	}
 	
 	@GetMapping(value = "/organizadores-evento/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getOrganizadoresEvento(@PathVariable Long id){
 		List<Organizadores> organizadores = organizadoresService.buscarEvento(id);
 		if(organizadores.isEmpty())
@@ -81,6 +86,7 @@ public class OrganizadoresController {
 	}
 
 	@GetMapping(value = "/pesquisar-pessoa-organizadores/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getOrganizadoresPorPessoa(@PathVariable String search, Pageable pageable){
 		Page<Organizadores> organizadores = organizadoresService.buscarPorNomeOuCpfPessoa(search, pageable);
@@ -92,6 +98,7 @@ public class OrganizadoresController {
 	}
 
 	@GetMapping(value = "/pesquisar-evento-organizadores/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getOrganizadoresPorEvento(@PathVariable String search, Pageable pageable){
 		Page<Organizadores> organizadores = organizadoresService.buscarPorTItuloEvento(search, pageable);
@@ -103,6 +110,7 @@ public class OrganizadoresController {
 	}
 	
 	@PostMapping(value = "/organizadores-cadastrar/{id_evento}/{id_pessoa}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> salvarOrganizadores(@PathVariable Long id_evento, @PathVariable Long id_pessoa){
 		//try {
@@ -115,6 +123,7 @@ public class OrganizadoresController {
 	}
 	
 	@DeleteMapping(value = "/organizadores-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removerOrganizadores(@PathVariable Long id){
 		//try {

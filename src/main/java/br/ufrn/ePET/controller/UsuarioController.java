@@ -3,6 +3,7 @@ package br.ufrn.ePET.controller;
 import javax.validation.Valid;
 
 import br.ufrn.ePET.models.AuthDTO;
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping(value = "/usuarios")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getUsuarios(Pageable pageable){
 		Page<Usuario> page = usuarioService.buscar(pageable);
@@ -46,6 +48,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping(value="/usuarios/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getUsuarios(@PathVariable Long id){
 		Usuario usuario = usuarioService.buscar(id);
@@ -69,6 +72,7 @@ public class UsuarioController {
 	}*/
 
 	@PostMapping(value="/usuarios-atualizar/")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> updateUsuarios(@Valid @RequestBody AuthDTO authDTO){
 		//try {
 		usuarioService.atualizar(authDTO.getEmail(), authDTO.getSenha());

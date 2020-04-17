@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 
 @Entity
 public class Participante {
@@ -22,7 +23,10 @@ public class Participante {
 	@ManyToOne
 	@JoinColumn(name = "id_evento")
 	private Evento evento;
-	
+
+	@Column(columnDefinition = "DATE")
+	private LocalDate data_maxima;
+
 	//@NotEmpty
 	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private boolean confirmado;
@@ -70,6 +74,12 @@ public class Participante {
 	public void setEspera(boolean espera) {
 		this.espera = espera;
 	}
-	
-	
+
+	public LocalDate getData_maxima() {
+		return data_maxima;
+	}
+
+	public void setData_maxima(LocalDate data_maxima) {
+		this.data_maxima = data_maxima;
+	}
 }

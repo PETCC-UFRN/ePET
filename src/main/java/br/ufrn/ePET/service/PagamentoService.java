@@ -164,7 +164,7 @@ public class PagamentoService {
 			p.setId_transacao_pagseguro(transactionDetail.getCode());
 			p.setStatus(transactionDetail.getStatus().getStatus().toString());
 			pagamentoRepository.save(p);
-			if(transactionDetail.getStatus().getStatusId() == 3){
+			if(transactionDetail.getStatus().getStatusId() == 3 || transactionDetail.getStatus().getStatusId() == 4){
 				Participante participante = p.getParticipante();
 				if(participante != null){
 					participante.setConfirmado(true);

@@ -2,6 +2,7 @@ package br.ufrn.ePET.controller;
 
 import java.io.IOException;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class PagamentoController {
 	}
 	
 	@GetMapping(value = "/criar-pagamento/{id_pessoa}/{id_evento}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> pagar(@PathVariable Long id_participante){
 		String link = pagamentoService.criarPagamento(id_participante);
 		return new ResponseEntity<>(link, HttpStatus.OK);

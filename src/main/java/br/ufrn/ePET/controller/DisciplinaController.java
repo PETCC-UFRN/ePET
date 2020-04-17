@@ -3,6 +3,7 @@ package br.ufrn.ePET.controller;
 import javax.validation.Valid;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ public class DisciplinaController {
 	}
 
 	@GetMapping(value = "/disciplinas/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getDisciplinas(@PathVariable Long id){
 		try{
 			Disciplina d = disciplinaService.buscar(id);
@@ -37,6 +39,7 @@ public class DisciplinaController {
 	}
 
 	@GetMapping(value = "/disciplinas-ativas")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getDisciplinasAtivas(Pageable pageable){
 		try{
 			return new ResponseEntity<>(disciplinaService.buscarAtivos(pageable), HttpStatus.OK);
@@ -46,6 +49,7 @@ public class DisciplinaController {
 	}
 
 	@GetMapping(value="/disciplinas")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getDisciplinas(Pageable pageable){
 		try {
 			return new ResponseEntity<>(disciplinaService.buscar(pageable), HttpStatus.OK);
@@ -55,6 +59,7 @@ public class DisciplinaController {
 	}
 
 	@GetMapping(value = "pesquisar-diciplina/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getDiscipllinasPorNomeOuCodigo(@PathVariable String search, Pageable pageable){
 		Page<Disciplina> disciplinas = disciplinaService.buscarPorNomeOuCodigo(search, pageable);
@@ -66,6 +71,7 @@ public class DisciplinaController {
 	}
 	
 	@PostMapping(value="/disciplinas")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveDisciplina(@Valid @RequestBody Disciplina disciplina){
 		try {

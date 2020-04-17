@@ -114,11 +114,34 @@ public class UsuarioService {
 		enviarEmail(validadorUsuario, pessoa);
 	}
 
+	public void esqueceuSenha(String email){
+		Usuario usuario =  usuarioRepository.findByEmail(email);
+		if(usuario != null){
+			ValidadorUsuario validadorUsuario = new ValidadorUsuario();
+			validadorUsuario.setUsuario(usuario);
+			validadorUsuario.setCode(generateCode());
+			validadorUsuarioRepository.save(validadorUsuario);
+			enviarEmail(validadorUsuario, email);
+		}
+	}
+
 	public void enviarEmail(ValidadorUsuario validadorUsuario, Pessoa pessoa){
 		SimpleMailMessage smm = new SimpleMailMessage();
 		smm.setTo(pessoa.getUsuario().getEmail());
 		smm.setText("Olá " + pessoa.getNome() + "!\n"
 				+ "Esse é o seu código de ativação!\n" + "https://epet.imd.ufrn.br:8443/api/validation/?code=" + validadorUsuario.getCode());
+		try {
+			javaMailSender.send(smm);
+		} catch (Exception e) {
+			throw new RuntimeException("Houve algum erro no envio do seu email!\n" + e);
+		}
+	}
+
+	public void enviarEmail(ValidadorUsuario validadorUsuario, String email){
+		SimpleMailMessage smm = new SimpleMailMessage();
+		smm.setTo(email);
+		smm.setText("Olá!\n"
+				+ "Esse é o link para mudança da sua senha!\n" + "https://epet.imd.ufrn.br:8443/api/reset/?code=" + validadorUsuario.getCode());
 		try {
 			javaMailSender.send(smm);
 		} catch (Exception e) {

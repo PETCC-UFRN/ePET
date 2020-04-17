@@ -1,5 +1,7 @@
 package br.ufrn.ePET.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 
 //import java.util.Collection;
@@ -24,6 +26,7 @@ public class Usuario {
 	private String email;
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	@JsonIgnore
 	private boolean validado;
 	
 	@Column
