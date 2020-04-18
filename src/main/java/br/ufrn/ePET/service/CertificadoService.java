@@ -38,7 +38,7 @@ public class CertificadoService {
 	}
 	
 	public String gerarCertificado(Long id_pessoa, Long id_evento) {
-		Participante participante = participanteRepository.findByPessoaAndAndEvento(id_pessoa, id_evento);
+		Participante participante = participanteRepository.findByPessoaAndEvento(id_pessoa, id_evento);
 		if (participante == null)
 			throw new ResourceNotFoundException("Participante não encontrado!");
 		Certificado certificado = certificadoRepository.findByParticipante(participante);

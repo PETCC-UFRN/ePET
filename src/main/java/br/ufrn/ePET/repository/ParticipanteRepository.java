@@ -26,5 +26,5 @@ public interface ParticipanteRepository extends JpaRepository<Participante, Long
 	Page<Participante> findByTituloEvento(String titulo, Pageable pageable);
 
 	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ?1 AND u.id_evento = ?2", nativeQuery = true)
-	Participante findByPessoaAndAndEvento(Long id_pessoa, Long id_evento);
+	Participante findByPessoaAndEvento(Long id_pessoa, Long id_evento);
 }
