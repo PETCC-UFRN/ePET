@@ -31,6 +31,7 @@ public class Usuario {
 	
 	@Column
 	@NotEmpty(message = "{senha.not.blank}")
+	@JsonIgnore
 	private String senha;
 	
 	public Long getidUsuario() {

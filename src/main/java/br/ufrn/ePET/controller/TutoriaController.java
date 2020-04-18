@@ -84,6 +84,7 @@ public class TutoriaController {
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveTutoria(@PathVariable Long id_petiano, @PathVariable Long id_disciplina){
 		Tutoria tutoria = new Tutoria();
+		tutoria.setAtivo(true);
 		tutoriaService.salvar(id_petiano, id_disciplina, tutoria);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
