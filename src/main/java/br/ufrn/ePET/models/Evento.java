@@ -42,8 +42,20 @@ public class Evento {
 	
 	@Column(columnDefinition = "DATE")
 	private LocalDate d_evento_fim;
-	
-	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
+
+	@Column(columnDefinition = "DATE")
+	private LocalDate inicio_rolagem;
+
+	@Column(columnDefinition = "DATE")
+	private LocalDate fim_rolagem;
+
+	@Column(columnDefinition = "INT DEFAULT 5")
+	private int dias_compensacao;
+
+	@Column
+	private int percentual;
+
+  @Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private boolean ativo;
 	
 	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
@@ -177,4 +189,35 @@ public class Evento {
 		this.d_evento_fim = d_evento_fim;
 	}
 	
+	public LocalDate getInicio_rolagem() {
+		return inicio_rolagem;
+	}
+
+	public void setInicio_rolagem(LocalDate inicio_rolagem) {
+		this.inicio_rolagem = inicio_rolagem;
+	}
+
+	public LocalDate getFim_rolagem() {
+		return fim_rolagem;
+	}
+
+	public void setFim_rolagem(LocalDate fim_rolagem) {
+		this.fim_rolagem = fim_rolagem;
+	}
+
+	public int getPercentual() {
+		return percentual;
+	}
+
+	public void setPercentual(int percentual) {
+		this.percentual = percentual;
+	}
+
+	public int getDias_compensacao() {
+		return dias_compensacao;
+	}
+
+	public void setDias_compensacao(int dias_compensacao) {
+		this.dias_compensacao = dias_compensacao;
+	}
 }

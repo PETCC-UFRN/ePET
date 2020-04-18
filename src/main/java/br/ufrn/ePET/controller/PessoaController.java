@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,12 +40,13 @@ public class PessoaController {
 	
 	@ApiOperation(value = "Retorna todas as pessoas cadastradas")
 	@GetMapping(value="/pessoas", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPessoas(Pageable pageable){
 		Page<Pessoa> pessoas = pessoaservice.buscar(pageable);
-		if (pessoas.isEmpty()) {
+		/*if (pessoas.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhuma pessoa cadastrada!");
-		}
+		}*/
 		//try {
 			return new ResponseEntity<>(pessoas, HttpStatus.OK);
 		//} catch (Exception e) {
@@ -54,6 +56,7 @@ public class PessoaController {
 	}
 	
 	@GetMapping(value = "/pessoas-usuario")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getPessoaUsuario(HttpServletRequest req){
 		Pessoa p = pessoaservice.buscarPorEmail(req);
 		if(p == null) {
@@ -63,20 +66,28 @@ public class PessoaController {
 	}
 	
 	@GetMapping(value="/pessoas/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
-	public ResponseEntity<?> getPessoas(@PathVariable Long id){
-		Pessoa pessoa = pessoaservice.buscar(id);
+	public ResponseEntity<?> getPessoas(@PathVariable Long id, HttpServletRequest  req){
+		Pessoa pessoa = pessoaservice.buscarPorEmail(req);
+		if(pessoa.getIdPessoa() != id){
+			throw new ResourceNotFoundException("Tentativa de acesso a um usuário diferente do seu!");
+		}
 		if (pessoa == null)
 			throw new ResourceNotFoundException("Pessoa com id " + id + " não encontrada.");
-		
-		//try {
-			return new ResponseEntity<>(pessoa, HttpStatus.OK);
-		//} catch (Exception e){
-			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		//}
+
+		return new ResponseEntity<>(pessoa, HttpStatus.OK);
 	}
 
+	@PostMapping(value="/pessoas-atualizar/")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	public ResponseEntity<?> atualizar(HttpServletRequest req, @Valid @RequestBody Pessoa pessoa){
+		Pessoa p = pessoaservice.buscarPorEmail(req);
+		pessoaservice.salvar(p.getTipo_usuario().getIdTipo_usuario(), p.getUsuario().getidUsuario(), pessoa);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	@GetMapping(value = "pesquisar-pessoa/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPessoasPorNomeOuCPF(@PathVariable String search, Pageable pageable){
 		Page<Pessoa> pessoas = pessoaservice.buscarPorNomeOrCpf(search, pageable);
@@ -88,11 +99,18 @@ public class PessoaController {
 	}
 	
 	@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> savePessoas(@PathVariable Long id_tipo, 
-			@PathVariable Long id_usuario, @Valid @RequestBody Pessoa pessoa){
+			@PathVariable Long id_usuario, @Valid @RequestBody Pessoa pessoa, HttpServletRequest req){
 		//try {
-			pessoaservice.salvar(id_tipo, id_usuario,pessoa);
+			Pessoa p = pessoaservice.buscarPorEmail(req);
+			if(p.getTipo_usuario().getNome().equalsIgnoreCase("tutor")){
+				pessoaservice.salvar(id_tipo, id_usuario,pessoa);
+			} else if (p.getTipo_usuario().getIdTipo_usuario() < id_tipo){
+				pessoaservice.salvar(id_tipo, id_usuario, pessoa);
+			}
+
 			return new ResponseEntity<>(HttpStatus.OK);
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);

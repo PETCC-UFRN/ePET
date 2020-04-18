@@ -46,7 +46,7 @@ public class Pessoa {
 	private Tipo_Usuario tipo_usuario;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
 	//@NotEmpty
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;

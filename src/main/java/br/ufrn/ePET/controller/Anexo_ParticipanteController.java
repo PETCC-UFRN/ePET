@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ public class Anexo_ParticipanteController {
 	}
 	
 	@GetMapping(value = "/anexos-participantes/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getAnexos(@PathVariable Long id){
 		List<Anexo_Participante> lista = anexo_ParticipanteService.buscarPorParticipante(id);
 		if(lista.isEmpty()) {
@@ -49,6 +51,7 @@ public class Anexo_ParticipanteController {
 	}
 	
 	@PostMapping(value = "/anexos-participante-upload/{id_noticia}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long id_participante) {
 	     String filename = fileStorageService.storeFile(file);
 	     if(filename != null) {
@@ -63,6 +66,7 @@ public class Anexo_ParticipanteController {
 	
 	
 	@DeleteMapping(value = "/anexos-participante-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removeAnexos(@PathVariable Long id){
 		anexo_ParticipanteService.remover(id);

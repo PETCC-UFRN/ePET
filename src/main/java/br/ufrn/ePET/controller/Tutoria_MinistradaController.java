@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ public class Tutoria_MinistradaController {
 	}
 	
 	@GetMapping(value="/tutorias-ministradas/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriaMinistrada(@PathVariable Long id){
 		Tutoria_Ministrada tutoria_Ministrada = tutoria_MinistradaService.buscar(id);
@@ -39,16 +41,18 @@ public class Tutoria_MinistradaController {
 	}
 	
 	@GetMapping(value="/tutorias-ministradas")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriasMinistradas(Pageable pageable){
 		Page<Tutoria_Ministrada> tutorias = tutoria_MinistradaService.buscar(pageable);
-		if( tutorias.isEmpty() )
-			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");
+		/*if( tutorias.isEmpty() )
+			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");*/
 		
 		return new ResponseEntity<>(tutorias, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriasMinistradasPessoa(@PathVariable Long id, Pageable pageable){
 		try{
@@ -59,6 +63,7 @@ public class Tutoria_MinistradaController {
 	}
 
 	@GetMapping(value = "/pesquisar-tutoria-tutorias-ministradas/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriasMinistradasTutoria(@PathVariable Long id, Pageable pageable){
 		try{
@@ -69,6 +74,7 @@ public class Tutoria_MinistradaController {
 	}
 	
 	@GetMapping(value="/tutorias-ministradas-cadastro/{id_pessoa}/{id_tutoria}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> salvarTutoriasMinistradas(@PathVariable Long id_pessoa, @PathVariable Long id_tutoria){
 		Tutoria_Ministrada tutoria_ministrada = new Tutoria_Ministrada();
 		System.out.println("rodando aq");
@@ -77,6 +83,7 @@ public class Tutoria_MinistradaController {
 	}
 	
 	@PostMapping(value="/tutorias-ministradas-ativar/{id_tutoria_ministrada}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> ativarTutoriasMinistradas(@PathVariable Long id_tutoria_ministrada){
 		tutoria_MinistradaService.ativar(id_tutoria_ministrada);
 		return new ResponseEntity<>(HttpStatus.OK);
