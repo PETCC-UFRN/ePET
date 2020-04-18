@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TutoriaRepository extends JpaRepository<Tutoria, Long>{
 	
-	@Query(value = "UPDATE tutoria t SET t.ativo = 1 WHERE id_petiano = ?1", nativeQuery = true)
+	@Query(value = "UPDATE tutoria t SET t.ativo = 0 WHERE id_petiano = ?1", nativeQuery = true)
 	void desativarAtivos(Long id);
 	
-	@Query(value = "SELECT * FROM tutoria t WHERE t.ativo = 0", nativeQuery = true)
+	@Query(value = "SELECT * FROM tutoria t WHERE t.ativo = 1", nativeQuery = true)
 	Page<Tutoria> findByAtivos(Pageable pageable);
 
 	@Query(value = "SELECT t.id_tutoria, t.id_disciplina, t.id_petiano, t.ativo FROM ((tutoria t INNER JOIN petiano p ON p.id_petiano = t.id_petiano) INNER JOIN pessoa e ON e.id_pessoa = p.id_pessoa) WHERE e.nome LIKE %?1% OR e.cpf LIKE %?1%", nativeQuery = true)
