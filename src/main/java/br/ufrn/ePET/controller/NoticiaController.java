@@ -2,6 +2,7 @@ package br.ufrn.ePET.controller;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,9 +39,9 @@ public class NoticiaController {
 	@CrossOrigin(origins="*")
 	public ResponseEntity<?> getNoticias(Pageable pageable){
 		Page<Noticia> page = noticiaService.buscar(pageable);
-		if(page.isEmpty()) {
+		/*if(page.isEmpty()) {
 			throw new ResourceNotFoundException("Não há notícias cadastradas");
-		}
+		}*/
 		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
 	
@@ -54,6 +55,7 @@ public class NoticiaController {
 	}
 	
 	@PostMapping(value = "/noticia-cadastro/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveNoticias(@PathVariable Long id, @Valid @RequestBody Noticia noticia){
 		noticiaService.salvar(id, noticia);
@@ -61,6 +63,7 @@ public class NoticiaController {
 	}
 	
 	@DeleteMapping(value = "/noticia-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removeNoticias(@PathVariable Long id){
 		noticiaService.delete(id);

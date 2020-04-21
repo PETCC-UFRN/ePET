@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class encript {
 	public static void main(String[] args) {
 		System.out.println(new BCryptPasswordEncoder().encode("password"));
-		System.out.println(LocalDate.now());
+		LocalDate date6 = LocalDate.of(2020, 04, 8);
+		System.out.println(LocalDate.now().compareTo(date6));
 	}
 }

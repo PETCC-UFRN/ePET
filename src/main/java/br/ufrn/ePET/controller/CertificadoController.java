@@ -27,7 +27,7 @@ public class CertificadoController {
 		this.certificadoService = certificadoService;
 	}
 
-	@GetMapping(value = "/certificado/validar/{hash}/{nome}/{cpf}")
+	@GetMapping(value = "/certificado/validar/{hash}")
 	public ResponseEntity<?> getVerificarCertificado(@PathVariable String hash){
 		certificadoService.verificarCertificado(hash);
 		return new ResponseEntity<>( HttpStatus.OK);

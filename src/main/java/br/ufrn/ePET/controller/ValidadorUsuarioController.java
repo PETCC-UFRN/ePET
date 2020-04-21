@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import br.ufrn.ePET.models.ResetDTO;
 import br.ufrn.ePET.service.ValidadorUsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,12 @@ public class ValidadorUsuarioController {
     @GetMapping(value = "/validation/")
     public ResponseEntity<?> validador(@RequestParam String code){
         validadorUsuarioService.validar(code);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/reset/")
+    public ResponseEntity<?> validadorSenha(@RequestBody ResetDTO resetDTO){
+        validadorUsuarioService.validarSenha(resetDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -7,6 +7,7 @@ import java.nio.file.FileSystemException;
 import javax.annotation.processing.FilerException;
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +30,7 @@ public class FileStorageController {
 	private FileStorageService fileStorageService;
 	
 	@PostMapping("/uploadfile")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	    public String uploadFile(@RequestParam("file") MultipartFile file) {
 	     try {
 	    	 String filename = fileStorageService.storeFile(file);
@@ -40,6 +42,7 @@ public class FileStorageController {
 	 }
 	
 	@GetMapping("/downloadfile/{filename:.+}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 		public ResponseEntity<Resource> downloadFile(@PathVariable String filename, HttpServletRequest request){
 			Resource resource = fileStorageService.loadFileAsResource(filename);
 			

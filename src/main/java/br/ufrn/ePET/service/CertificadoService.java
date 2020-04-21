@@ -50,17 +50,17 @@ public class CertificadoService {
 		certificado.setDataCriacao(today);
 		String password = participante.getPessoa().getNome() + participante.getPessoa().getCpf() +
 				participante.getPessoa().getUsuario().getEmail() + participante.getEvento().getTitulo()+
-				participante.getEvento().getD_evento_inicio() + participante.getEvento().getD_evento_fim();
+				participante.getEvento().getInicio_rolagem() + participante.getEvento().getFim_rolagem();
 		certificado.setHash(hashDeclaracao.novaHash(password));
 		String pathSaida = "./data/certificado/"+certificado.getParticipante().getPessoa().getNome()+".pdf";
 		String periodo = "";
 		if(participante.getEvento().getQtdDias() == 1)
 		{
-			periodo = ", no dia " + participante.getEvento().getD_evento_inicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			periodo = ", no dia " + participante.getEvento().getInicio_rolagem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		}
 		else {
-			periodo = ", nos dias "+participante.getEvento().getD_evento_inicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + 
-					" à " + participante.getEvento().getD_evento_fim().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			periodo = ", nos dias "+participante.getEvento().getInicio_rolagem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + 
+					" à " + participante.getEvento().getFim_rolagem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		}
 			
         String textoDeclaracao = "Declaro, para os devidos fins, que " + participante.getPessoa().getNome() + ", CPF " +
