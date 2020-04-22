@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface InformacoesRepository extends JpaRepository<Informacoes, Long> {
 
-    @Query(value = "SELECT * FROM Informacoes LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM informacoes LIMIT 1", nativeQuery = true)
     Informacoes findInfo();
 }
