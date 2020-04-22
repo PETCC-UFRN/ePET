@@ -36,10 +36,11 @@ public class EventoService {
 	
 	public List<Evento> buscarAtivos(){
 		//Page<Evento> lista = eventoRepository.findAll(pageable);
-		List<Evento> lista_aux = eventoRepository.findAll();
+		List<Evento> lista_aux = eventoRepository.findByAtivos();
 		LocalDate ld = LocalDate.now();
 		for(Evento e : lista_aux) {
-			if((ld.compareTo(e.getD_inscricao()) < 0) && (ld.compareTo(e.getD_inscricao_fim()) > 0) && !e.isAtivo()) {
+			if(ld.compareTo(e.getD_inscricao()) < 0 || ld.compareTo(e.getD_inscricao_fim()) > 0 ) {
+				//System.out.println(e.getTitulo());
 				lista_aux.remove(e);
 			}
 		}
