@@ -53,15 +53,31 @@ public class PessoaService {
 		return pessoaRepository.findAll(pageable);
 	}
 	
-	public Pessoa salvar(Long id_tipo, Long id_usuario, Pessoa pessoa){
-		if(tipo_UsuarioRespository.findById(id_tipo).isPresent())
-			pessoa.setTipo_usuario(tipo_UsuarioRespository.findById(id_tipo).get());
-		else throw new ResourceNotFoundException("Nenhum tipo de usuário cadastrado com id "+ id_tipo);
+	public Pessoa salvar(Long id_tipo, Long id_usuario, Pessoa pessoa, int control){
 
-		if(usuarioRepository.findById(id_usuario).isPresent())
+		if(!tipo_UsuarioRespository.findById(id_tipo).isPresent())
+			throw new ResourceNotFoundException("Nenhum tipo de usuário cadastrado com id "+ id_tipo);
+
+		if(!usuarioRepository.findById(id_usuario).isPresent())
+			throw new ResourceNotFoundException("Nenhum usuário cadastrado com id "+ id_usuario);
+
+		if(control == 0 || control == 1){
+			pessoa.setTipo_usuario(tipo_UsuarioRespository.findById(id_tipo).get());
 			pessoa.setUsuario(usuarioRepository.findById(id_usuario).get());
-		else throw new ResourceNotFoundException("Nenhum usuário cadastrado com id "+ id_usuario);
-		
-		return pessoaRepository.save(pessoa);
+			return pessoaRepository.save(pessoa);
+		} else {
+			Pessoa p = pessoaRepository.findById(pessoa.getIdPessoa()).get();
+			if(p.getTipo_usuario().getNome().equalsIgnoreCase("comum")){
+				if(p != null){
+					p.setCpf(pessoa.getCpf());
+					p.setNome(pessoa.getNome());
+					return pessoaRepository.save(p);
+				} else {
+					throw new ResourceNotFoundException("Nenhuma pessoa encontrado!");
+				}
+			} else {
+				throw new RuntimeException("Tentativa de mudança de uma pessoa não autorizada!");
+			}
+		}
 	}
 }

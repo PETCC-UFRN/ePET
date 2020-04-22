@@ -1,8 +1,10 @@
 package br.ufrn.ePET.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import br.ufrn.ePET.models.AuthDTO;
+import br.ufrn.ePET.models.Pessoa;
 import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,11 +31,13 @@ import br.ufrn.ePET.service.UsuarioService;
 public class UsuarioController {
 	
 	private UsuarioService usuarioService;
-	
+	private PessoaService pessoaService;
+
 	@Autowired
 	public UsuarioController(UsuarioService usuarioService, PessoaService pessoaService,
 			Tipo_UsuarioService tuService) {
 		this.usuarioService = usuarioService;
+		this.pessoaService = pessoaService;
 	}
 	
 	@GetMapping(value = "/usuarios")
@@ -73,10 +77,15 @@ public class UsuarioController {
 
 	@PostMapping(value="/usuarios-atualizar/")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> updateUsuarios(@Valid @RequestBody AuthDTO authDTO){
+	public ResponseEntity<?> updateUsuarios(HttpServletRequest req, @Valid @RequestBody AuthDTO authDTO){
 		//try {
-		usuarioService.atualizar(authDTO.getEmail(), authDTO.getSenha());
-		return new ResponseEntity<>(HttpStatus.OK);
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		if(p.getUsuario().getEmail().equalsIgnoreCase(authDTO.getEmail())){
+			usuarioService.atualizar(authDTO.getEmail(), authDTO.getSenha());
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 		//} catch(Exception e) {
 		//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}

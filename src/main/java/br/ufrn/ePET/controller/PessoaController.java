@@ -83,7 +83,8 @@ public class PessoaController {
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> atualizar(HttpServletRequest req, @Valid @RequestBody Pessoa pessoa){
 		Pessoa p = pessoaservice.buscarPorEmail(req);
-		pessoaservice.salvar(p.getTipo_usuario().getIdTipo_usuario(), p.getUsuario().getidUsuario(), pessoa);
+		pessoa.setIdPessoa(p.getIdPessoa());
+		pessoaservice.salvar(p.getTipo_usuario().getIdTipo_usuario(), p.getUsuario().getidUsuario(), pessoa , 0);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@GetMapping(value = "pesquisar-pessoa/{search}")
@@ -98,7 +99,7 @@ public class PessoaController {
 		}
 	}
 	
-	@PostMapping(value="/pessoas-cadastro/{id_tipo}/{id_usuario}")
+	@PostMapping(value="/pessoas-cadastro-atualizar/{id_tipo}/{id_usuario}")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> savePessoas(@PathVariable Long id_tipo, 
@@ -106,9 +107,9 @@ public class PessoaController {
 		//try {
 			Pessoa p = pessoaservice.buscarPorEmail(req);
 			if(p.getTipo_usuario().getNome().equalsIgnoreCase("tutor")){
-				pessoaservice.salvar(id_tipo, id_usuario,pessoa);
-			} else if (p.getTipo_usuario().getIdTipo_usuario() < id_tipo){
-				pessoaservice.salvar(id_tipo, id_usuario, pessoa);
+				pessoaservice.salvar(id_tipo, id_usuario,pessoa, 1);
+			} else {
+				pessoaservice.salvar(id_tipo, id_usuario, pessoa, 2);
 			}
 
 			return new ResponseEntity<>(HttpStatus.OK);
