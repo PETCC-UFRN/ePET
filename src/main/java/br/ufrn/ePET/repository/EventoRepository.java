@@ -24,4 +24,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long>{
 
 	@Query(value = "SELECT * FROM evento i WHERE i.titulo LIKE %?1%", nativeQuery = true)
 	Page<Evento> findByTitulo(String titulo, Pageable pageable);
+
+	@Query(value = "SELECT * FROM evento ORDER BY id_evento DESC", nativeQuery = true)
+	Page<Evento> findEventos(Pageable pageable);
 }

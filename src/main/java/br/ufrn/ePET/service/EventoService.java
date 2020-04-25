@@ -28,9 +28,9 @@ public class EventoService {
 	}
 	
 	public Page<Evento> buscar(Pageable pageable){
-		Page<Evento> eventList = eventoRepository.findAll(pageable);
-		if (eventList.isEmpty())
-			throw new ResourceNotFoundException("Nenhum evento cadastrado");
+		Page<Evento> eventList = eventoRepository.findEventos(pageable);
+		/*if (eventList.isEmpty())
+			throw new ResourceNotFoundException("Nenhum evento cadastrado");*/
 		return eventList;
 	}
 	
