@@ -64,11 +64,16 @@ public class PetianoService {
 		if(pessoaRepository.findById(id).isPresent())
 			pessoa = pessoaRepository.findById(id).get();
 		else throw new ResourceNotFoundException("Pessoa com id "+ id + " não encontrada");
-		
-		//Pessoa pessoa = pessoaRepository.findById(id).get();
-		pessoa.setTipo_usuario(tipoUsuarioRepository.findByNome("petiano"));
-		petiano.setPessoa(pessoaRepository.save(pessoa));	
-		return petianoRepository.save(petiano);
+
+		if(petianoRepository.findByPessoa(pessoa.getIdPessoa()) != null){
+			petiano.setIdPetiano(petianoRepository.findByPessoa(pessoa.getIdPessoa()).getIdPetiano());
+			petiano.setData_egresso(null);
+			return petianoRepository.save(petiano);
+		} else {
+			pessoa.setTipo_usuario(tipoUsuarioRepository.findByNome("petiano"));
+			petiano.setPessoa(pessoaRepository.save(pessoa));
+			return petianoRepository.save(petiano);
+		}
 		
 	}
 	
@@ -97,6 +102,7 @@ public class PetianoService {
 			pessoa = pessoaRepository.findById(id_pessoa).get();
 		else throw new ResourceNotFoundException("Pessoa com id "+ id_pessoa + " não encontrada");
 		petiano.setPessoa(pessoa);
+		petiano.setData_egresso(null);
 		return petianoRepository.save(petiano);
 	}
 }
