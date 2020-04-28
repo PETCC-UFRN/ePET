@@ -58,12 +58,12 @@ public class EventoController {
 	public ResponseEntity<?> getEventosAbertos(Pageable pageable){
 		//try {
 			List<Evento> page = eventoService.buscarAtivos();
-			/*if(page.isEmpty()) {
-				throw new ResourceNotFoundException("Nenhum evento cadastrado.");
-			}*/
+			if(page.isEmpty()) {
+				throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição.");
+			}
 			return new ResponseEntity<>(page, HttpStatus.OK);
 		//} catch (Exception e) {
-			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			//throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição");
 		//}
 	}
 	

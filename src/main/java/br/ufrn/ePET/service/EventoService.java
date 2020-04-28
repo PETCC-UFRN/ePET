@@ -47,9 +47,9 @@ public class EventoService {
 		//lista_aux.clear();
 		/*java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
 		Page<Evento> lista = eventoRepository.findByAtivos(sqlDate, pageable);
-		System.out.println(LocalDate.now());
-		if(lista.isEmpty())
-			throw new ResourceNotFoundException("Nenhum evento ativo");*/
+		System.out.println(LocalDate.now());*/
+		if(lista_aux.isEmpty())
+			throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição");
 		return lista_aux;
 	}
 
@@ -66,6 +66,11 @@ public class EventoService {
 	}
 
 	public Evento salvar(Evento evento) {
+		if(evento.getTextoDeclaracaoEvento() == null) {
+			evento.setTextoDeclaracaoEvento("Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
+	  		+ " nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de "
+	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).");
+		}
 		return eventoRepository.save(evento);
 	}
 	

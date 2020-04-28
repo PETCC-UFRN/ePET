@@ -18,14 +18,14 @@ public class Petiano {
 	  value = "Data de ingresso do petiano",
 	  name = "data_ingresso",
 	  dataType = "Date",
-	  example = "01-01-2020.")
+	  example = "2020-12-21.")
 	private LocalDate data_ingresso;
 	
 	@Column(name="data_egresso", columnDefinition = "DATE")
 	@ApiModelProperty(
 	  value = "Data de egresso do petiano",
 	  dataType = "Date",
-	  example = "01-01-2021.")
+	  example = "2021-01-30.")
 	private LocalDate data_egresso;
 	
 	@Column(columnDefinition = "TEXT")

@@ -47,45 +47,45 @@ public class Evento {
 	//@NotEmpty
 	//@DateTimeFormat
 	@ApiModelProperty(
-	  value = "Data inicial de inscrição para o evento.",
+	  value = "Data inicial de inscrição para o evento. (YYYY-MM-DD)",
 	  dataType = "Date",
-	  example = "30-01-2020")
+	  example = "2020-01-30")
 	private LocalDate d_inscricao;
 	
 	@Column(columnDefinition = "DATE")
 	@ApiModelProperty(
-	  value = "Data final para a inscrição",
+	  value = "Data final para a inscrição. (YYYY-MM-DD)",
 	  dataType = "Date",
-	  example = "28-02-2020")
+	  example = "2020-02-28")
 	private LocalDate d_inscricao_fim;
 	
 	@Column(columnDefinition = "DATE")
 	//@NotEmpty
 	//@DateTimeFormat
 	@ApiModelProperty(
-	  value = "Data inicial do evento.",
+	  value = "Data inicial do evento. (YYYY-MM-DD)",
 	  dataType = "Date",
-	  example = "01-03-2020")
+	  example = "2020-03-01")
 	private LocalDate d_evento_inicio;
 	
 	@Column(columnDefinition = "DATE")
 	@ApiModelProperty(
-	  value = "Data final para do evento",
+	  value = "Data final para do evento. (YYYY-MM-DD)",
 	  dataType = "Date",
-	  example = "02-03-2020")
+	  example = "2020-03-02")
 	private LocalDate d_evento_fim;
 
 	@ApiModelProperty(
-	  value = "Data inicial para a chamada da lista deespera do evento",
+	  value = "Data inicial para a chamada da lista deespera do evento. (YYYY-MM-DD)",
 	  dataType = "Date",
-	  example = "20-02-2020")
+	  example = "2020-02-20")
 	@Column(columnDefinition = "DATE")
 	private LocalDate inicio_rolagem;
 
 	@ApiModelProperty(
-	  value = "Data final para a chamada da lista de espera do evento",
+	  value = "Data final para a chamada da lista de espera do evento. (YYYY-MM-DD)",
 	  dataType = "Date",
-	  example = "28-02-2020")
+	  example = "2020-02-28")
 	@Column(columnDefinition = "DATE")
 	private LocalDate fim_rolagem;
 
@@ -145,9 +145,9 @@ public class Evento {
 	  example = "20.00")
 	private double valor;
 
-	@Column(columnDefinition = "TEXT"/*DEFAULT 'Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local}," + 
+	@Column(columnDefinition = "TEXT" /*DEFAULT 'Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local}," + 
 			" nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de " + 
-			" Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).'"*/ )
+			" Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).'"*/ ) // Algumas versões do mysql não suporta default para text
 	@ApiModelProperty(
 	  value = "Texto padrão para a declaração do evento, variáveis disponíveis: {nome_participante}, {cpf}, {titulo_evento}, {carga_horaria},"
 	  		+ " {data_inicio}, {data_fim} .",
