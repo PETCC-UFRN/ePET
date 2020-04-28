@@ -1,9 +1,6 @@
 package br.ufrn.ePET.controller;
 
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +27,6 @@ public class Tipo_UsuarioController {
 	}
 
 	@GetMapping(value="/tipo-usuario")
-	@ApiOperation(value = "Retorna os tipos de usuários do sistema.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> getTiposUsuario(){
@@ -43,10 +39,9 @@ public class Tipo_UsuarioController {
 	}
 	
 	@GetMapping(value="/tipo-usuario/{id}")
-	@ApiOperation(value = "Retorna o tipo de usuário representante de determinado ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
-	public ResponseEntity<?> getTiposUsuario(@ApiParam(value = "Id do tipo de usuário solicitado") @PathVariable Long id){
+	public ResponseEntity<?> getTiposUsuario(@PathVariable Long id){
 		try {
 			return new ResponseEntity<>(tipo_UsuarioService.buscar(id), HttpStatus.OK);
 		} catch (Exception e) {
@@ -55,14 +50,13 @@ public class Tipo_UsuarioController {
 		
 	}
 	
-	@PostMapping(value="/tipo-usuario-cadastro")
-	@ApiOperation(value = "Cadastra um novo tipo de usuário.")
+	@PostMapping(value="/tipo-usuario-cadastro/{id}")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
-	public ResponseEntity<?> saveTiposUsuario(@RequestBody Tipo_Usuario tipo_Usuario){
+	public ResponseEntity<?> saveTiposUsuario(@PathVariable Long id, @RequestBody Tipo_Usuario tipo_Usuario){
 		
 		try{
-			tipo_UsuarioService.salvar(tipo_Usuario);
+			tipo_UsuarioService.salvar(id, tipo_Usuario);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
