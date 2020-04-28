@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Petiano {
 	
@@ -12,9 +14,18 @@ public class Petiano {
 	private long idPetiano;
 	
 	@Column(name="data_ingresso", columnDefinition = "DATE")
+	@ApiModelProperty(
+	  value = "Data de ingresso do petiano",
+	  name = "data_ingresso",
+	  dataType = "Date",
+	  example = "2020-12-21.")
 	private LocalDate data_ingresso;
 	
 	@Column(name="data_egresso", columnDefinition = "DATE")
+	@ApiModelProperty(
+	  value = "Data de egresso do petiano",
+	  dataType = "Date",
+	  example = "2021-01-30.")
 	private LocalDate data_egresso;
 	
 	@Column(columnDefinition = "TEXT")
