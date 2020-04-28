@@ -1,9 +1,7 @@
 package br.ufrn.ePET.controller;
 
+import br.ufrn.ePET.models.Petiano;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +31,6 @@ public class TutoriaController {
 	}
 	
 	@GetMapping(value="/tutorias")
-	@ApiOperation(value ="Método responsável por retornar as tutorias ativas." )
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutorias(Pageable pageable){
@@ -46,10 +43,9 @@ public class TutoriaController {
 	}
 	
 	@GetMapping(value="/tutorias/{id}")
-	@ApiOperation(value="Método responsábel por buscar uma determinada tutoria, passada por seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
-	public ResponseEntity<?> getTutoria(@ApiParam(value="Id da tutoria a ser solicitada.") @PathVariable Long id){
+	public ResponseEntity<?> getTutoria(@PathVariable Long id){
 		Tutoria tutoria = tutoriaService.buscar(id);
 		if(tutoria == null) {
 			throw new ResourceNotFoundException("Tutoria com o id: " + id + " não foi encontrada.");
@@ -59,11 +55,9 @@ public class TutoriaController {
 	}
 
 	@GetMapping(value = "/pesquisar-petiano-tutoria/{search}")
-	@ApiOperation(value="Método responsável por buscar as tutorias de algum petiado via CPF ou Nome.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
-	public ResponseEntity<?> getTutoriaPetiano(@ApiParam(value="Nome ou CPF do petiano de interesse.") @PathVariable String search,
-											   Pageable pageable){
+	public ResponseEntity<?> getTutoriaPetiano(@PathVariable String search, Pageable pageable){
 		Page<Tutoria> tutorias = tutoriaService.buscarPorNomeOuCpfPetiano(search, pageable);
 		if(tutorias.isEmpty()){
 			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");
@@ -73,11 +67,9 @@ public class TutoriaController {
 	}
 
 	@GetMapping(value = "/pesquisar-disciplina-tutoria/{search}")
-	@ApiOperation(value="Método responsábel por buscar as tutorias de uma disciplina pelo Nome ou Código.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
-	public ResponseEntity<?> getTutoriaDisciplina(@ApiParam(value="Nome ou código da disciplina a ser solicitada") @PathVariable String search, 
-												  Pageable pageable){
+	public ResponseEntity<?> getTutoriaDisciplina(@PathVariable String search, Pageable pageable){
 		Page<Tutoria> tutorias = tutoriaService.buscarPorNomeOuCodigoDisciplina(search, pageable);
 		if(tutorias.isEmpty()){
 			throw new ResourceNotFoundException("Nenhuma tutoria encontrada");
@@ -88,11 +80,9 @@ public class TutoriaController {
 
 
 	@PostMapping(value="/tutoria-cadastro/{id_petiano}/{id_disciplina}")
-	@ApiOperation(value="Método responsável por criar uma nova tutoria.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveTutoria(@ApiParam(name = "id_petiano", value= "ID do petiano que está cadastrando a tutoria." ) @PathVariable Long id_petiano,
-										 @ApiParam(name="id_disciplina", value="ID da disciplina que o petiano está cadastrando uma tutoria.") @PathVariable Long id_disciplina){
+	public ResponseEntity<?> saveTutoria(@PathVariable Long id_petiano, @PathVariable Long id_disciplina){
 		Tutoria tutoria = new Tutoria();
 		tutoria.setAtivo(true);
 		tutoriaService.salvar(id_petiano, id_disciplina, tutoria);
@@ -100,10 +90,9 @@ public class TutoriaController {
 	}
 	
 	@DeleteMapping(value = "/tutoria-remove/{id}")
-	@ApiOperation(value="Método responsável por desativar(deletar) uma tutoria.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> deleteTutoria(@ApiParam(value="Id da tutoria a ser desativada") @PathVariable Long id){
+	public ResponseEntity<?> deleteTutoria(@PathVariable Long id){
 		tutoriaService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

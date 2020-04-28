@@ -3,9 +3,6 @@ package br.ufrn.ePET.controller;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +36,6 @@ public class NoticiaController {
 	
 	
 	@GetMapping(value = "/noticia")
-	@ApiOperation(value = "Método responsável por retornar todas as notícias do sistema.")
 	@CrossOrigin(origins="*")
 	public ResponseEntity<?> getNoticias(Pageable pageable){
 		Page<Noticia> page = noticiaService.buscar(pageable);
@@ -50,8 +46,7 @@ public class NoticiaController {
 	}
 	
 	@GetMapping(value = "/noticia/{id}")
-	@ApiOperation(value = "Método responsável por buscar uma notícia com base no ID.")
-	public ResponseEntity<?> getNoticias(@ApiParam(value = "Id da notícia a ser solicitada") @PathVariable Long id){
+	public ResponseEntity<?> getNoticias(@PathVariable Long id){
 		Noticia noticia = noticiaService.buscar(id);
 		if(noticia == null) {
 			throw new ResourceNotFoundException("Nenhum notícia com o id " + id + " encontrada");
@@ -60,20 +55,17 @@ public class NoticiaController {
 	}
 	
 	@PostMapping(value = "/noticia-cadastro/{id}")
-	@ApiOperation(value = "Método responsável cadastrar uma nova notícia.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveNoticias(@ApiParam(value = "Id do petiano que está cadastrando a notícia") @PathVariable Long id, 
-										  @ApiParam(value = "Notícia a ser cadastrada") @Valid @RequestBody Noticia noticia){
+	public ResponseEntity<?> saveNoticias(@PathVariable Long id, @Valid @RequestBody Noticia noticia){
 		noticiaService.salvar(id, noticia);
 		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 	
 	@DeleteMapping(value = "/noticia-remove/{id}")
-	@ApiOperation(value = "Método responsável por remover uma notícia com base no ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> removeNoticias(@ApiParam(value = "Id da notícia a ser removida") @PathVariable Long id){
+	public ResponseEntity<?> removeNoticias(@PathVariable Long id){
 		noticiaService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

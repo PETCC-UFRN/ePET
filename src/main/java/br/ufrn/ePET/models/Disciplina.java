@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
-import io.swagger.annotations.ApiModelProperty;
-
 @Entity
 public class Disciplina {
 	
@@ -18,19 +16,10 @@ public class Disciplina {
 	
 	@Column(columnDefinition = "VARCHAR(45)")
 	@NotEmpty
-	@ApiModelProperty(
-	  value = "Nome da disciplina",
-	  name = "nome",
-	  dataType = "String",
-	  example = "Fundamentos matemáticos da computação II")
 	private String nome;
 	
 	@Column(columnDefinition = "VARCHAR(45)")
 	@NotEmpty
-	@ApiModelProperty(
-	  value = "Código da disciplina",
-	  dataType = "String",
-	  example = "IMD1XX")
 	private String codigo;
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
