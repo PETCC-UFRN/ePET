@@ -96,10 +96,11 @@ public class Tutoria_MinistradaService {
 		}
 	}
 	
-	public void ativar(Long id_tutoria_ministrada) {
+	public void ativar(Long id_tutoria_ministrada, LocalDate data) {
 		if (tutoria_Ministrada_Repository.findById(id_tutoria_ministrada).isPresent()) {
 			Tutoria_Ministrada tm = tutoria_Ministrada_Repository.findById(id_tutoria_ministrada).get();
 			tm.setAtivo(true);
+			tm.setData(data);
 			tutoria_Ministrada_Repository.save(tm);
 		} else {
 			throw new ResourceNotFoundException("ID:  " + id_tutoria_ministrada + " não encontrado!");

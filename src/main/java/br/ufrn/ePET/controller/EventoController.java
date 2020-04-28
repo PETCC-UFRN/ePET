@@ -5,6 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +38,7 @@ public class EventoController {
 	}
 	
 	@GetMapping(value = "/eventos")
+	@ApiOperation(value = "Retorna todos os eventos do sistema.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getEventos(Pageable pageable){
@@ -50,6 +54,7 @@ public class EventoController {
 	}
 	
 	@GetMapping(value = "/eventos-abertos")
+	@ApiOperation(value = "Retorna todos os eventos abertos do sistema.")
 	public ResponseEntity<?> getEventosAbertos(Pageable pageable){
 		//try {
 			List<Evento> page = eventoService.buscarAtivos();
@@ -63,7 +68,8 @@ public class EventoController {
 	}
 	
 	@GetMapping(value = "/eventos/{id}")
-	public ResponseEntity<?> getEventos(@PathVariable Long id){
+	@ApiOperation(value = "Método que busca um evento a partir de um ID.")
+	public ResponseEntity<?> getEventos(@ApiParam(value = "Id do evento procurado") @PathVariable Long id){
 		Evento evento = eventoService.buscar(id);
 		if(evento == null)
 			throw new ResourceNotFoundException("Nenhum evento com id "+id +" encontrado.");
@@ -75,14 +81,16 @@ public class EventoController {
 	}
 	
 	@GetMapping(value = "eventos-inativos")
+	@ApiOperation(value = "Retorna os eventos inativos do sistema.")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getEventosInativos(){
 		return new ResponseEntity<>(eventoService.buscarInativos(), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "pesquisar-evento/{search}")
+	@ApiOperation(value = "Método que retorna os eventos a partir de um título.")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getEventoPorTitulo(@PathVariable String search, Pageable pageable){
+	public ResponseEntity<?> getEventoPorTitulo(@ApiParam(value = "Título do evento a ser procurado") @PathVariable String search, Pageable pageable){
 		Page<Evento> eventos = eventoService.buscarPorTitulo(search, pageable);
 		if(eventos.isEmpty()){
 			throw new ResourceNotFoundException("Nenhum evento encontrado");
@@ -91,8 +99,9 @@ public class EventoController {
 		}
 	}
 	@PostMapping(value = "/eventos-ativar/{id}")
+	@ApiOperation(value = "Método que ativa um evento a partir de um ID(SOMENTE UM TUTOR REALIZA ESSA AÇÂO).")
 	@Secured("ROLE_tutor")
-	public ResponseEntity<?> ativarEventos(@PathVariable Long id){
+	public ResponseEntity<?> ativarEventos(@ApiParam(value = "Id do avento a ser ativado") @PathVariable Long id){
 		//try {
 			eventoService.ativar(id);
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -102,6 +111,7 @@ public class EventoController {
 	}
 	
 	@PostMapping(value = "/eventos-cadastrar")
+	@ApiOperation(value = "Cadastra um novo evento no sistema.")
 	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveEventos(@Valid @RequestBody Evento evento){
 		//try {
@@ -113,8 +123,9 @@ public class EventoController {
 	}
 	
 	@DeleteMapping(value="/eventos-remove/{id}")
+	@ApiOperation(value = "Remove um evento do sistema a partir de seu ID.")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> removeEventos(@PathVariable Long id){
+	public ResponseEntity<?> removeEventos(@ApiParam(value = "Id do evento a ser removido") @PathVariable Long id){
 		//try {
 			eventoService.remover(id);;
 			return new ResponseEntity<>(HttpStatus.OK);
