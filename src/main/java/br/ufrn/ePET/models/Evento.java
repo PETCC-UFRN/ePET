@@ -145,9 +145,9 @@ public class Evento {
 	  example = "20.00")
 	private double valor;
 
-	@Column(columnDefinition = "TEXT DEFAULT Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local}," + 
+	@Column(columnDefinition = "TEXT"/*DEFAULT 'Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local}," + 
 			" nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de " + 
-			" Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN)." )
+			" Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).'"*/ )
 	@ApiModelProperty(
 	  value = "Texto padrão para a declaração do evento, variáveis disponíveis: {nome_participante}, {cpf}, {titulo_evento}, {carga_horaria},"
 	  		+ " {data_inicio}, {data_fim} .",
@@ -155,7 +155,7 @@ public class Evento {
 	  example = "Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
 	  		+ " nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de "
 	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).")
-	private String textoDeclaçãoEvento;
+	private String textoDeclaracaoEvento;
 
 	public long getIdEvento() {
 		return idEvento;
@@ -301,12 +301,12 @@ public class Evento {
 		this.d_evento_fim = d_evento_fim;
 	}
 
-	public String getTextoDeclaçãoEvento() {
-		return textoDeclaçãoEvento;
+	public String getTextoDeclaracaoEvento() {
+		return textoDeclaracaoEvento;
 	}
 
-	public void setTextoDeclaçãoEvento(String textoDeclaçãoEvento) {
-		this.textoDeclaçãoEvento = textoDeclaçãoEvento;
+	public void setTextoDeclaracaoEvento(String textoDeclaracaoEvento) {
+		this.textoDeclaracaoEvento = textoDeclaracaoEvento;
 	}
 
 }

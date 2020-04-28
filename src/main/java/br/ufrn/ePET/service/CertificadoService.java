@@ -62,7 +62,7 @@ public class CertificadoService {
 			periodo = ", nos dias "+participante.getEvento().getD_evento_inicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + 
 					" à " + participante.getEvento().getD_inscricao_fim().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		}*/
-		String textoDeclaracao = participante.getEvento().getTextoDeclaçãoEvento();
+		String textoDeclaracao = participante.getEvento().getTextoDeclaracaoEvento();
 		textoDeclaracao.replaceAll("{nome_participante}", participante.getPessoa().getNome());
 		textoDeclaracao.replaceAll("{cpf}", participante.getPessoa().getCpf());
 		textoDeclaracao.replaceAll("{titulo_evento}", participante.getEvento().getTitulo());
