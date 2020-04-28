@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 
-import io.swagger.annotations.ApiModelProperty;
-
 @Entity
 public class Petiano {
 	
@@ -14,49 +12,25 @@ public class Petiano {
 	private long idPetiano;
 	
 	@Column(name="data_ingresso", columnDefinition = "DATE")
-	@ApiModelProperty(
-	  value = "Data de ingresso do petiano",
-	  name = "data_ingresso",
-	  dataType = "Date",
-	  example = "01-01-2020.")
 	private LocalDate data_ingresso;
 	
 	@Column(name="data_egresso", columnDefinition = "DATE")
-	@ApiModelProperty(
-	  value = "Data de egresso do petiano",
-	  dataType = "Date",
-	  example = "01-01-2021.")
 	private LocalDate data_egresso;
 	
 	@Column(columnDefinition = "TEXT")
-	@ApiModelProperty(
-	  value = "Areas de interesse do petiano",
-	  dataType = "String",
-	  example = "Ciencia de dados, aprendizado de máquina, computação numérica.")
 	private String area_interesse;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@ApiModelProperty(
-	  value = "Link para o lattes do petiano",
-	  dataType = "String",
-	  example = "latte.com/1234ddddg1yu2")
 	private String lattes;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
 	private String foto;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@ApiModelProperty(
-	  value = "Link para o site do petiano",
-	  dataType = "String",
-	  example = "github.com/petcc-ufrn.")
 	private String site_pessoal;
 	
 	@OneToOne
 	@JoinColumn(name = "id_pessoa")
-	@ApiModelProperty(
-	  value = "Id da pessoa a qual se refere o petiano",
-	  dataType = "Pessoa")
 	private Pessoa pessoa;
 
 	public long getIdPetiano() {

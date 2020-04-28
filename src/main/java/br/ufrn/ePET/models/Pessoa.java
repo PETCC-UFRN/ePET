@@ -15,8 +15,6 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.swagger.annotations.ApiModelProperty;
-
 @Entity
 public class Pessoa {
 	
@@ -26,20 +24,12 @@ public class Pessoa {
 	
 	@Column(columnDefinition = "VARCHAR(100)")
 	@NotEmpty(message = "{nome.not.blank}")
-	@ApiModelProperty(
-	  value = "Nome da pesoa",
-	  dataType = "String",
-	  example = "Daniel Henrique Ferreira Gomes")
 	private String nome;
 	
 	@CPF(message = "{cpf.not.valid}")
 	@NotEmpty(message = "{cpf.not.blank}")
 	//@Length(min = 11, max = 11)
 	@Column(unique = true)
-	@ApiModelProperty(
-	  value = "CPF da pessoa",
-	  dataType = "String",
-	  example = "70200000000")
 	private String cpf;
 	
 	/*@NotEmpty

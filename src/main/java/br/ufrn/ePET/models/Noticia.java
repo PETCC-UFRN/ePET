@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
-import io.swagger.annotations.ApiModelProperty;
-
 @Entity
 public class Noticia {
 	
@@ -22,41 +20,18 @@ public class Noticia {
 	
 	@Column(columnDefinition = "VARCHAR(100)")
 	@NotEmpty
-	@ApiModelProperty(
-	  value = "Título da notícia",
-	  name = "titulo",
-	  dataType = "String",
-	  example = "PETCC-UFRN abre processo seletivo.")
 	private String titulo;
 	
 	@Column(columnDefinition = "TEXT")
 	@NotEmpty
-	@ApiModelProperty(
-	  value = "Corpo da notícia",
-	  name = "corpo",
-	  dataType = "String",
-	  example = "O PETCC da UFRN abre processo seletivo interno para novos integrantes.")
 	private String corpo;
-
-	@ApiModelProperty(
-	  value = "Data de inicio da exibição da notícia",
-	  dataType = "Date",
-	  example = "10/03/2019")
+	
 	private LocalDate inicio_exibicao;
 	//@Column(columnDefinition = 	"DATE")
-	@ApiModelProperty(
-	  value = "Data de fim da exibição da notícia",
-	  dataType = "Date",
-	  example = "30/03/2019")
 	private LocalDate limite_exibicao;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_petiano")
-	@ApiModelProperty(
-	  value = "Id do petiano que cadastrou a notícia.",
-	  name = "petiano",
-	  dataType = "String",
-	  example = "O PETCC da UFRN abre processo seletivo interno para novos integrantes.")
 	private Petiano petiano;
 
 	public long getIdNoticia() {

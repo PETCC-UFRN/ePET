@@ -26,7 +26,7 @@ public class Tipo_UsuarioService {
 		return tipo_UsuarioRepository.findAll();
 	}
 	
-	public Tipo_Usuario salvar(Tipo_Usuario tipoUsuario){
+	public Tipo_Usuario salvar(Long id, Tipo_Usuario tipoUsuario){
 		return tipo_UsuarioRepository.save(tipoUsuario);
 	}
 

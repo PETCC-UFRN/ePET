@@ -50,33 +50,26 @@ public class CertificadoService {
 		certificado.setDataCriacao(today);
 		String password = participante.getPessoa().getNome() + participante.getPessoa().getCpf() +
 				participante.getPessoa().getUsuario().getEmail() + participante.getEvento().getTitulo()+
-				participante.getEvento().getD_evento_inicio() + participante.getEvento().getD_evento_fim();
+				participante.getEvento().getInicio_rolagem() + participante.getEvento().getFim_rolagem();
 		certificado.setHash(hashDeclaracao.novaHash(password));
 		String pathSaida = "./data/certificado/"+certificado.getParticipante().getPessoa().getNome()+".pdf";
-		/*String periodo = "";
+		String periodo = "";
 		if(participante.getEvento().getQtdDias() == 1)
 		{
-			periodo = ", no dia " + participante.getEvento().getD_evento_inicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			periodo = ", no dia " + participante.getEvento().getInicio_rolagem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		}
 		else {
-			periodo = ", nos dias "+participante.getEvento().getD_evento_inicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + 
-					" à " + participante.getEvento().getD_inscricao_fim().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		}*/
-		String textoDeclaracao = participante.getEvento().getTextoDeclaçãoEvento();
-		textoDeclaracao.replaceAll("{nome_participante}", participante.getPessoa().getNome());
-		textoDeclaracao.replaceAll("{cpf}", participante.getPessoa().getCpf());
-		textoDeclaracao.replaceAll("{titulo_evento}", participante.getEvento().getTitulo());
-		textoDeclaracao.replaceAll("{carga_horaria}", String.valueOf(participante.getEvento().getQtdCargaHoraria()));
-		textoDeclaracao.replaceAll("{data_inicio}", String.valueOf(participante.getEvento().getD_evento_inicio()));
-		textoDeclaracao.replaceAll("{data_fim}", String.valueOf(participante.getEvento().getD_evento_fim()));		
+			periodo = ", nos dias "+participante.getEvento().getInicio_rolagem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + 
+					" à " + participante.getEvento().getFim_rolagem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		}
 			
-        /*textoDeclaracao = "Declaro, para os devidos fins, que " + participante.getPessoa().getNome() + ", CPF " +
+        String textoDeclaracao = "Declaro, para os devidos fins, que " + participante.getPessoa().getNome() + ", CPF " +
                 participante.getPessoa().getCpf() + ", participou do evento " + participante.getEvento().getTitulo() + 
                 ", realizado no " + participante.getEvento().getLocal() + periodo + ", com uma carga-horária total de " + 
                 participante.getEvento().getQtdCargaHoraria() +
                 "h. Este evento foi promovido pelo Programa de " +
                 "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal " +
-                "do Rio Grande do Norte (PET-CC/UFRN).";*/
+                "do Rio Grande do Norte (PET-CC/UFRN).";
         String textoData = "Natal/RN " + formattedDate + ".";
 
         try {

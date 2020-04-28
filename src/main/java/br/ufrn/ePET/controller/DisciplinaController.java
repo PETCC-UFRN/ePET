@@ -4,9 +4,6 @@ import javax.validation.Valid;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,9 +27,8 @@ public class DisciplinaController {
 	}
 
 	@GetMapping(value = "/disciplinas/{id}")
-	@ApiOperation(value = "Método que busca uma disciplina no sistema com base em seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> getDisciplinas(@ApiParam(value = "Id da disciplina solicitada") @PathVariable Long id){
+	public ResponseEntity<?> getDisciplinas(@PathVariable Long id){
 		try{
 			Disciplina d = disciplinaService.buscar(id);
 			return new ResponseEntity<>(d, HttpStatus.OK);
@@ -43,7 +39,6 @@ public class DisciplinaController {
 	}
 
 	@GetMapping(value = "/disciplinas-ativas")
-	@ApiOperation(value = "Retorna todos as disciplinas ativas do sistema.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getDisciplinasAtivas(Pageable pageable){
 		try{
@@ -54,7 +49,6 @@ public class DisciplinaController {
 	}
 
 	@GetMapping(value="/disciplinas")
-	@ApiOperation(value = "Retorna todos as disciplinas do sistema.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getDisciplinas(Pageable pageable){
 		try {
@@ -65,10 +59,9 @@ public class DisciplinaController {
 	}
 
 	@GetMapping(value = "pesquisar-diciplina/{search}")
-	@ApiOperation(value = "Método que busca disciplinas por nome ou código.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getDiscipllinasPorNomeOuCodigo(@ApiParam(value = "Nome ou código de uma disciplina") @PathVariable String search, Pageable pageable){
+	public ResponseEntity<?> getDiscipllinasPorNomeOuCodigo(@PathVariable String search, Pageable pageable){
 		Page<Disciplina> disciplinas = disciplinaService.buscarPorNomeOuCodigo(search, pageable);
 		if(disciplinas.isEmpty()){
 			throw new ResourceNotFoundException("Nenhuma disciplina encontrada");
@@ -78,7 +71,6 @@ public class DisciplinaController {
 	}
 	
 	@PostMapping(value="/disciplinas")
-	@ApiOperation(value = "Método que cadastra disciplinas no sistema.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveDisciplina(@Valid @RequestBody Disciplina disciplina){
