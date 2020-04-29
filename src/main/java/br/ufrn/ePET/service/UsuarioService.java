@@ -141,7 +141,7 @@ public class UsuarioService {
 		SimpleMailMessage smm = new SimpleMailMessage();
 		smm.setTo(email);
 		smm.setText("Olá!\n"
-				+ "Esse é o link para mudança da sua senha!\n" + "https://epet.imd.ufrn.br:8443/api/reset/?code=" + validadorUsuario.getCode());
+				+ "Esse é o link para mudança da sua senha!\n" + "https://epet.imd.ufrn.br/mudarSenha/?code=" + validadorUsuario.getCode());
 		try {
 			javaMailSender.send(smm);
 		} catch (Exception e) {
