@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.service.CertificadoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping(value="/api")
@@ -28,14 +30,17 @@ public class CertificadoController {
 	}
 
 	@GetMapping(value = "/certificado/validar/{hash}")
-	public ResponseEntity<?> getVerificarCertificado(@PathVariable String hash){
+	@ApiOperation(value = "Método que faz a validação de uma hash de uma declaração.")
+	public ResponseEntity<?> getVerificarCertificado(@ApiParam(value = "hash code que está na declaração") @PathVariable String hash){
 		certificadoService.verificarCertificado(hash);
 		return new ResponseEntity<>( HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/certificado/gerar/{id_pessoa}/{id_evento}")
+	@ApiOperation(value = "Método que gera uma declaração para determinada pessoa em um determinado evento.")
 	//@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public HttpEntity<byte[]>  gerarCertificado(@PathVariable Long id_pessoa, @PathVariable Long id_evento) throws IOException{
+	public HttpEntity<byte[]>  gerarCertificado(@ApiParam(value = "Id da pessoa que está solicitando a declaração.") @PathVariable Long id_pessoa, 
+												@ApiParam(value = "Id do evento que o usuário está solitando a declaração.") @PathVariable Long id_evento) throws IOException{
 		String fileName = certificadoService.gerarCertificado(id_pessoa,id_evento);
 		byte[] arquivo = Files.readAllBytes( Paths.get(fileName));
 		HttpHeaders httpHeaders = new HttpHeaders();
