@@ -1,5 +1,7 @@
 package br.ufrn.ePET.controller;
 
+import br.ufrn.ePET.models.Pessoa;
+import com.sun.mail.iap.Response;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -64,6 +66,7 @@ public class ParticipanteController {
 	@GetMapping(value = "/participantes-pessoa/{id}")
 	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do ID da PESSOA.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+  @Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantesPessoa(@ApiParam(value = "ID da PESSOA a ser solicitada as participações") @PathVariable Long id, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPessoa(id, pageable);
 		if (participantes.isEmpty())
@@ -74,6 +77,16 @@ public class ParticipanteController {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
 	}
+
+	@GetMapping(value = "/participantes-evento/{id}")
+	@ApiOperation(value = "Método que retorna todos os participantes de um evento à partir do id do evento")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getParticipantesEvento(@PathVariable Long id, Pageable pageable){
+		Page<Participante> participantes = participanteService.buscarPorEvento(id, pageable);
+		return new ResponseEntity<>(participantes, HttpStatus.OK);
+	}
+
 
 	@GetMapping(value = "pesquisar-pessoa-participante/{search}")
 	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do Nome ou CPF da PESSOA.")
