@@ -34,4 +34,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante, Long
 
 	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ?1 AND u.id_evento = ?2", nativeQuery = true)
 	Participante findByPessoaAndEvento(Long id_pessoa, Long id_evento);
+
+	@Query(value = "SELECT * FROM participante u WHERE u.id_evento = ?1", nativeQuery =  true)
+	Page<Participante> findByEvento(Long id, Pageable pageable);
 }
