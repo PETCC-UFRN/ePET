@@ -29,34 +29,19 @@ public class Petiano {
 	private LocalDate data_egresso;
 	
 	@Column(columnDefinition = "TEXT")
-	@ApiModelProperty(
-	  value = "Areas de interesse do petiano",
-	  dataType = "String",
-	  example = "Ciencia de dados, aprendizado de máquina, computação numérica.")
 	private String area_interesse;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@ApiModelProperty(
-	  value = "Link para o lattes do petiano",
-	  dataType = "String",
-	  example = "latte.com/1234ddddg1yu2")
 	private String lattes;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
 	private String foto;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
-	@ApiModelProperty(
-	  value = "Link para o site do petiano",
-	  dataType = "String",
-	  example = "github.com/petcc-ufrn.")
 	private String site_pessoal;
 	
 	@OneToOne
 	@JoinColumn(name = "id_pessoa")
-	@ApiModelProperty(
-	  value = "Id da pessoa a qual se refere o petiano",
-	  dataType = "Pessoa")
 	private Pessoa pessoa;
 
 	public long getIdPetiano() {

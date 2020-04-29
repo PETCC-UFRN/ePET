@@ -6,9 +6,6 @@ import javax.validation.Valid;
 import br.ufrn.ePET.models.AuthDTO;
 import br.ufrn.ePET.models.Pessoa;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +41,6 @@ public class UsuarioController {
 	}
 	
 	@GetMapping(value = "/usuarios")
-	@ApiOperation(value = "Retorna todos os usuários do sistema.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getUsuarios(Pageable pageable){
@@ -56,10 +52,9 @@ public class UsuarioController {
 	}
 	
 	@GetMapping(value="/usuarios/{id}")
-	@ApiOperation(value = "Método que busca um usuário do sistema com base em seu id.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getUsuarios(@ApiParam(value = "Id do usuario a ser solicitado") @PathVariable Long id){
+	public ResponseEntity<?> getUsuarios(@PathVariable Long id){
 		Usuario usuario = usuarioService.buscar(id);
 		if (usuario == null)
 			throw new ResourceNotFoundException("Usuario com id "+ id+" não encontrado.");
@@ -81,7 +76,6 @@ public class UsuarioController {
 	}*/
 
 	@PostMapping(value="/usuarios-atualizar/")
-	@ApiOperation(value = "Método que atualiza os dados de um usuário.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> updateUsuarios(HttpServletRequest req, @Valid @RequestBody AuthDTO authDTO){
 		//try {
