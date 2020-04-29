@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Tutoria {
 
@@ -26,6 +28,10 @@ public class Tutoria {
 	private Disciplina disciplina;
 	
 	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+	@ApiModelProperty(
+	  value = "verifica se uma tutoria está ativa ou não",
+	  dataType = "Boolena",
+	  example = "true")
 	private boolean ativo;
 	
 	public long getIdTutoria() {

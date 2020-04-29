@@ -5,6 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +41,9 @@ public class Anexo_EventoController {
 	}
 	
 	@GetMapping(value = "/anexos-evento/{id}")
+	@ApiOperation(value = "Método que retorna os anexos de determinado evento através de seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> getAnexos(@PathVariable Long id){
+	public ResponseEntity<?> getAnexos(@ApiParam(value = "Id do evento") @PathVariable Long id){
 		List<Anexo_Evento> lista = anexo_EventoService.buscarPorEvento(id);
 		if(lista.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhum anexo cadastrado.");
@@ -48,17 +52,21 @@ public class Anexo_EventoController {
 	}
 	
 	@PostMapping(value = "/anexos-evento-cadastro/{id_evento}")
+	@ApiOperation(value = "Método que salva os anexos de determinado evento através de seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveAnexos(@PathVariable Long id_evento, @Valid @RequestBody Anexo_Evento anexo_Evento){
+	public ResponseEntity<?> saveAnexos(@ApiParam(value = "Id do evento que possui os anexos") @PathVariable Long id_evento,
+										@ApiParam(value = "Anexos") @Valid @RequestBody Anexo_Evento anexo_Evento){
 		anexo_EventoService.salvar(id_evento, anexo_Evento);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/anexos-evento-upload/{id_evento}")
+	@ApiOperation(value = "Método que faz o upload dos arquivos.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long id_evento) {
+	public ResponseEntity<?> uploadFile(@ApiParam(value = "arquivo a ser anexado") @RequestParam("file") MultipartFile file, 
+										@ApiParam(value = "id do participante") @PathVariable Long id_evento) {
 	     String filename = fileStorageService.storeFile(file);
 	     if(filename != null) {
 	    	 Anexo_Evento anexo_Evento = new Anexo_Evento();
@@ -72,9 +80,10 @@ public class Anexo_EventoController {
 	
 	
 	@DeleteMapping(value = "/anexos-evento-remove/{id}")
+	@ApiOperation(value = "Método que remove os anexos de um evento.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> removeAnexos(@PathVariable Long id){
+	public ResponseEntity<?> removeAnexos(@ApiParam(value = "id do anexo a ser removido") @PathVariable Long id){
 		anexo_EventoService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

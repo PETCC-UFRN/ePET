@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Frequencia {
 
@@ -17,6 +19,10 @@ public class Frequencia {
 	private long idFrequencia;
 	
 	@NotEmpty
+	@ApiModelProperty(
+	  value = "Assiduidade da frequencia",
+	  dataType = "String",
+	  example = "260ed4cbb913e500d6626f7fd60bea5f191ea5ad")
 	private int assiduidade;
 	
 	@ManyToOne

@@ -19,6 +19,7 @@ import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Periodo_Evento;
 import br.ufrn.ePET.service.Periodo_EventoService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -32,6 +33,7 @@ public class Periodo_EventoController {
 	}
 	
 	@GetMapping(value = "/periodo-evento")
+	@ApiOperation(value = "Método que retorna todos os períodos de evento.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getPeriodoEvento(Pageable pageable){
@@ -43,8 +45,9 @@ public class Periodo_EventoController {
 	}
 	
 	@GetMapping(value = "/periodo-evento/{id}")
+	@ApiOperation(value = "Método que retona os periodos de evento a partir de um ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> getPeriodoEvento(@PathVariable Long id){
+	public ResponseEntity<?> getPeriodoEvento(@ApiParam(value = "id do periodo_evento a ser solicitado") @PathVariable Long id){
 		Periodo_Evento pe = periodo_EventoService.buscar(id);
 		if(pe == null) {
 			throw new ResourceNotFoundException("Nenhum periodo de evento encontrado");
@@ -55,7 +58,7 @@ public class Periodo_EventoController {
 	@ApiOperation(value = "buscar periodo de eventos pelo id de um evento específico")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@GetMapping(value = "/periodo-evento-buscar/{id}")
-	public ResponseEntity<?> getPeriodoEventoBuscar(@PathVariable Long id_evento, Pageable pageable){
+	public ResponseEntity<?> getPeriodoEventoBuscar(@ApiParam(value = "Id do evento a ser solicitado os periodos") @PathVariable Long id_evento, Pageable pageable){
 		Page<Periodo_Evento> pe = periodo_EventoService.buscarPorEvento(id_evento, pageable);
 		if (pe.isEmpty())
 			throw new ResourceNotFoundException("Nenhum periodo de evento com id de evento " + id_evento + " cadastrado");
@@ -63,17 +66,19 @@ public class Periodo_EventoController {
 	}
 	
 	@PostMapping(value = "periodo-evento-cadastar/{id}")
+	@ApiOperation(value = "Método que salva um período de evento.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> salvarPeriodoEvento(@PathVariable Long id, @RequestBody Periodo_Evento pe){
+	public ResponseEntity<?> salvarPeriodoEvento(@ApiParam(value = "Id do evento a ser salvo o periodo") @PathVariable Long id, @RequestBody Periodo_Evento pe){
 		periodo_EventoService.salvar(id, pe);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "periodo-evento-remove/{id}")
+	@ApiOperation(value = "Remove um período-evento pelo seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> removerPeriodoEvento(@PathVariable Long id){
+	public ResponseEntity<?> removerPeriodoEvento(@ApiParam(value = "id do periodo-evento") @PathVariable Long id){
 		periodo_EventoService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

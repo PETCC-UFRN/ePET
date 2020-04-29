@@ -44,7 +44,6 @@ public class ValidadorUsuarioService {
             Usuario usuario = usuarioRepository.findById(validadorUsuario.getUsuario().getidUsuario()).get();
             if(usuario != null){
                 String senha = new BCryptPasswordEncoder().encode(resetDTO.getSenha());
-                System.out.println(senha);
                 usuario.setSenha(senha);
                 usuarioRepository.save(usuario);
                 validadorUsuarioRepository.delete(validadorUsuario);

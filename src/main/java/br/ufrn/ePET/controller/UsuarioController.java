@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Usuario;
-import br.ufrn.ePET.models.UsuarioDTO;
 import br.ufrn.ePET.service.PessoaService;
 import br.ufrn.ePET.service.Tipo_UsuarioService;
 import br.ufrn.ePET.service.UsuarioService;
