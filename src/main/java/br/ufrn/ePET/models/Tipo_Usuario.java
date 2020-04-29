@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Tipo_Usuario{
 	
@@ -16,6 +18,11 @@ public class Tipo_Usuario{
 	
 	@Column(columnDefinition = "VARCHAR(45)")
 	@NotEmpty
+	@ApiModelProperty(
+	  value = "Nome do tipo do usuário",
+	  name = "nome",
+	  dataType = "String",
+	  example = "comum")
 	private String nome;
 
 	public long getIdTipo_usuario() {
