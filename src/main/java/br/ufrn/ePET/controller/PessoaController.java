@@ -25,6 +25,7 @@ import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.service.PessoaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @Api(value = "/api")
@@ -56,6 +57,7 @@ public class PessoaController {
 	}
 	
 	@GetMapping(value = "/pessoas-usuario")
+	@ApiOperation(value = "Método que retorna os dados da pessoa atualmente logada e que esá fazendo a requisição.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getPessoaUsuario(HttpServletRequest req){
 		Pessoa p = pessoaservice.buscarPorEmail(req);
@@ -66,20 +68,24 @@ public class PessoaController {
 	}
 	
 	@GetMapping(value="/pessoas/{id}")
+	@ApiOperation(value = "Método que retorna os dados de uma pessoa com base em um ID")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
-	public ResponseEntity<?> getPessoas(@PathVariable Long id, HttpServletRequest  req){
+	public ResponseEntity<?> getPessoas(@ApiParam(value = "Id de uma pessoa") @PathVariable Long id, 
+										HttpServletRequest  req){
 		Pessoa pessoa = pessoaservice.buscarPorEmail(req);
+		if (pessoa == null) {
+			throw new ResourceNotFoundException("Pessoa com id " + id + " não encontrada.");
+		}
 		if(pessoa.getIdPessoa() != id){
 			throw new ResourceNotFoundException("Tentativa de acesso a um usuário diferente do seu!");
 		}
-		if (pessoa == null)
-			throw new ResourceNotFoundException("Pessoa com id " + id + " não encontrada.");
 
 		return new ResponseEntity<>(pessoa, HttpStatus.OK);
 	}
 
 	@PostMapping(value="/pessoas-atualizar/")
+	@ApiOperation(value = "Método que atualiza os dados da pessoa que está logada.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> atualizar(HttpServletRequest req, @Valid @RequestBody Pessoa pessoa){
 		Pessoa p = pessoaservice.buscarPorEmail(req);
@@ -88,9 +94,10 @@ public class PessoaController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@GetMapping(value = "pesquisar-pessoa/{search}")
+	@ApiOperation(value = "Método que pesquisa uma pessoa por nome ou CPF.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getPessoasPorNomeOuCPF(@PathVariable String search, Pageable pageable){
+	public ResponseEntity<?> getPessoasPorNomeOuCPF(@ApiParam(value = "CPF ou nome da pessoa a ser solicitada.") @PathVariable String search, Pageable pageable){
 		Page<Pessoa> pessoas = pessoaservice.buscarPorNomeOrCpf(search, pageable);
 		if (pessoas.isEmpty()){
 			throw  new ResourceNotFoundException("nenhuma pessoa encontrada");
@@ -100,10 +107,11 @@ public class PessoaController {
 	}
 	
 	@PostMapping(value="/pessoas-cadastro-atualizar/{id_tipo}/{id_usuario}")
+	@ApiOperation(value = "Método que cadastra uma pessoa no sisterma")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> savePessoas(@PathVariable Long id_tipo, 
-			@PathVariable Long id_usuario, @Valid @RequestBody Pessoa pessoa, HttpServletRequest req){
+	public ResponseEntity<?> savePessoas(@ApiParam(value = "Id do tipo de usuário que essa pessoa é.") @PathVariable Long id_tipo, 
+			@ApiParam(value = "id do usuário que esta pessoa está relacionada, isto é, o que contém seu email e senha." )@PathVariable Long id_usuario, @Valid @RequestBody Pessoa pessoa, HttpServletRequest req){
 		//try {
 			Pessoa p = pessoaservice.buscarPorEmail(req);
 			if(p.getTipo_usuario().getNome().equalsIgnoreCase("tutor")){

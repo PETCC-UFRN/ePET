@@ -3,6 +3,9 @@ package br.ufrn.ePET.controller;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +37,7 @@ public class PetianoController {
 	}
 
 	@GetMapping(value="/petianos-atuais")
+	@ApiOperation(value = "Retorna todos os petianos atuais do sistema.")
 	public ResponseEntity<?> getPetianosAtuais(Pageable pageable){
 		Page<Petiano> petianos = petianoservice.buscarAtuais(pageable);
 		/*if (petianos.isEmpty())
@@ -48,6 +52,7 @@ public class PetianoController {
 	
 
 	@GetMapping(value="/petianos-antigos")
+	@ApiOperation(value = "Retorna todos os petianos egressos do sistema.")
 	public ResponseEntity<?> getPetianosAntigos(Pageable pageable){
 		Page<Petiano> petianos = petianoservice.buscarAntigos(pageable);
 		/*if (petianos.isEmpty())
@@ -61,6 +66,7 @@ public class PetianoController {
 	}
 
 	@GetMapping(value="/petianos/{id}")
+	@ApiOperation(value = "Retorna todos os petianos do sistema(atuais e egressos).")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public Petiano getPetianos(@PathVariable Long id){
@@ -71,21 +77,23 @@ public class PetianoController {
 	}
 
 	@GetMapping(value = "pesquisar-petiano/{search}")
+	@ApiOperation(value = "Retorna os dados de um petiano a partir de seu nome ou CPF.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getPetianosPorNomeOuCpf(@PathVariable String search, Pageable pageable){
+	public ResponseEntity<?> getPetianosPorNomeOuCpf(@ApiParam(value = "Nome ou CPF de um petiano.") @PathVariable String search, Pageable pageable){
 		Page<Petiano> petianos = petianoservice.buscarPorNomeOuCpf(search, pageable);
 		if(petianos.isEmpty()){
-			throw new ResourceNotFoundException("Nenhum petiano encontrado");
+			throw new ResourceNotFoundException("Nenhum petiano encontrado!");
 		} else {
 			return new ResponseEntity<>(petianos, HttpStatus.OK);
 		}
 	}
 
 	@PostMapping(value="/petianos-cadastro/{id}")
+	@ApiOperation(value = "Cadastra um petiano.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
-	public ResponseEntity<?> savePetianos(@PathVariable Long id, @Valid @RequestBody Petiano petiano){
+	public ResponseEntity<?> savePetianos(@ApiParam(value = "id_pessoa de um usuário que será um petiano.") @PathVariable Long id, @Valid @RequestBody Petiano petiano){
 		//try{
 			petianoservice.salvar(id, petiano);
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -95,9 +103,10 @@ public class PetianoController {
 	}
 
 	@DeleteMapping(value="/petianos-remove/{id}")
+	@ApiOperation(value = "Torna um petiano em egresso.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
-	public ResponseEntity<?> removePetianos(@PathVariable Long id){
+	public ResponseEntity<?> removePetianos(@ApiParam(value = "Id do petiano que irá se tornar egresso.")@PathVariable Long id){
 		Petiano petiano = petianoservice.buscar(id);
 		if (petiano == null)
 			throw new ResourceNotFoundException("Nenhum petiano com id "+ id +" cadastrado!");
@@ -111,9 +120,11 @@ public class PetianoController {
 
 
 	@PutMapping(value="/petianos-editar/{id_pessoa}")
+	@ApiOperation(value = "Método responsável por editar os dados de um petiano.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> editaPetianos(@PathVariable Long id_pessoa , @Valid @RequestBody Petiano petiano){
+	public ResponseEntity<?> editaPetianos(@ApiParam(value = "Id_pessoa do petiano que irá ser editado.") @PathVariable Long id_pessoa , 
+										   @ApiParam(value = "Dados do petiano que será editado.") @Valid @RequestBody Petiano petiano){
 		//try{
 			petianoservice.editar(id_pessoa, petiano);
 			return new ResponseEntity<>(HttpStatus.OK);
