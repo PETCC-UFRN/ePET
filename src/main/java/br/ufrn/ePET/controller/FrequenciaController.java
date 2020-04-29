@@ -1,6 +1,9 @@
 package br.ufrn.ePET.controller;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +33,7 @@ public class FrequenciaController {
 	}
 	
 	@GetMapping(value = "/frequencia")
+	@ApiOperation(value = "Método que retorna todas as frequencias cadastradas.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getFrequencia(Pageable pageable){
 		Page<Frequencia> f = frequenciaService.buscar(pageable);
@@ -40,8 +44,9 @@ public class FrequenciaController {
 	}
 	
 	@GetMapping(value = "/frequencia/{id}")
+	@ApiOperation(value = "Método que faz retorna a frequencia a partir de seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> getFrequencia(@PathVariable Long id){
+	public ResponseEntity<?> getFrequencia(@ApiParam(value = "Id da frequência") @PathVariable Long id){
 		Frequencia f = frequenciaService.buscar(id);
 		if(f == null) {
 			throw new ResourceNotFoundException("Frequencia com id "+id+" não encontrada");
@@ -50,22 +55,27 @@ public class FrequenciaController {
 	}
 	
 	@GetMapping(value = "frequencia-pessoa/{id_participante}/{id_evento}")
+	@ApiOperation(value = "Método que busca a frequencia de um participante do evento pelo seu ID. Esse método retorna a Assiduidade do participante no evento passado")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> getFrequenciaPessoa(@PathVariable Long id_participante, @PathVariable Long id_evento){
+	public ResponseEntity<?> getFrequenciaPessoa(@ApiParam(value = "Id do participante que se busca a frequencia") @PathVariable Long id_participante, 
+												 @ApiParam(value = "Id do evento que se dejesa solicitar as frequencias") @PathVariable Long id_evento){
 		return new ResponseEntity<>(frequenciaService.buscarPorParticipante(id_participante, id_evento), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "frequencia-cadastrar/{id_periodo_evento}/{id_participante}")
+	@ApiOperation(value = "Método que cadastra uma nova frequencia.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> salvarFrequencia(@PathVariable Long id_periodo_evento, 
-			@PathVariable Long id_participante, @RequestBody Frequencia f){
+	public ResponseEntity<?> salvarFrequencia(@ApiParam(value = "Id do periodo a ser confirmada a presença") @PathVariable Long id_periodo_evento, 
+											  @ApiParam(value= "Id do participante") @PathVariable Long id_participante, 
+											  @ApiParam(value= "Dados refenrente a essa frequencia ") @RequestBody Frequencia f){
 		frequenciaService.salvar(id_periodo_evento, id_participante, f);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "frequencia-remove/{id}")
+	@ApiOperation(value = "Método que remove uma frequencia.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> removerFrequencia(@PathVariable Long id){
+	public ResponseEntity<?> removerFrequencia(@ApiParam(value = "Id da frequencia a ser removida") @PathVariable Long id){
 		frequenciaService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

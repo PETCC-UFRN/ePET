@@ -1,17 +1,16 @@
 package br.ufrn.ePET.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.FileSystemException;
 
-import javax.annotation.processing.FilerException;
 import javax.servlet.http.HttpServletRequest;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +29,9 @@ public class FileStorageController {
 	private FileStorageService fileStorageService;
 	
 	@PostMapping("/uploadfile")
+	@ApiOperation(value = "Método que Informa o diretório de upload.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	    public String uploadFile(@RequestParam("file") MultipartFile file) {
+	    public String uploadFile(@ApiParam(value = "diretório de upload de arquivos") @RequestParam("file") MultipartFile file) {
 	     try {
 	    	 String filename = fileStorageService.storeFile(file);
 	    	 //System.out.println(filename);
@@ -42,8 +42,9 @@ public class FileStorageController {
 	 }
 	
 	@GetMapping("/downloadfile/{filename:.+}")
+	@ApiOperation(value = "Método que faz o download de um arquivo.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-		public ResponseEntity<Resource> downloadFile(@PathVariable String filename, HttpServletRequest request){
+		public ResponseEntity<Resource> downloadFile(@ApiParam(value = "Link do arquivo") @PathVariable String filename, HttpServletRequest request){
 			Resource resource = fileStorageService.loadFileAsResource(filename);
 			
 			String contentType = null;

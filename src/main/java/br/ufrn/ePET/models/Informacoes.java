@@ -2,6 +2,8 @@ package br.ufrn.ePET.models;
 
 import javax.persistence.*;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Informacoes {
 
@@ -10,12 +12,31 @@ public class Informacoes {
     private Long idInformacao;
 
     @Column(columnDefinition = "TEXT")
+	@ApiModelProperty(
+	  value = "Texto básico que resume o que é o PETCC-UFRN",
+	  dataType = "Text",
+	  example = "O Programa de Educação Tutorial é um projeto nacional, organizado através de cursos de graduação das Instituições de Ensino Superior do Brasil. Nosso grupo é do curso de Ciência da Computação (CC) da Universidade Federal do Rio grande do Norte (UFRN).\n" + 
+	  		"\n" + 
+	  		"Somos orientados por um tutor, atualmente o professor Umberto Costa. Nosso grupo é formado por 12 bolsistas e até 6 voluntários.")
     private String sobre;
 
+	@ApiModelProperty(
+	  value = "Telefone do PET",
+	  dataType = "String",
+	  example = "3030-3030")
     private String telefone;
 
+	@ApiModelProperty(
+	  value = "Endereço do PET",
+	  dataType = "String",
+	  example = "Departamento Informática e Matemática Aplicada - UFRN")
     private String endereco;
 
+
+	@ApiModelProperty(
+	  value = "Email do PET",
+	  dataType = "String",
+	  example = "petcc@dimap.ufrn.br")
     private String email;
 
     public Long getIdInformacao() {

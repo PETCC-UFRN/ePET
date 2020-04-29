@@ -1,8 +1,9 @@
 package br.ufrn.ePET.controller;
 
-import java.io.IOException;
-
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,16 @@ public class PagamentoController {
 	}
 	
 	@GetMapping(value = "/criar-pagamento/{id_pessoa}/{id_evento}")
+	@ApiOperation(value = "Método que cria uma ordem de pagamento para o evento.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> pagar(@PathVariable Long id_participante){
+	public ResponseEntity<?> pagar(@ApiParam(value = "Id do participante que está solicitando o pagamento") @PathVariable Long id_participante){
 		String link = pagamentoService.criarPagamento(id_participante);
 		return new ResponseEntity<>(link, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/redirecionamento-pagamento/")
-	public ResponseEntity<?> redirecionamento(@RequestParam("transaction_id") String transaction_id){
+	@ApiOperation(value = "Método que redireciona a requisição de pagamento.")
+	public ResponseEntity<?> redirecionamento(@ApiParam(value = "id da transação.") @RequestParam("transaction_id") String transaction_id){
 		pagamentoService.redirectPagseguro(transaction_id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -45,8 +48,10 @@ public class PagamentoController {
 		}
 	}*/
 	@PostMapping(value = "/pagseguro-notificacao/")
-	public ResponseEntity<?> verificar(@RequestParam("notificationCode") String nCode, @RequestParam("notificationType") String nType){
-		System.out.println();
+	@ApiOperation(value = "Método que verifica o status do pagamento.")
+	public ResponseEntity<?> verificar(@ApiParam(value = "codigo da notificação") @RequestParam("notificationCode") String nCode, 
+									   @ApiParam(value = "tipo de notificação (Váriável nao usada, checkar!!!!)") @RequestParam("notificationType") String nType){
+		//System.out.println();
 		pagamentoService.verifiarStatusPagamento(nCode, nType);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

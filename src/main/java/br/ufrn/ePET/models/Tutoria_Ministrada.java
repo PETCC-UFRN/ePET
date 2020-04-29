@@ -9,7 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Tutoria_Ministrada {
@@ -30,6 +31,10 @@ public class Tutoria_Ministrada {
 	
 	@Column(columnDefinition = "DATE")
 	//@NotEmpty
+	@ApiModelProperty(
+	  value = "Data que a tutoria será realizada",
+	  dataType = "Date",
+	  example = "2020-04-01")
 	private LocalDate data;
 	
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")

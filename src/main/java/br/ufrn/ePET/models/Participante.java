@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import io.swagger.annotations.ApiModelProperty;
+
 import java.time.LocalDate;
 
 @Entity
@@ -25,14 +28,26 @@ public class Participante {
 	private Evento evento;
 
 	@Column(columnDefinition = "DATE")
+	@ApiModelProperty(
+	  value = "Data máxima para a confirmação da participação",
+	  dataType = "Date",
+	  example = "2020-01-01")
 	private LocalDate data_maxima;
 
 	//@NotEmpty
 	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
+	@ApiModelProperty(
+	  value = "Confirmação da pessoa no evento",
+	  dataType = "Boolean",
+	  example = "false")
 	private boolean confirmado;
 	
 	//@NotEmpty
 	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
+	@ApiModelProperty(
+	  value = "Informa se a pessoa está na lista de espera",
+	  dataType = "Boolean",
+	  example = "false")
 	private boolean espera;
 
 	public long getIdParticipantes() {

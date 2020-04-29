@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotEmpty;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @MappedSuperclass
 public class Anexos{
 	
@@ -16,6 +18,10 @@ public class Anexos{
 	
 	@Column(columnDefinition = "TEXT")
 	@NotEmpty
+	@ApiModelProperty(
+	  value = "Arquivos",
+	  dataType = "String",
+	  example = "file.rar")
 	private String anexos;
 
 	public long getIdAnexo() {
