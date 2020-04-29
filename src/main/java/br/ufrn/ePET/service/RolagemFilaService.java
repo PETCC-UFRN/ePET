@@ -38,7 +38,7 @@ public class RolagemFilaService {
         this.javaMailSender = javaMailSender;
     }
 
-    @Scheduled(cron = "0 30 1 * * *")
+    @Scheduled(cron = "0 40 1 * * *")
     public void VerificarPagamentos(){
         List<Evento> lista = eventoService.buscarAtivos();
         for(Evento e : lista){
