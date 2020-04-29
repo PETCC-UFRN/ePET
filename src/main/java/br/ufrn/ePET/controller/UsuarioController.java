@@ -85,7 +85,7 @@ public class UsuarioController {
 	public ResponseEntity<?> updateUsuarios(HttpServletRequest req, @Valid @RequestBody AuthDTO authDTO){
 		//try {
 		Pessoa p = pessoaService.buscarPorEmail(req);
-		if(p.getUsuario().getEmail().equalsIgnoreCase(authDTO.getEmail())){
+		if(p.getUsuario().getEmail().equalsIgnoreCase(authDTO.getEmail()) || p.getTipo_usuario().getNome().equalsIgnoreCase("tutor")){
 			usuarioService.atualizar(authDTO.getEmail(), authDTO.getSenha());
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
