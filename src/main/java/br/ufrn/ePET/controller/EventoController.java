@@ -14,13 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
@@ -68,6 +62,7 @@ public class EventoController {
 	}
 	
 	@GetMapping(value = "/eventos/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Método que busca um evento a partir de um ID.")
 	public ResponseEntity<?> getEventos(@ApiParam(value = "Id do evento procurado") @PathVariable Long id){
 		Evento evento = eventoService.buscar(id);
@@ -81,6 +76,7 @@ public class EventoController {
 	}
 	
 	@GetMapping(value = "eventos-inativos")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Retorna os eventos inativos do sistema.")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getEventosInativos(){
@@ -88,6 +84,7 @@ public class EventoController {
 	}
 
 	@GetMapping(value = "pesquisar-evento/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Método que retorna os eventos a partir de um título.")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getEventoPorTitulo(@ApiParam(value = "Título do evento a ser procurado") @PathVariable String search, Pageable pageable){
@@ -99,6 +96,7 @@ public class EventoController {
 		}
 	}
 	@PostMapping(value = "/eventos-ativar/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Método que ativa um evento a partir de um ID(SOMENTE UM TUTOR REALIZA ESSA AÇÂO).")
 	@Secured("ROLE_tutor")
 	public ResponseEntity<?> ativarEventos(@ApiParam(value = "Id do avento a ser ativado") @PathVariable Long id){
@@ -111,6 +109,7 @@ public class EventoController {
 	}
 	
 	@PostMapping(value = "/eventos-cadastrar")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Cadastra um novo evento no sistema.")
 	//@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> saveEventos(@Valid @RequestBody Evento evento){
@@ -121,14 +120,16 @@ public class EventoController {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
 	}
-	
+
+	@CrossOrigin
 	@DeleteMapping(value="/eventos-remove/{id}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Remove um evento do sistema a partir de seu ID.")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removeEventos(@ApiParam(value = "Id do evento a ser removido") @PathVariable Long id){
 		//try {
-			eventoService.remover(id);;
-			return new ResponseEntity<>(HttpStatus.OK);
+			eventoService.remover(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
