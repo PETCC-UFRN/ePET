@@ -2,6 +2,8 @@ package br.ufrn.ePET.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Column;
 
 //import java.util.Collection;
@@ -23,15 +25,27 @@ public class Usuario {
 	@Column(columnDefinition = "VARCHAR(100)", unique = true)
 	@NotEmpty(message = "{email.not.blank}")
 	@Email(message = "{email.not.valid}")
+	@ApiModelProperty(
+	  value = "Email do usuário",
+	  dataType = "String",
+	  example = "petcc@ufrn.dimap.br")
 	private String email;
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
 	@JsonIgnore
+	@ApiModelProperty(
+	  value = "Usuário sempre começa como inválido",
+	  dataType = "Boolean",
+	  example = "false")
 	private boolean validado;
 	
 	@Column
 	@NotEmpty(message = "{senha.not.blank}")
 	@JsonIgnore
+	@ApiModelProperty(
+	  value = "Senha do usuário",
+	  dataType = "String",
+	  example = "senha123")
 	private String senha;
 	
 	public Long getidUsuario() {

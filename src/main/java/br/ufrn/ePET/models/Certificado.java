@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Certificado {
 
@@ -22,6 +24,10 @@ public class Certificado {
 	private Participante participante;
 	
 	@Column(columnDefinition = "VARCHAR(100)")
+	@ApiModelProperty(
+	  value = "Hash code contido na declaração",
+	  dataType = "String",
+	  example = "260ed4cbb913e500d6626f7fd60bea5f191ea5ad")
 	private String hash;
 
 	@Column(name="dataCriacao", columnDefinition = "DATE")

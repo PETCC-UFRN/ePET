@@ -5,6 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +41,9 @@ public class Anexo_NoticiaController {
 	}
 	
 	@GetMapping(value = "/anexos-noticias/{id}")
+	@ApiOperation(value = "Método que retorna os anexos de determinada notícia através de seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> getAnexos(@PathVariable Long id){
+	public ResponseEntity<?> getAnexos(@ApiParam(value = "Id da notpicia que se solicita os anexos") @PathVariable Long id){
 		List<Anexo_Noticia> lista = anexo_NoticiaService.buscarPorNoticia(id);
 		if(lista.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhum anexo cadastrado.");
@@ -48,16 +52,20 @@ public class Anexo_NoticiaController {
 	}
 	
 	@PostMapping(value = "/anexos-noticia-cadastro/{id_noticia}")
+	@ApiOperation(value = "Método que salva os anexos de determinada notícia através de seu ID.")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveAnexos(@PathVariable Long id_noticia, @Valid @RequestBody Anexo_Noticia anexo_Noticia){
+	public ResponseEntity<?> saveAnexos(@ApiParam(value = "Id da notícia que cria o anexos") @PathVariable Long id_noticia, 
+										@ApiParam(value = "Anexos") @Valid @RequestBody Anexo_Noticia anexo_Noticia){
 		anexo_NoticiaService.salvar(id_noticia, anexo_Noticia);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/anexos-noticia-upload/{id_noticia}")
+	@ApiOperation(value = "Método que faz o upload dos arquivos.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long id_noticia) {
+	public ResponseEntity<?> uploadFile(@ApiParam(value = "arquivo a ser anexado") @RequestParam("file") MultipartFile file, 
+										@ApiParam(value = "id da notícia") @PathVariable Long id_noticia) {
 	     String filename = fileStorageService.storeFile(file);
 	     if(filename != null) {
 	    	 Anexo_Noticia anexo_Noticia = new Anexo_Noticia();
@@ -71,9 +79,10 @@ public class Anexo_NoticiaController {
 	
 	
 	@DeleteMapping(value = "/anexos-noticia-remove/{id}")
+	@ApiOperation(value = "Método que remove os anexos de uma notícia.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> removeAnexos(@PathVariable Long id){
+	public ResponseEntity<?> removeAnexos(@ApiParam(value = "id do anexo a ser removido") @PathVariable Long id){
 		anexo_NoticiaService.remover(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
