@@ -1,6 +1,7 @@
 package br.ufrn.ePET.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,11 @@ public class EventoService {
 		//Page<Evento> lista = eventoRepository.findAll(pageable);
 		List<Evento> lista_aux = eventoRepository.findByAtivos();
 		LocalDate ld = LocalDate.now();
+		List<Evento> aux = new ArrayList<Evento>();
 		for(Evento e : lista_aux) {
-			if(ld.compareTo(e.getD_inscricao()) < 0 || ld.compareTo(e.getD_inscricao_fim()) > 0 ) {
+			if(!(ld.compareTo(e.getD_inscricao()) < 0) && !(ld.compareTo(e.getD_inscricao_fim()) > 0) ) {
 				//System.out.println(e.getTitulo());
-				lista_aux.remove(e);
+				aux.add(e);
 			}
 		}
 		//lista_aux.clear();
@@ -50,7 +52,7 @@ public class EventoService {
 		System.out.println(LocalDate.now());*/
 		if(lista_aux.isEmpty())
 			throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição");
-		return lista_aux;
+		return aux;
 	}
 
 	public Page<Evento> buscarPorTitulo(String titulo, Pageable pageable){
