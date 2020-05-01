@@ -53,6 +53,10 @@ public class OrganizadoresService {
 				eventoRepository.findById(id_evento).get(): null;
 		Pessoa pessoa = pessoaRepository.findById(id_pessoa).isPresent() ? 
 				pessoaRepository.findById(id_pessoa).get(): null;
+
+		if(organizadoresRepository.findByPessoaAndEvento(id_pessoa, id_evento) != null){
+			throw new RuntimeException("Essa pessoa já fez sua inscrição no evento!");
+		}
 		if(evento == null)
 			throw new ResourceNotFoundException("Evento com id "+ id_evento + " não encontrado.");
 		if(pessoa == null)

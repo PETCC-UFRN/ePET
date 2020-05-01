@@ -71,6 +71,10 @@ public class ParticipanteService {
 				eventoRepository.findById(id_evento).get(): null;
 		Pessoa pe= pessoaRepository.findById(id_pessoa).isPresent() ? 
 				pessoaRepository.findById(id_pessoa).get(): null;
+
+		if(participanteRepository.findByPessoaAndEvento(id_pessoa, id_evento) != null){
+			throw new RuntimeException("Essa pessoa já fez sua inscrição no evento!");
+		}
 		if(e== null)
 			throw new ResourceNotFoundException("Evento com id "+ id_evento + " não encontrado.");
 		if(pe== null)
