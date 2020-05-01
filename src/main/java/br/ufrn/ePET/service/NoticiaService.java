@@ -31,7 +31,7 @@ public class NoticiaService {
 	}
 	
 	public Page<Noticia> buscar(Pageable pageable){
-		return noticiaRepository.findAll(pageable);
+		return noticiaRepository.findNews(pageable);
 	}
 	
 	public void salvar(Long id_petiano, Noticia noticia) {
