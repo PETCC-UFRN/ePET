@@ -21,6 +21,10 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 
 import br.ufrn.ePET.service.CustomUserDetailsService;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 import static br.ufrn.ePET.security.SecurityConstants.SIGN_IN_URL;
 import static br.ufrn.ePET.security.SecurityConstants.SIGN_UP_URL;
@@ -47,7 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		 http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and().csrf().disable();
+		 //http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and().csrf().disable();
+		 http.csrf().disable();
+		 
+		 http.cors();
 
 		 http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -99,6 +106,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-	
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration corsConfig = new CorsConfiguration();
+		corsConfig.applyPermitDefaultValues();
+		corsConfig.addAllowedMethod(HttpMethod.PUT);
+		corsConfig.addAllowedMethod(HttpMethod.DELETE);
+		corsConfig.setAllowedOrigins(Arrays.asList("*"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfig);
+		return source;
+	}
 	
 }
