@@ -26,6 +26,9 @@ public interface Tutoria_Ministrada_Repository extends JpaRepository<Tutoria_Min
 	@Query(value = "SELECT * FROM tutoria_ministrada tm WHERE tm.ativo = true AND tm.id_pessoa = ?1", nativeQuery = true)
 	Page<Tutoria_Ministrada> findByPessoa(Long id_pessoa, Pageable pageable);
 
+	@Query(value = "SELECT * FROM tutoria_ministrada tm WHERE tm.ativo = false AND tm.id_pessoa = ?1", nativeQuery = true)
+	Page<Tutoria_Ministrada> findByPessoaInativa(Long id_pessoa, Pageable pageable);
+
 	@Query(value = "SELECT * FROM tutoria_ministrada tm WHERE tm.ativo = true AND tm.id_tutoria = ?1", nativeQuery = true)
 	Page<Tutoria_Ministrada> findByTutoria(Long id_tutoria, Pageable pageable);
 

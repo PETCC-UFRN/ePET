@@ -58,12 +58,24 @@ public class Tutoria_MinistradaController {
 	}
 
 	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas/{id}")
-	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID")
+	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID e que está ativa")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriasMinistradasPessoa(@ApiParam(value = "Id da pessoa que terá suas solicitações de tutorias listadas.") @PathVariable Long id, Pageable pageable){
 		try{
 			return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoa(id, pageable), HttpStatus.OK);
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas-ina/{id}")
+	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID e que está inativa")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getTutoriasMinistradasPessoaInativo(@ApiParam(value = "Id da pessoa que terá suas solicitações de tutorias inativas listadas.") @PathVariable Long id, Pageable pageable){
+		try{
+			return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoaInativa(id, pageable), HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
