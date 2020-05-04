@@ -48,6 +48,14 @@ public class NoticiaController {
 		}*/
 		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
+
+	@GetMapping(value = "/pesquisar-noticia/{search}")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@ApiOperation(value = "Método que retorna as noticias a partir de um título.")
+	public ResponseEntity<?> getNoticiasPorTitulo(@ApiParam(value = "Título da notícia a ser procurada") @PathVariable String search, Pageable pageable){
+		Page<Noticia> noticias = noticiaService.buscarPorTitulo(search, pageable);
+		return new ResponseEntity<>(noticias, HttpStatus.OK);
+	}
 	
 	@GetMapping(value = "/noticia/{id}")
 	@ApiOperation(value = "Método responsável por buscar uma notícia com base no ID.")

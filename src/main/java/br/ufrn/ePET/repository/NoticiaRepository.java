@@ -10,4 +10,7 @@ public interface NoticiaRepository extends JpaRepository<Noticia, Long> {
 
     @Query(value = "SELECT * FROM noticia n ORDER BY n.id_noticia DESC", nativeQuery = true)
     Page<Noticia> findNews(Pageable pageable);
+
+    @Query(value = "SELECT * FROM noticia n WHERE n.titulo LIKE %?1%", nativeQuery = true)
+    Page<Noticia> findByTitulo(String titulo, Pageable pageable);
 }

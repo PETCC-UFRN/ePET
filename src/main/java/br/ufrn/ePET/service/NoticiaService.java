@@ -33,6 +33,10 @@ public class NoticiaService {
 	public Page<Noticia> buscar(Pageable pageable){
 		return noticiaRepository.findNews(pageable);
 	}
+
+	public Page<Noticia> buscarPorTitulo(String titulo, Pageable pageable){
+		return noticiaRepository.findByTitulo(titulo, pageable);
+	}
 	
 	public void salvar(Long id_petiano, Noticia noticia) {
 		Petiano petiano = petianoRepository.findById(id_petiano).get();
