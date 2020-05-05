@@ -70,6 +70,7 @@ public class PessoaService {
 			if(p.getTipo_usuario().getNome().equalsIgnoreCase("comum")){
 				if(p != null){
 					p.setCpf(pessoa.getCpf());
+					p.setTipo_usuario(tipo_UsuarioRespository.findById(Long.valueOf(2)).get());
 					p.setNome(pessoa.getNome());
 					return pessoaRepository.save(p);
 				} else {
