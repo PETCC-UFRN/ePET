@@ -25,7 +25,7 @@ public class Disciplina {
 	  example = "Fundamentos matemáticos da computação II")
 	private String nome;
 	
-	@Column(columnDefinition = "VARCHAR(45)")
+	@Column(columnDefinition = "VARCHAR(45)", unique = true)
 	@NotEmpty
 	@ApiModelProperty(
 	  value = "Código da disciplina",
