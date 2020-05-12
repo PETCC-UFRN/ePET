@@ -42,6 +42,9 @@ public class Evento {
 	  dataType = "String",
 	  example = "DIMAP LCC3")
 	private String local;
+
+	@Column(columnDefinition = "TEXT")
+	private String imagem;
 	
 	@Column(columnDefinition = "DATE")
 	//@NotEmpty
@@ -309,4 +312,11 @@ public class Evento {
 		this.textoDeclaracaoEvento = textoDeclaracaoEvento;
 	}
 
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
 }

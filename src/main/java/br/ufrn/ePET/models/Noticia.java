@@ -49,6 +49,9 @@ public class Noticia {
 	  dataType = "Date",
 	  example = "30/03/2019")
 	private LocalDate limite_exibicao;
+
+	@Column(columnDefinition = "TEXT")
+	private String imagem;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_petiano")
@@ -106,5 +109,12 @@ public class Noticia {
 	public void setInicio_exibicao(LocalDate inicio_exibicao) {
 		this.inicio_exibicao = inicio_exibicao;
 	}
-	
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
 }
