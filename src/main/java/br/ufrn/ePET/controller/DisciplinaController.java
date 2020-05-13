@@ -64,7 +64,7 @@ public class DisciplinaController {
 		}
 	}
 
-	@GetMapping(value = "pesquisar-diciplina/{search}")
+	@GetMapping(value = "pesquisar-disciplina/{search}")
 	@ApiOperation(value = "Método que busca disciplinas por nome ou código.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
@@ -77,7 +77,7 @@ public class DisciplinaController {
 		}
 	}
 
-	@GetMapping(value = "pesquisar-diciplina-ativa/{search}")
+	@GetMapping(value = "pesquisar-disciplina-ativa/{search}")
 	@ApiOperation(value = "Método que busca disciplinas por nome ou código.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})

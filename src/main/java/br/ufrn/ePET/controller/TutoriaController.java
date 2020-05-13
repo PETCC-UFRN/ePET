@@ -99,7 +99,7 @@ public class TutoriaController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/tutoria-remove/{id}")
+	@DeleteMapping(value = "/tutoria-desativa/{id}")
 	@ApiOperation(value="Método responsável por desativar(deletar) uma tutoria.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
