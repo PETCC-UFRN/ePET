@@ -14,6 +14,9 @@ public interface DisciplinaRepository extends JpaRepository<Disciplina, Long>{
 	@Query(value = "SELECT * FROM disciplina u WHERE u.nome LIKE %?1% OR u.codigo LIKE %?1%", nativeQuery = true)
 	Page<Disciplina> findbyNomeOuCodigo(String search, Pageable pageable);
 
+	@Query(value = "SELECT * FROM disciplina u WHERE u.ativo = true AND (u.nome LIKE %?1% OR u.codigo LIKE %?1%)", nativeQuery = true)
+	Page<Disciplina> findbyNomeOuCodigoAtivo(String search, Pageable pageable);
+
 	@Query(value = "SELECT * FROM disciplina u WHERE u.ativo = true", nativeQuery = true)
 	Page<Disciplina> findByAtivos(Pageable pageable);
 }

@@ -76,6 +76,19 @@ public class DisciplinaController {
 			return new ResponseEntity<>(disciplinas, HttpStatus.OK);
 		}
 	}
+
+	@GetMapping(value = "pesquisar-diciplina-ativa/{search}")
+	@ApiOperation(value = "Método que busca disciplinas por nome ou código.")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getDiscipllinasPorNomeOuCodigoAtiva(@ApiParam(value = "Nome ou código de uma disciplina") @PathVariable String search, Pageable pageable){
+		Page<Disciplina> disciplinas = disciplinaService.buscarPorNomeOuCodigoAtivo(search, pageable);
+		if(disciplinas.isEmpty()){
+			throw new ResourceNotFoundException("Nenhuma disciplina encontrada");
+		} else {
+			return new ResponseEntity<>(disciplinas, HttpStatus.OK);
+		}
+	}
 	
 	@PostMapping(value="/disciplinas")
 	@ApiOperation(value = "Método que cadastra disciplinas no sistema.")

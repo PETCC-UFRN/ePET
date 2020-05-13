@@ -41,6 +41,10 @@ public class DisciplinaService {
 	public Page<Disciplina> buscarPorNomeOuCodigo(String search, Pageable pageable){
 		return disciplinaRepository.findbyNomeOuCodigo(search, pageable);
 	}
+
+	public Page<Disciplina> buscarPorNomeOuCodigoAtivo(String search, Pageable pageable){
+		return disciplinaRepository.findbyNomeOuCodigoAtivo(search, pageable);
+	}
 	
 	public Disciplina salvar(Disciplina disciplina) {
 		return disciplinaRepository.save(disciplina);
