@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,16 +13,21 @@ import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.EventoRepository;
 
 @Service
 public class EventoService {
 	
 	private final EventoRepository eventoRepository;
+	private final OrganizadoresService organizadoresService;
+	private final PessoaService pessoaService;
 	
 	@Autowired
-	public EventoService(EventoRepository eventoRepository) {
+	public EventoService(EventoRepository eventoRepository, OrganizadoresService organizadorService, PessoaService pessoaService) {
 		this.eventoRepository = eventoRepository;
+		this.organizadoresService = organizadorService;
+		this.pessoaService = pessoaService;
 	}
 	
 	public Evento buscar(Long id) {
@@ -67,13 +74,16 @@ public class EventoService {
 		return lista;
 	}
 
-	public Evento salvar(Evento evento) {
+	public Evento salvar(Evento evento, HttpServletRequest req) {
 		if(evento.getTextoDeclaracaoEvento() == null) {
 			evento.setTextoDeclaracaoEvento("Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
 	  		+ " nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de "
 	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).");
 		}
-		return eventoRepository.save(evento);
+		Evento e = eventoRepository.save(evento);
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		organizadoresService.salvar(e.getIdEvento(), p.getIdPessoa());
+		return e;
 	}
 	
 	public void remover(Long id) {
