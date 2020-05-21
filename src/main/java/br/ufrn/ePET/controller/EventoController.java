@@ -2,6 +2,7 @@ package br.ufrn.ePET.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -111,10 +112,10 @@ public class EventoController {
 	@PostMapping(value = "/eventos-cadastrar")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Cadastra um novo evento no sistema.")
-	//@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveEventos(@Valid @RequestBody Evento evento){
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> saveEventos(@Valid @RequestBody Evento evento, HttpServletRequest req){
 		//try {
-			eventoService.salvar(evento);
+			eventoService.salvar(evento, req);
 			return new ResponseEntity<>(HttpStatus.OK);
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);

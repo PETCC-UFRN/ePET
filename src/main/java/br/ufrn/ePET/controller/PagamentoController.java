@@ -22,7 +22,7 @@ public class PagamentoController {
 		this.pagamentoService = pagamentoService;
 	}
 	
-	@GetMapping(value = "/criar-pagamento/{id_pessoa}/{id_evento}")
+	@GetMapping(value = "/criar-pagamento/{id_participante}")
 	@ApiOperation(value = "Método que cria uma ordem de pagamento para o evento.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> pagar(@ApiParam(value = "Id do participante que está solicitando o pagamento") @PathVariable Long id_participante){

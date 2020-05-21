@@ -95,7 +95,7 @@ public class OrganizadoresController {
 	@GetMapping(value = "/pesquisar-pessoa-organizadores/{search}")
 	@ApiOperation(value = "Método que busca no sistema os eventos que uma pessoa está organizando a partir de seu nome ou CPF")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> getOrganizadoresPorPessoa(@ApiParam(value = "Nome ou CPF da pessoa.") @PathVariable String search, Pageable pageable){
 		Page<Organizadores> organizadores = organizadoresService.buscarPorNomeOuCpfPessoa(search, pageable);
 		if(organizadores.isEmpty()){
@@ -108,7 +108,7 @@ public class OrganizadoresController {
 	@GetMapping(value = "/pesquisar-evento-organizadores/{search}")
 	@ApiOperation(value = "Método que retorna os organizadores de um evento a partir de seu título.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> getOrganizadoresPorEvento(@ApiParam(value = "título do evento") @PathVariable String search, Pageable pageable){
 		Page<Organizadores> organizadores = organizadoresService.buscarPorTItuloEvento(search, pageable);
 		if(organizadores.isEmpty()){

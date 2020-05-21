@@ -1,7 +1,6 @@
 package br.ufrn.ePET.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -85,7 +84,18 @@ public class ParticipanteService {
 		int ativos =  participanteRepository.countAtivos(e.getIdEvento());
 		if(!(ativos < e.getQtdVagas())) {
 			p.setEspera(true);
+			p.setConfirmado(false);
 		}
+		else{
+			p.setEspera(false);
+			if (e.getValor() == 0.0) {
+				p.setConfirmado(true);
+			}
+			else {
+				p.setConfirmado(false);
+			}
+		}
+		
 		participanteRepository.save(p);
 	}
 	
