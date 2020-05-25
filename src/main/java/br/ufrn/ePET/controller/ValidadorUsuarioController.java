@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping(value="/api")
@@ -20,16 +21,20 @@ public class ValidadorUsuarioController {
     }
 
     @GetMapping(value = "/validation/")
-	@ApiOperation(value = "Método que valida a conta de um usuário.")
-    public ResponseEntity<?> validador(@ApiParam(value = "Código a ser validádo") @RequestParam String code){
+    @ApiOperation(value = "Método que valida a conta de um usuário.")
+    public RedirectView validador(@ApiParam(value = "Código a ser validádo") @RequestParam String code){
         validadorUsuarioService.validar(code);
-        return new ResponseEntity<>(HttpStatus.OK);
+        RedirectView rv = new RedirectView();
+        rv.setUrl("http://epet.imd.ufrn.br/email/confirmacao-cadastro");
+        return rv;
     }
 
     @PostMapping(value = "/reset/")
-	@ApiOperation(value = "Método que reseta a senha do usuário.")
-    public ResponseEntity<?> validadorSenha(@RequestBody ResetDTO resetDTO){
+    @ApiOperation(value = "Método que reseta a senha do usuário.")
+    public RedirectView validadorSenha(@RequestBody ResetDTO resetDTO){
         validadorUsuarioService.validarSenha(resetDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        RedirectView rv = new RedirectView();
+        rv.setUrl("http://epet.imd.ufrn.br/email/confirmacao-reset");
+        return rv;
     }
 }
