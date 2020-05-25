@@ -102,8 +102,8 @@ public class UsuarioController {
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> atualizarEmail(HttpServletRequest req, @Valid @RequestBody EmailDTO emailDTO){
 		Pessoa p = pessoaService.buscarPorEmail(req);
-		if(p.getUsuario().getEmail().equalsIgnoreCase(emailDTO.getEmail()) || p.getTipo_usuario().getNome().equalsIgnoreCase("tutor")){
-			usuarioService.atualizarEmail(p, emailDTO.getEmail());
+		if(p.getUsuario().getidUsuario() == emailDTO.getId() || p.getTipo_usuario().getNome().equalsIgnoreCase("tutor")){
+			usuarioService.atualizarEmail(emailDTO.getEmail());
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
