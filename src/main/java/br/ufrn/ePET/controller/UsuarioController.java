@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import br.ufrn.ePET.models.AuthDTO;
+import br.ufrn.ePET.models.EmailDTO;
 import br.ufrn.ePET.models.Pessoa;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -94,6 +95,19 @@ public class UsuarioController {
 		//} catch(Exception e) {
 		//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		//}
+	}
+
+	@PostMapping(value = "/usuarios-atualizar-email/")
+	@ApiOperation(value = "Método que atualiza o email de um usuário")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	public ResponseEntity<?> atualizarEmail(HttpServletRequest req, @Valid @RequestBody EmailDTO emailDTO){
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		if(p.getUsuario().getidUsuario() == emailDTO.getId() || p.getTipo_usuario().getNome().equalsIgnoreCase("tutor")){
+			usuarioService.atualizarEmail(emailDTO.getEmail());
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 	}
 	
 
