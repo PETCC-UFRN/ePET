@@ -167,6 +167,25 @@ public class UsuarioService {
 			throw new ResourceNotFoundException("Nenhum usuario encontrado!");
 		}
 	}
+
+	// Ao mudar email a validade do usuário é setada para false, requerendo que ele valide o e-mail novamente
+	public void atualizarEmail(String email){
+		Usuario usuario = usuarioRepository.findByEmail(email);
+		Pessoa pessoa = pessoaRepository.findByUsuario(usuario);
+		if(usuario != null){
+			usuario.setEmail(email);
+			usuario.setValidado(false);
+			usuarioRepository.save(usuario);
+		} else {
+			throw new ResourceNotFoundException("Nenhum usuário encontrado!");
+		}
+
+		ValidadorUsuario validadorUsuario = new ValidadorUsuario();
+		validadorUsuario.setUsuario(usuario);
+		validadorUsuario.setCode(generateCode());
+		validadorUsuarioRepository.save(validadorUsuario);
+		enviarEmail(validadorUsuario, pessoa);
+	}
 	
 	
 }
