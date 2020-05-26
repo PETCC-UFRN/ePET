@@ -20,7 +20,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante, Long
 	@Query(value = "SELECT * FROM participante u WHERE u.confirmado = 1 AND u.id_evento = ?1", nativeQuery = true)
 	List<Participante> findByConfirmadoEvento(Long id_evento);
 	
-	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ?1 AND ORDER BY u.id_participante DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM participante u WHERE u.id_pessoa = ?1 ORDER BY u.id_participante DESC", nativeQuery = true)
 	Page<Participante> findByPessoa(Long id, Pageable pageable);
 
 	@Query(value = "SELECT u.id_participante, u.confirmado, u.espera, u.id_evento, u.id_pessoa, u.data_maxima FROM participante u INNER JOIN pessoa p ON p.id_pessoa = u.id_pessoa WHERE p.nome LIKE %?1% OR p.cpf LIKE %?1%", nativeQuery = true)
