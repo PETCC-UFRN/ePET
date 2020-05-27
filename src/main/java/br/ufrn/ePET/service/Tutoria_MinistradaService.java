@@ -3,8 +3,6 @@ package br.ufrn.ePET.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import br.ufrn.ePET.models.Pessoa;
-import br.ufrn.ePET.models.Tutoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +46,20 @@ public class Tutoria_MinistradaService {
 		if(pessoaRepository.findById(id).isPresent()) {
 			//Pessoa p = pessoaRepository.findById(id).get();
 			return tutoria_Ministrada_Repository.findByPessoa(id, pageable);
+		} else {
+			throw new ResourceNotFoundException("Nenhuma Tutoria encontrada para a pessoa informada");
+		}
+	}
+
+	public Page<Tutoria_Ministrada> buscarPorPetiano(Long id, Pageable pageable){
+		if(pessoaRepository.findById(id).isPresent()) {
+			Page<Tutoria_Ministrada> tm =  tutoria_Ministrada_Repository.findByPessoa(id, pageable);
+			if(tm == null || tm.isEmpty()) {
+				throw new ResourceNotFoundException("Nenhuma tutoria ministrada encontrada para o usuário solicitante.");				
+			}
+			else {
+				return tm;
+			}
 		} else {
 			throw new ResourceNotFoundException("Nenhuma Tutoria encontrada para a pessoa informada");
 		}
