@@ -49,6 +49,18 @@ public class NoticiaController {
 		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
 
+	@GetMapping(value = "/noticias-atuais")
+	@ApiOperation(value = "Método responsável por retornar todas as notícias que estão dentro do limite de exibição.")
+	@CrossOrigin(origins="*")
+	public ResponseEntity<?> getNoticiasAtuais(Pageable pageable){
+		Page<Noticia> page = noticiaService.buscarAtuais(pageable);
+		if(page == null || page.isEmpty()) {
+			throw new ResourceNotFoundException("Não há notícias cadastradas");
+		}
+		return new ResponseEntity<>(page, HttpStatus.OK);
+	}
+	
+
 	@GetMapping(value = "/pesquisar-noticia/{search}")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Método que retorna as noticias a partir de um título.")

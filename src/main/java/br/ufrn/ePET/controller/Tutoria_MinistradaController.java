@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -128,7 +129,7 @@ public class Tutoria_MinistradaController {
 			+ " ativar essa tutoria e passar a data a qual ela ocorrerá.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> ativarTutoriasMinistradas(@ApiParam(value = "Id da tutoria ministrada a ser ativada")@PathVariable Long id_tutoria_ministrada,
-													   @ApiParam(value = "Data a qual irá ocorrer a tutoria", required = true) @PathVariable LocalDate data_da_tutoria){
+													   @ApiParam(value = "Data a qual irá ocorrer a tutoria", required = true) @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate data_da_tutoria){
 		tutoria_MinistradaService.ativar(id_tutoria_ministrada, data_da_tutoria);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

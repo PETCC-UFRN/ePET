@@ -34,6 +34,10 @@ public class NoticiaService {
 		return noticiaRepository.findNews(pageable);
 	}
 
+	public Page<Noticia> buscarAtuais(Pageable pageable){
+		return noticiaRepository.findAtuais(pageable);
+	}
+
 	public Page<Noticia> buscarPorTitulo(String titulo, Pageable pageable){
 		return noticiaRepository.findByTitulo(titulo, pageable);
 	}
