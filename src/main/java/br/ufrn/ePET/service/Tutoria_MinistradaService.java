@@ -53,7 +53,7 @@ public class Tutoria_MinistradaService {
 
 	public Page<Tutoria_Ministrada> buscarPorPetiano(Long id, Pageable pageable){
 		if(pessoaRepository.findById(id).isPresent()) {
-			Page<Tutoria_Ministrada> tm =  tutoria_Ministrada_Repository.findByPessoa(id, pageable);
+			Page<Tutoria_Ministrada> tm =  tutoria_Ministrada_Repository.findByPessoaPetiano(id, pageable);
 			if(tm == null || tm.isEmpty()) {
 				throw new ResourceNotFoundException("Nenhuma tutoria ministrada encontrada para o usuário solicitante.");				
 			}
