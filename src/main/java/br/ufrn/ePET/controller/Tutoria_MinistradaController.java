@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -85,6 +86,23 @@ public class Tutoria_MinistradaController {
 		}
 	}
 
+	@GetMapping(value = "/pesquisar-petiano-tutoria-ministradas")
+	@ApiOperation(value = "Método responsável por retornar as tutorias que um petiano esta ministrando.")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getTutoriasMinistradasPetiano(HttpServletRequest req, Pageable pageable){
+		try{
+			Pessoa p = pessoaService.buscarPorEmail(req);
+			if(p != null){
+				return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoa(p.getIdPessoa(),pageable), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas-ina/{id}")
 	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID e que está inativa")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
@@ -128,7 +146,7 @@ public class Tutoria_MinistradaController {
 			+ " ativar essa tutoria e passar a data a qual ela ocorrerá.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> ativarTutoriasMinistradas(@ApiParam(value = "Id da tutoria ministrada a ser ativada")@PathVariable Long id_tutoria_ministrada,
-													   @ApiParam(value = "Data a qual irá ocorrer a tutoria", required = true) @PathVariable LocalDate data_da_tutoria){
+													   @ApiParam(value = "Data a qual irá ocorrer a tutoria", required = true) @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate data_da_tutoria){
 		tutoria_MinistradaService.ativar(id_tutoria_ministrada, data_da_tutoria);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
