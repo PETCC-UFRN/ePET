@@ -106,9 +106,15 @@ public class Tutoria_MinistradaController {
 	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas-ina/{id}")
 	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID e que está inativa")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getTutoriasMinistradasPessoaInativo(@ApiParam(value = "Id da pessoa que terá suas solicitações de tutorias inativas listadas.") @PathVariable Long id, Pageable pageable){
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> getTutoriasMinistradasPessoaInativo(@ApiParam(value = "Id da pessoa que terá suas solicitações de tutorias inativas listadas.") @PathVariable Long id, HttpServletRequest req, Pageable pageable){
 		try{
+			Pessoa p = pessoaService.buscarPorEmail(req);
+			if(p.getTipo_usuario().getNome() == "comum" || p.getTipo_usuario().getNome() == "petiano" ) {
+				if(p.getIdPessoa() != id) {
+					return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+				}
+			}
 			return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoaInativa(id, pageable), HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

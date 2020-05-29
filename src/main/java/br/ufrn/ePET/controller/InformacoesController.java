@@ -1,7 +1,6 @@
 package br.ufrn.ePET.controller;
 
 import br.ufrn.ePET.models.Informacoes;
-import br.ufrn.ePET.models.Noticia;
 import br.ufrn.ePET.service.InformacoesService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
