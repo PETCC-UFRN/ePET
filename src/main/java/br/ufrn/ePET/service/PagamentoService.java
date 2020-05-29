@@ -80,36 +80,40 @@ public class PagamentoService {
 		Pessoa pessoa = participante.getPessoa();
 		Evento evento = participante.getEvento();
 
-		RegisteredCheckout registeredCheckout = pagSeguro.checkouts().register(
-				new CheckoutRegistrationBuilder()
-				.withCurrency(Currency.BRL)
-				.withExtraAmount(BigDecimal.ONE)
-				.withReference("PETCC-"+participante.getPessoa().getIdPessoa()+"-"+participante.getEvento().getIdEvento())
-				.addItem(new PaymentItemBuilder()
-						.withId(evento.getIdEvento() + "")
-						.withDescription(evento.getDescricao())
-						.withAmount(new BigDecimal(evento.getValor()))
-						.withQuantity(1)		
-						)
-				.addPaymentMethodConfig(new PaymentMethodConfigBuilder()
-						.withPaymentMethod(new PaymentMethodBuilder()
-								.withGroup(PaymentMethodGroup.CREDIT_CARD)
-								)
-						.withConfig(new ConfigBuilder()
-								.withKey(ConfigKey.MAX_INSTALLMENTS_LIMIT)
-								.withValue(new BigDecimal(1))
-								)
-						
-						)
-						
-						
-				);
-	
-		Pagamento p = new Pagamento();
-		p.setParticipante(participante);
-		p.setReferencia_pagseguro("PETCC-"+pessoa.getIdPessoa()+"-"+evento.getIdEvento());
-		pagamentoRepository.save(p);
-		return registeredCheckout.getRedirectURL();
+		if(evento.getValor() > 0.0){
+			RegisteredCheckout registeredCheckout = pagSeguro.checkouts().register(
+					new CheckoutRegistrationBuilder()
+							.withCurrency(Currency.BRL)
+							//.withExtraAmount(BigDecimal.ONE)
+							.withReference("PETCC-"+participante.getPessoa().getIdPessoa()+"-"+participante.getEvento().getIdEvento())
+							.addItem(new PaymentItemBuilder()
+									.withId(evento.getIdEvento() + "")
+									.withDescription(evento.getDescricao())
+									.withAmount(new BigDecimal(evento.getValor()))
+									.withQuantity(1)
+							)
+							.addPaymentMethodConfig(new PaymentMethodConfigBuilder()
+									.withPaymentMethod(new PaymentMethodBuilder()
+											.withGroup(PaymentMethodGroup.CREDIT_CARD)
+									)
+									.withConfig(new ConfigBuilder()
+											.withKey(ConfigKey.MAX_INSTALLMENTS_LIMIT)
+											.withValue(new BigDecimal(1))
+									)
+
+							)
+
+
+			);
+
+			Pagamento p = new Pagamento();
+			p.setParticipante(participante);
+			p.setReferencia_pagseguro("PETCC-"+pessoa.getIdPessoa()+"-"+evento.getIdEvento());
+			pagamentoRepository.save(p);
+			return registeredCheckout.getRedirectURL();
+		} else {
+			throw new RuntimeException("Evento gratuito!");
+		}
 		
 	}
 	
