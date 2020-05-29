@@ -37,7 +37,31 @@ public class Informacoes {
 	  value = "Email do PET",
 	  dataType = "String",
 	  example = "petcc@dimap.ufrn.br")
-    private String email;
+	private String email;
+	
+	@ApiModelProperty(
+	  value = "Email do PET",
+	  dataType = "String",
+	  example = "youtube.com/petcc-ufrn")
+	private String youtube;	
+
+	@ApiModelProperty(
+	  value = "Email do PET",
+	  dataType = "String",
+	  example = "instagram.com/petcc-ufrn")
+	private String instagram;
+
+	@ApiModelProperty(
+	  value = "Email do PET",
+	  dataType = "String",
+	  example = "facebook.com/petcc-ufrn")
+	private String facebook;	
+
+	@ApiModelProperty(
+	  value = "Github do PET",
+	  dataType = "String",
+	  example = "github.com/petcc-ufrn")
+	private String github;
 
     public Long getIdInformacao() {
         return idInformacao;
@@ -78,4 +102,36 @@ public class Informacoes {
     public void setEmail(String email) {
         this.email = email;
     }
+
+	public String getYoutube() {
+		return youtube;
+	}
+
+	public void setYoutube(String youtube) {
+		this.youtube = youtube;
+	}
+
+	public String getInstagram() {
+		return instagram;
+	}
+
+	public void setInstagram(String instagram) {
+		this.instagram = instagram;
+	}
+
+	public String getFacebook() {
+		return facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getGithub() {
+		return github;
+	}
+
+	public void setGithub(String github) {
+		this.github = github;
+	}
 }
