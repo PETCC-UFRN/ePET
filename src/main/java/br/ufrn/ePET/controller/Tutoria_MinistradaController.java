@@ -86,6 +86,23 @@ public class Tutoria_MinistradaController {
 		}
 	}
 
+	@GetMapping(value = "/pesquisar-petiano-tutoria-ministradas")
+	@ApiOperation(value = "Método responsável por retornar as tutorias que um petiano esta ministrando.")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getTutoriasMinistradasPetiano(HttpServletRequest req, Pageable pageable){
+		try{
+			Pessoa p = pessoaService.buscarPorEmail(req);
+			if(p != null){
+				return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoa(p.getIdPessoa(),pageable), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas-ina/{id}")
 	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID e que está inativa")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
