@@ -94,7 +94,7 @@ public class Tutoria_MinistradaController {
 		try{
 			Pessoa p = pessoaService.buscarPorEmail(req);
 			if(p != null){
-				return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoa(p.getIdPessoa(),pageable), HttpStatus.OK);
+				return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPetiano(p.getIdPessoa(),pageable), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
