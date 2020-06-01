@@ -20,11 +20,11 @@ public class Participante {
 	private long idParticipante;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_pessoa")
+	@JoinColumn(name = "idPessoa")
 	private Pessoa pessoa;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_evento")
+	@JoinColumn(name = "idEvento")
 	private Evento evento;
 
 	@Column(columnDefinition = "DATE")

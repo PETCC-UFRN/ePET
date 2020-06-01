@@ -95,14 +95,14 @@ public class Evento {
 	@Column(columnDefinition = "INT DEFAULT 5")
 	@ApiModelProperty(
 	  value = "Quantidade de dias limite para a compensação do pagamento do evento",
-	  dataType = "Integer",
+	  dataType = "int",
 	  example = "5")
 	private int dias_compensacao;
 
 	@Column
 	@ApiModelProperty(
 	  value = "Percentual exigido para a emissão da declaração",
-	  dataType = "Integer",
+	  dataType = "int",
 	  example = "75")
 	private int percentual;
 
@@ -112,7 +112,7 @@ public class Evento {
 	@Column (columnDefinition = "BOOLEAN DEFAULT FALSE")
 	@ApiModelProperty(
 	  value = "Campo que informa ao sistema se esse evento irá possuir anexos",
-	  dataType = "Boolean",
+	  dataType = "boolean",
 	  example = "false")
 	private boolean participante_anexos;
 
@@ -120,7 +120,7 @@ public class Evento {
 	@DecimalMin("0.0")
 	@ApiModelProperty(
 	  value = "Quantidade de pessoas máxima permitida no evento",
-	  dataType = "Integer",
+	  dataType = "int",
 	  example = "40")
 	private int qtdVagas;
 	
@@ -128,7 +128,7 @@ public class Evento {
 	@DecimalMin("0.0")
 	@ApiModelProperty(
 	  value = "Carga horária do evento",
-	  dataType = "Integer",
+	  dataType = "int",
 	  example = "20")
 	private int qtdCargaHoraria;
 	
@@ -136,7 +136,7 @@ public class Evento {
 	@DecimalMin("0.0")
 	@ApiModelProperty(
 	  value = "Quantidade de dias do evento",
-	  dataType = "Integer",
+	  dataType = "int",
 	  example = "2")
 	private int qtdDias;
 	
@@ -144,7 +144,7 @@ public class Evento {
 	@DecimalMin("0.0")
 	@ApiModelProperty(
 	  value = "Valor em reais do preço para participar do evento.",
-	  dataType = "Double",
+	  dataType = "double",
 	  example = "20.00")
 	private double valor;
 
@@ -154,7 +154,7 @@ public class Evento {
 	@ApiModelProperty(
 	  value = "Texto padrão para a declaração do evento, variáveis disponíveis: {nome_participante}, {cpf}, {titulo_evento}, {carga_horaria},"
 	  		+ " {data_inicio}, {data_fim} .",
-	  dataType = "Text",
+	  dataType = "String",
 	  example = "Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
 	  		+ " nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de "
 	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).")
