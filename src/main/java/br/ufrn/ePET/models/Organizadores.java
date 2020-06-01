@@ -15,11 +15,11 @@ public class Organizadores {
 	private long idOrganizadores;
 	
 	@ManyToOne
-	@JoinColumn(name = "idPessoa")
+	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 	
 	@ManyToOne
-	@JoinColumn(name = "idEvento")
+	@JoinColumn(name = "id_evento")
 	private Evento evento;
 
 	public long getIdOrganizadores() {
