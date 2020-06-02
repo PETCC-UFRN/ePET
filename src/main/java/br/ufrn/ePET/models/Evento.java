@@ -152,13 +152,27 @@ public class Evento {
 			" nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de " + 
 			" Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).'"*/ ) // Algumas versões do mysql não suporta default para text
 	@ApiModelProperty(
-	  value = "Texto padrão para a declaração do evento, variáveis disponíveis: {nome_participante}, {cpf}, {titulo_evento}, {carga_horaria},"
+	  value = "Texto padrão para a declaração dos participantes do evento, variáveis disponíveis: {nome_participante}, {cpf}, {titulo_evento}, {carga_horaria},"
 	  		+ " {data_inicio}, {data_fim} .",
 	  dataType = "String",
-	  example = "Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
-	  		+ " nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de "
+	  example = "Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
+	  		+ " nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária} horas. Este evento foi promovido pelo Programa de "
 	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).")
 	private String textoDeclaracaoEvento;
+	
+
+
+	@Column(columnDefinition = "TEXT" /*DEFAULT 'Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local}," + 
+			" nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de " + 
+			" Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).'"*/ ) // Algumas versões do mysql não suporta default para text
+	@ApiModelProperty(
+	  value = "Texto padrão para a declaração dos organizadores do evento, variáveis disponíveis: {nome_participante}, {cpf}, {titulo_evento}, {carga_horaria},"
+	  		+ " {data_inicio}, {data_fim} .",
+	  dataType = "String",
+	  example = "Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou da organização do evento {titulo_evento},"
+	  		+ " com uma carga-horária total de {carga_horária} horas. Este evento ocorreu no {local}, no período de {data_inicio} à {data_fim}, sendo promovido pelo Programa de "
+	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).")
+	private String textoDeclaracaoEventoOrganizador;
 
 	public long getIdEvento() {
 		return idEvento;
@@ -318,5 +332,13 @@ public class Evento {
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
+	}
+
+	public String getTextoDeclaracaoEventoOrganizador() {
+		return textoDeclaracaoEventoOrganizador;
+	}
+
+	public void setTextoDeclaracaoEventoOrganizador(String textoDeclaracaoEventoOrganizador) {
+		this.textoDeclaracaoEventoOrganizador = textoDeclaracaoEventoOrganizador;
 	}
 }

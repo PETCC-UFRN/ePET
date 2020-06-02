@@ -136,4 +136,18 @@ public class EventoController {
 		//}
 	}
 
+	@GetMapping(value = "/eventos-abertos-nao-organizo")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@ApiOperation(value = "Método que busca todos os evento aberto no qual o usuário que fez a requisição não organiza.")
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> getEventosNaoOrganizo(HttpServletRequest  req, Pageable pageable){
+		Page<Evento> eventos = eventoService.buscarNaoOrganizo(req, pageable);
+		if(eventos == null || eventos.isEmpty())
+			throw new ResourceNotFoundException("Nenhum evento encontrado no qual você não organiza.");
+		//try {
+		return new ResponseEntity<>(eventos, HttpStatus.OK);
+		//} catch (Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
+	}
 }

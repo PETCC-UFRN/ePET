@@ -27,4 +27,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long>{
 
 	@Query(value = "SELECT * FROM evento ORDER BY id_evento DESC", nativeQuery = true)
 	Page<Evento> findEventos(Pageable pageable);
+	
+	@Query(value = "SELECT * FROM evento e WHERE e.id_evento not in (SELECT o.id_evento FROM organizadores o WHERE o.id_pessoa = ?1) AND e.ativo = 1 ORDER BY e.id_evento DESC", nativeQuery = true)
+	Page<Evento> findEventosNaoOrganizo(Long id, Pageable pageable);
 }
