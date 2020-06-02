@@ -24,6 +24,6 @@ public interface OrganizadoresRepository extends JpaRepository<Organizadores, Lo
 	@Query(value = "SELECT u.id_organizadores, u.id_evento, u.id_pessoa FROM organizadores u INNER JOIN evento p ON p.id_evento = u.id_evento WHERE p.titulo LIKE %?1%", nativeQuery = true)
 	Page<Organizadores> findByTituloEvento(String titulo, Pageable pageable);
 
-	@Query(value = "SELECT * FROM organizdores u WHERE u.id_pessoa = ?1 AND u.id_evento = ?2", nativeQuery = true)
+	@Query(value = "SELECT * FROM organizadores u WHERE u.id_pessoa = ?1 AND u.id_evento = ?2", nativeQuery = true)
 	Organizadores findByPessoaAndEvento(Long id_pessoa, Long id_evento);
 }

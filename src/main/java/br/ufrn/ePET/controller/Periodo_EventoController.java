@@ -57,7 +57,7 @@ public class Periodo_EventoController {
 	
 	@ApiOperation(value = "buscar periodo de eventos pelo id de um evento específico")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@GetMapping(value = "/periodo-evento-buscar/{id}")
+	@GetMapping(value = "/periodo-evento-buscar/{id_evento}")
 	public ResponseEntity<?> getPeriodoEventoBuscar(@ApiParam(value = "Id do evento a ser solicitado os periodos") @PathVariable Long id_evento, Pageable pageable){
 		Page<Periodo_Evento> pe = periodo_EventoService.buscarPorEvento(id_evento, pageable);
 		if (pe.isEmpty())
