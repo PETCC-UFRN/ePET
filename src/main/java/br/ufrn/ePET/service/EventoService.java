@@ -112,4 +112,13 @@ public class EventoService {
 		Pessoa p = pessoaService.buscarPorEmail(req);
 		return eventoRepository.findEventosNaoOrganizo(p.getIdPessoa(), pageable);
 	}
+
+	public Page<Evento> buscarNaoOrganizoIna(HttpServletRequest req, Pageable pageable){
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		return eventoRepository.findEventosNaoOrganizoIna(p.getIdPessoa(), pageable);
+	}
+
+	public Evento buscarAtivosId(Long id){
+		return eventoRepository.findByAtivosId(id);
+	}
 }

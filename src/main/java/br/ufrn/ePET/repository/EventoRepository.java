@@ -1,9 +1,7 @@
 package br.ufrn.ePET.repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import org.hibernate.dialect.pagination.SQL2008StandardLimitHandler;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +28,10 @@ public interface EventoRepository extends JpaRepository<Evento, Long>{
 	
 	@Query(value = "SELECT * FROM evento e WHERE e.id_evento not in (SELECT o.id_evento FROM organizadores o WHERE o.id_pessoa = ?1) AND e.ativo = 1 ORDER BY e.id_evento DESC", nativeQuery = true)
 	Page<Evento> findEventosNaoOrganizo(Long id, Pageable pageable);
+	
+	@Query(value = "SELECT * FROM evento e WHERE e.id_evento not in (SELECT o.id_evento FROM organizadores o WHERE o.id_pessoa = ?1) ORDER BY e.id_evento DESC", nativeQuery = true)
+	Page<Evento> findEventosNaoOrganizoIna(Long id, Pageable pageable);
+
+	@Query(value = "SELECT * FROM evento i WHERE i.ativo = true AND i.id_evento = ?1", nativeQuery = true)
+	Evento findByAtivosId(Long id);
 }
