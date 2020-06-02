@@ -22,5 +22,8 @@ public interface TutoriaRepository extends JpaRepository<Tutoria, Long>{
 
 	@Query(value = "SELECT t.id_tutoria, t.id_disciplina, t.id_petiano, t.ativo FROM tutoria t INNER JOIN disciplina d ON d.id_disciplina = t.id_disciplina WHERE (d.codigo LIKE %?1% OR d.nome LIKE %?1%) AND t.ativo = 1", nativeQuery = true)
 	Page<Tutoria> findByCodigoOuNome(String search, Pageable pageable);
+	
+	@Query(value = "SELECT * FROM tutoria t WHERE t.id_petiano = ?1 AND t.id_disciplina = ?2", nativeQuery = true)
+	Tutoria findByPetianoDisciplina(Long id_petiano, Long id_disciplina);
 
 }

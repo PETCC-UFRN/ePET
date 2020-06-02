@@ -76,8 +76,13 @@ public class EventoService {
 
 	public Evento salvar(Evento evento, HttpServletRequest req) {
 		if(evento.getTextoDeclaracaoEvento() == null) {
-			evento.setTextoDeclaracaoEvento("Declaro, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
+			evento.setTextoDeclaracaoEvento("Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
 	  		+ " nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de "
+	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).");
+		}
+		if(evento.getTextoDeclaracaoEventoOrganizador() == null) {
+			evento.setTextoDeclaracaoEventoOrganizador("Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou da organização do evento {titulo_evento},"
+	  		+ " com uma carga-horária total de {carga_horária} horas. Este evento ocorreu no {local}, no período de {data_inicio} à {data_fim}, sendo promovido pelo Programa de "
 	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).");
 		}
 		Evento e = eventoRepository.save(evento);
@@ -101,5 +106,19 @@ public class EventoService {
 		//Evento evento = eventoRepository.findById(id).get();
 		evento.setAtivo(true);
 		eventoRepository.save(evento);
+	}
+
+	public Page<Evento> buscarNaoOrganizo(HttpServletRequest req, Pageable pageable){
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		return eventoRepository.findEventosNaoOrganizo(p.getIdPessoa(), pageable);
+	}
+
+	public Page<Evento> buscarNaoOrganizoIna(HttpServletRequest req, Pageable pageable){
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		return eventoRepository.findEventosNaoOrganizoIna(p.getIdPessoa(), pageable);
+	}
+
+	public Evento buscarAtivosId(Long id){
+		return eventoRepository.findByAtivosId(id);
 	}
 }

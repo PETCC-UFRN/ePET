@@ -61,6 +61,16 @@ public class EventoController {
 			//throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição");
 		//}
 	}
+
+	@GetMapping(value = "/eventos-abertos/{id}")
+	@ApiOperation(value = "Retorna todos um eventos aberto do sistema pelo seu ID.")
+	public ResponseEntity<?> getEventosAbertosID(@ApiParam(value = "Id do evento procurado") @PathVariable Long id){
+			Evento e = eventoService.buscarAtivosId(id);
+			if(e == null) {
+				throw new ResourceNotFoundException("Nenhum evento aberto com o id informado.");
+			}
+			return new ResponseEntity<>(e, HttpStatus.OK);
+	}
 	
 	@GetMapping(value = "/eventos/{id}")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
@@ -136,4 +146,29 @@ public class EventoController {
 		//}
 	}
 
+	@GetMapping(value = "/eventos-abertos-nao-organizo-ativos")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@ApiOperation(value = "Método que busca todos os eventos aberto no qual o usuário que fez a requisição não organiza.")
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> getEventosNaoOrganizo(HttpServletRequest  req, Pageable pageable){
+		Page<Evento> eventos = eventoService.buscarNaoOrganizo(req, pageable);
+		if(eventos == null || eventos.isEmpty())
+			throw new ResourceNotFoundException("Nenhum evento encontrado no qual você não organiza.");
+		//try {
+		return new ResponseEntity<>(eventos, HttpStatus.OK);
+		//} catch (Exception e) {
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//}
+	}
+	
+	@GetMapping(value = "/eventos-abertos-nao-organizo-inativos")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@ApiOperation(value = "Método que busca todos os eventos (ativos e inativos) no qual o usuário que fez a requisição não organiza.")
+	@Secured({"ROLE_tutor"})
+	public ResponseEntity<?> getEventosNaoOrganizoIna(HttpServletRequest  req, Pageable pageable){
+		Page<Evento> eventos = eventoService.buscarNaoOrganizoIna(req, pageable);
+		if(eventos == null || eventos.isEmpty())
+			throw new ResourceNotFoundException("Nenhum evento encontrado no qual você não organiza.");
+		return new ResponseEntity<>(eventos, HttpStatus.OK);
+	}
 }

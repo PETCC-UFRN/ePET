@@ -51,8 +51,14 @@ public class TutoriaService {
 		else
 			throw new ResourceNotFoundException("Nenhuma disciplina cadastrada com o id: " + id_disciplina);
 		
-		
-		return tutoriaRepository.save(tutoria);
+		Tutoria t = tutoriaRepository.findByPetianoDisciplina(id_petiano, id_disciplina);
+		if (t==null){
+			return tutoriaRepository.save(tutoria);
+		}
+		else{
+			t.setAtivo(true);
+			return tutoriaRepository.save(t);
+		}
 	}
 
 	public Page<Tutoria> buscarPorNomeOuCpfPetiano(String search, Pageable pageable){
