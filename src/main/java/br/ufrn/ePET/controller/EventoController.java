@@ -67,7 +67,7 @@ public class EventoController {
 	public ResponseEntity<?> getEventosAbertosID(@ApiParam(value = "Id do evento procurado") @PathVariable Long id){
 			Evento e = eventoService.buscarAtivosId(id);
 			if(e == null) {
-				throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição.");
+				throw new ResourceNotFoundException("Nenhum evento aberto com o id informado.");
 			}
 			return new ResponseEntity<>(e, HttpStatus.OK);
 	}
