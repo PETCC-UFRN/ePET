@@ -68,7 +68,7 @@ public class PetianoController {
 	@GetMapping(value="/petianos/{id}")
 	@ApiOperation(value = "Retorna todos os petianos do sistema(atuais e egressos).")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public Petiano getPetianos(@PathVariable Long id){
 		Petiano petiano = petianoservice.buscar(id);
 		if (petiano == null)
