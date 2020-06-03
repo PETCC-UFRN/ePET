@@ -2,13 +2,17 @@ package br.ufrn.ePET.service;
 
 import java.time.LocalDate;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.ufrn.ePET.error.CustomException;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.models.Petiano;
@@ -26,20 +30,32 @@ public class PetianoService {
 	private final Tipo_UsuarioRepository tipoUsuarioRepository;
 	private final TutoriaRepository tutoriaRepository;
 	private final Tutoria_Ministrada_Repository tutoriaMinistrada_Repository;
+	private final PessoaService pessoaService;
 	@Autowired
 	public PetianoService(PetianoRepository petianoRepository, PessoaRepository pessoaRepository, 
-			Tipo_UsuarioRepository tipoUsuarioRepository, TutoriaRepository tutoriaRepository, Tutoria_Ministrada_Repository tutoriaMinistrada_Repository) {
+			Tipo_UsuarioRepository tipoUsuarioRepository, TutoriaRepository tutoriaRepository, Tutoria_Ministrada_Repository tutoriaMinistrada_Repository, PessoaService pessoaService) {
 		this.petianoRepository = petianoRepository;
 		this.pessoaRepository = pessoaRepository;
 		this.tipoUsuarioRepository = tipoUsuarioRepository;
 		this.tutoriaRepository = tutoriaRepository;
 		this.tutoriaMinistrada_Repository = tutoriaMinistrada_Repository;
+		this.pessoaService = pessoaService;
 	}
 
 	
-	public Petiano buscar(Long id) {
-		return petianoRepository.findById(id).isPresent() ? 
-				petianoRepository.findById(id).get(): null;
+	public Petiano buscar(Long id, HttpServletRequest req) {
+		if ( petianoRepository.findById(id).isPresent()) { 
+			Petiano pet = petianoRepository.findById(id).get();
+			Pessoa p = pessoaService.buscarPorEmail(req);
+			if (p.getTipo_usuario().getNome() == "comum") {
+				if(pet.getData_egresso() != null)
+					throw new CustomException("Você não tem permissão para acessar essas informações", HttpStatus.FORBIDDEN);
+			}
+			return pet;
+				
+		}
+		else return null;
+		
 	}
 	
 	public Petiano buscarPorPessoa(Long id) {
