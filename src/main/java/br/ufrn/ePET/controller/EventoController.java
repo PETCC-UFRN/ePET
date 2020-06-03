@@ -136,7 +136,7 @@ public class EventoController {
 	@CrossOrigin
 	@DeleteMapping(value="/eventos-remove/{id}")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@ApiOperation(value = "Remove um evento do sistema a partir de seu ID.(Só remove se não ouver organizadores, participantes e anexos cadastrado para esse evento)")
+	@ApiOperation(value = "Remove um evento do sistema a partir de seu ID.(Só remove se não ouver organizadores, participantes, periodo_evento e anexos cadastrado para esse evento)")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> removeEventos(@ApiParam(value = "Id do evento a ser removido") @PathVariable Long id, HttpServletRequest req){
 		//try {

@@ -110,7 +110,9 @@ public class EventoService {
 		}
 		Evento e = new Evento();
 
+		System.out.println("A");
 		e.setIdEvento(eventodto.getIdEvento());
+		System.out.println("B");
 		e.setAtivo(eventodto.isAtivo());
 		if (eventodto.getD_inscricao() != null)
 			e.setD_inscricao(eventodto.getD_inscricao());
@@ -144,6 +146,7 @@ public class EventoService {
 		e.setD_evento_fim(evento_fim);
 		e.setD_evento_inicio(evento_inicio);
 		eventoRepository.save(e);
+		System.out.println("C");
 		if (eventodto.getIdEvento() == 0 ) {
 		organizadoresService.salvar(e.getIdEvento(), p.getIdPessoa());
 		for (LocalDate dia : periodo_evento) {
@@ -153,8 +156,8 @@ public class EventoService {
 		}
 		}
 		else {
-			Page<Periodo_Evento> pep = periodoEventoService.buscarPorEvento(eventodto.getIdEvento(), null);
-			for (Periodo_Evento dia : pep.getContent()) {
+			List<Periodo_Evento> lpe = periodoEventoService.buscarPorEvento(e);
+			for (Periodo_Evento dia : lpe) {
 				periodoEventoService.delete(dia.getIdPeriodo_Evento());
 			}
 			for (LocalDate dia : periodo_evento) {

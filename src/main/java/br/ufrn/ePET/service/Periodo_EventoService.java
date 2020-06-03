@@ -1,6 +1,8 @@
 package br.ufrn.ePET.service;
  
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +37,10 @@ public class Periodo_EventoService {
 	
 	public Page<Periodo_Evento> buscarPorEvento(Long id_evento, Pageable pageable){
 		return periodo_EventoReposioty.findByEvento(id_evento, pageable);
+	}
+	
+	public List<Periodo_Evento> buscarPorEvento(Evento e){
+		return periodo_EventoReposioty.findByEvento(e);
 	}
 	
 	public void salvar(Long id, Periodo_Evento pe) {
