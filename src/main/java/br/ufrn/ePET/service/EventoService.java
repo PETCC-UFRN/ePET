@@ -2,32 +2,43 @@ package br.ufrn.ePET.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import br.ufrn.ePET.error.CustomException;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.EventoDTO;
+import br.ufrn.ePET.models.Organizadores;
+import br.ufrn.ePET.models.Periodo_Evento;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.EventoRepository;
 
 @Service
+@Transactional
 public class EventoService {
 	
 	private final EventoRepository eventoRepository;
 	private final OrganizadoresService organizadoresService;
 	private final PessoaService pessoaService;
+	private final Periodo_EventoService periodoEventoService;
 	
 	@Autowired
-	public EventoService(EventoRepository eventoRepository, OrganizadoresService organizadorService, PessoaService pessoaService) {
+	public EventoService(EventoRepository eventoRepository, OrganizadoresService organizadorService, PessoaService pessoaService, Periodo_EventoService periodoEventoService) {
 		this.eventoRepository = eventoRepository;
 		this.organizadoresService = organizadorService;
 		this.pessoaService = pessoaService;
+		this.periodoEventoService = periodoEventoService;
 	}
 	
 	public Evento buscar(Long id) {
@@ -43,7 +54,6 @@ public class EventoService {
 	}
 	
 	public List<Evento> buscarAtivos(){
-		//Page<Evento> lista = eventoRepository.findAll(pageable);
 		List<Evento> lista_aux = eventoRepository.findByAtivos();
 		LocalDate ld = LocalDate.now();
 		List<Evento> aux = new ArrayList<Evento>();
@@ -74,26 +84,102 @@ public class EventoService {
 		return lista;
 	}
 
-	public Evento salvar(Evento evento, HttpServletRequest req) {
-		if(evento.getTextoDeclaracaoEvento() == null) {
-			evento.setTextoDeclaracaoEvento("Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
+	public Evento salvar(EventoDTO eventodto, HttpServletRequest req) {
+    	Pessoa p = pessoaService.buscarPorEmail(req);
+    	if(eventodto.getIdEvento() <= 0 && p.getTipo_usuario().getNome() == "comum")
+    		throw new CustomException("Você não tem permissão para criar um evento", HttpStatus.FORBIDDEN);
+    	else if(p.getTipo_usuario().getNome() == "petiano" || p.getTipo_usuario().getNome() == "comum") {
+			List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
+			Boolean organiza = false;
+			for (Organizadores organizadores : o) {
+				if(organizadores.getEvento().getIdEvento() == eventodto.getIdEvento())
+					organiza = true;
+			}
+			if (!organiza)
+	    		throw new CustomException("Você não tem permissão para editar esse evento!", HttpStatus.FORBIDDEN);	
+		}
+		if(eventodto.getTextoDeclaracaoEvento() == null) {
+			eventodto.setTextoDeclaracaoEvento("Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
 	  		+ " nos dias {data_inicio} à {data_fim}, com uma carga-horária total de {carga_horária}h. Este evento foi promovido pelo Programa de "
 	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).");
 		}
-		if(evento.getTextoDeclaracaoEventoOrganizador() == null) {
-			evento.setTextoDeclaracaoEventoOrganizador("Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou da organização do evento {titulo_evento},"
+		if(eventodto.getTextoDeclaracaoEventoOrganizador() == null) {
+			eventodto.setTextoDeclaracaoEventoOrganizador("Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou da organização do evento {titulo_evento},"
 	  		+ " com uma carga-horária total de {carga_horária} horas. Este evento ocorreu no {local}, no período de {data_inicio} à {data_fim}, sendo promovido pelo Programa de "
 	  		+ "Educação Tutorial do Curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (PET-CC/UFRN).");
 		}
-		Evento e = eventoRepository.save(evento);
-		Pessoa p = pessoaService.buscarPorEmail(req);
+		Evento e = new Evento();
+
+		e.setIdEvento(eventodto.getIdEvento());
+		e.setAtivo(eventodto.isAtivo());
+		if (eventodto.getD_inscricao() != null)
+			e.setD_inscricao(eventodto.getD_inscricao());
+		if (eventodto.getD_inscricao_fim() != null)
+			e.setD_inscricao_fim(eventodto.getD_inscricao_fim());
+		if (eventodto.getDescricao() != null)
+			e.setDescricao(eventodto.getDescricao());
+		e.setDias_compensacao(eventodto.getDias_compensacao());
+		if (eventodto.getFim_rolagem() != null)
+			e.setFim_rolagem(eventodto.getFim_rolagem());
+		if (eventodto.getImagem() != null)
+			e.setImagem(eventodto.getImagem());
+		if (eventodto.getInicio_rolagem() != null)
+			e.setInicio_rolagem(eventodto.getInicio_rolagem());
+		if (eventodto.getLocal() != null)
+			e.setLocal(eventodto.getLocal());
+		e.setParticipante_anexos(eventodto.isParticipante_anexos());
+		e.setPercentual(eventodto.getPercentual());
+		e.setQtdCargaHoraria(eventodto.getQtdCargaHoraria());
+		if (eventodto.getPeriodo_evento() != null || !eventodto.getPeriodo_evento().isEmpty())
+			e.setQtdDias(eventodto.getPeriodo_evento().size());
+		e.setQtdVagas(eventodto.getQtdVagas());
+		e.setTextoDeclaracaoEvento(eventodto.getTextoDeclaracaoEvento());
+		e.setTextoDeclaracaoEventoOrganizador(eventodto.getTextoDeclaracaoEventoOrganizador());
+		if (eventodto.getTitulo() != null)
+			e.setTitulo(eventodto.getTitulo());
+		e.setValor(eventodto.getValor());
+		ArrayList<LocalDate> periodo_evento = eventodto.getPeriodo_evento();
+		LocalDate evento_fim = periodo_evento.stream().max( Comparator.comparing( LocalDate::toEpochDay ) ).get();
+		LocalDate evento_inicio = periodo_evento.stream().min( Comparator.comparing( LocalDate::toEpochDay ) ).get();
+		e.setD_evento_fim(evento_fim);
+		e.setD_evento_inicio(evento_inicio);
+		eventoRepository.save(e);
+		if (eventodto.getIdEvento() == 0 ) {
 		organizadoresService.salvar(e.getIdEvento(), p.getIdPessoa());
+		for (LocalDate dia : periodo_evento) {
+			Periodo_Evento pe = new Periodo_Evento();
+			pe.setDia(dia);
+			periodoEventoService.salvar(e.getIdEvento(), pe);
+		}
+		}
+		else {
+			Page<Periodo_Evento> pep = periodoEventoService.buscarPorEvento(eventodto.getIdEvento(), null);
+			for (Periodo_Evento dia : pep.getContent()) {
+				periodoEventoService.delete(dia.getIdPeriodo_Evento());
+			}
+			for (LocalDate dia : periodo_evento) {
+				Periodo_Evento pe = new Periodo_Evento();
+				pe.setDia(dia);
+				periodoEventoService.salvar(e.getIdEvento(), pe);
+			}
+		}
 		return e;
 	}
 	
-	public void remover(Long id) {
+	public void remover(Long id, HttpServletRequest req) {
+    	Pessoa p = pessoaService.buscarPorEmail(req);
 		if (!eventoRepository.findById(id).isPresent())
 			throw new ResourceNotFoundException("Nenhum evento com id "+id+" encontrado.");
+		if(p.getTipo_usuario().getNome() == "petiano") {
+			List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
+			Boolean organiza = false;
+			for (Organizadores organizadores : o) {
+				if(organizadores.getEvento().getIdEvento() == id)
+					organiza = true;
+			}
+			if (!organiza)
+	    		throw new CustomException("Você não tem permissão para apagar esse evento!", HttpStatus.FORBIDDEN);	
+		}
 		eventoRepository.deleteById(id);
 	}
 	
