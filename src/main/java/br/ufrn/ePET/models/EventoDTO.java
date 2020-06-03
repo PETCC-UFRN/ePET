@@ -62,12 +62,12 @@ public class EventoDTO {
 	private LocalDate d_inscricao_fim;
 	
 	@ApiModelProperty(
-			  value = "Período que irá ocorrer o evento. (YYYY-MM-DD)",
+			  value = "Período que irá ocorrer o evento. YYYY-MM-DD com aspas",
 			  example = "[\"2020-03-01\", \"2020-03-02\", \"2020-03-04\", \"2020-03-03\"]")
 	private ArrayList<LocalDate>periodo_evento;
 
 	@ApiModelProperty(
-	  value = "Data inicial para a chamada da lista deespera do evento. YYYY-MM-DD com aspas",
+	  value = "Data inicial para a chamada da lista deespera do evento. (YYYY-MM-DD)",
 	  dataType = "Date",
 	  example = "2020-02-20")
 	@Column(columnDefinition = "DATE")
