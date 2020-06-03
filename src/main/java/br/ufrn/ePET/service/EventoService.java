@@ -84,19 +84,19 @@ public class EventoService {
 	}
 
 	public Evento salvar(EventoDTO eventodto, HttpServletRequest req) {
-    	Pessoa p = pessoaService.buscarPorEmail(req);
-    	if(eventodto.getIdEvento() <= 0 && p.getTipo_usuario().getNome() == "comum")
-    		throw new CustomException("Você não tem permissão para criar um evento", HttpStatus.FORBIDDEN);
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		if(eventodto.getIdEvento() <= 0 && p.getTipo_usuario().getNome() == "comum")
+			throw new CustomException("Você não tem permissão para criar um evento", HttpStatus.FORBIDDEN);
     	if(eventodto.getIdEvento() > 0 && (p.getTipo_usuario().getNome() == "petiano" || p.getTipo_usuario().getNome() == "comum")) {
-			List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
-			Boolean organiza = false;
-			for (Organizadores organizadores : o) {
-				if(organizadores.getEvento().getIdEvento() == eventodto.getIdEvento())
-					organiza = true;
-				break;
+    		List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
+    		Boolean organiza = false;
+    		for (Organizadores organizadores : o) {
+    			if(organizadores.getEvento().getIdEvento() == eventodto.getIdEvento())
+    				organiza = true;
+    			break;
 			}
 			if (!organiza)
-	    		throw new CustomException("Você não tem permissão para editar esse evento!", HttpStatus.FORBIDDEN);	
+				throw new CustomException("Você não tem permissão para editar esse evento!", HttpStatus.FORBIDDEN);	
 		}
 		if(eventodto.getTextoDeclaracaoEvento() == null) {
 			eventodto.setTextoDeclaracaoEvento("Certificamos que, para os devidos fins, que {nome_participante}, portador do CPF {cpf}, participou do evento {titulo_evento}, realizado no {local},"
