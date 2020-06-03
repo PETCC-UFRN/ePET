@@ -92,8 +92,10 @@ public class EventoService {
     		Boolean organiza = false;
     		for (Organizadores organizadores : o) {
     			if(organizadores.getEvento().getIdEvento() == eventodto.getIdEvento())
+    			{
     				organiza = true;
-    			break;
+    				break;
+    			}
 			}
 			if (!organiza)
 				throw new CustomException("Você não tem permissão para editar esse evento!", HttpStatus.FORBIDDEN);	
@@ -178,8 +180,10 @@ public class EventoService {
 			Boolean organiza = false;
 			for (Organizadores organizadores : o) {
 				if(organizadores.getEvento().getIdEvento() == id)
+				{
 					organiza = true;
-				break;
+					break;
+				}
 			}
 			if (!organiza)
 	    		throw new CustomException("Você não tem permissão para apagar esse evento!", HttpStatus.FORBIDDEN);	
