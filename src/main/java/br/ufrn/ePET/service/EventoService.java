@@ -3,7 +3,6 @@ package br.ufrn.ePET.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,12 +87,13 @@ public class EventoService {
     	Pessoa p = pessoaService.buscarPorEmail(req);
     	if(eventodto.getIdEvento() <= 0 && p.getTipo_usuario().getNome() == "comum")
     		throw new CustomException("Você não tem permissão para criar um evento", HttpStatus.FORBIDDEN);
-    	else if(p.getTipo_usuario().getNome() == "petiano" || p.getTipo_usuario().getNome() == "comum") {
+    	if(eventodto.getIdEvento() > 0 && (p.getTipo_usuario().getNome() == "petiano" || p.getTipo_usuario().getNome() == "comum")) {
 			List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
 			Boolean organiza = false;
 			for (Organizadores organizadores : o) {
 				if(organizadores.getEvento().getIdEvento() == eventodto.getIdEvento())
 					organiza = true;
+				break;
 			}
 			if (!organiza)
 	    		throw new CustomException("Você não tem permissão para editar esse evento!", HttpStatus.FORBIDDEN);	
@@ -176,6 +176,7 @@ public class EventoService {
 			for (Organizadores organizadores : o) {
 				if(organizadores.getEvento().getIdEvento() == id)
 					organiza = true;
+				break;
 			}
 			if (!organiza)
 	    		throw new CustomException("Você não tem permissão para apagar esse evento!", HttpStatus.FORBIDDEN);	
