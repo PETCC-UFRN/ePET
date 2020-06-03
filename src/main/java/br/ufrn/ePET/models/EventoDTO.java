@@ -67,7 +67,7 @@ public class EventoDTO {
 	private ArrayList<LocalDate>periodo_evento;
 
 	@ApiModelProperty(
-	  value = "Data inicial para a chamada da lista deespera do evento. (YYYY-MM-DD)",
+	  value = "Data inicial para a chamada da lista deespera do evento. YYYY-MM-DD com aspas",
 	  dataType = "Date",
 	  example = "2020-02-20")
 	@Column(columnDefinition = "DATE")
