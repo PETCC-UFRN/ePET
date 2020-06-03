@@ -87,7 +87,7 @@ public class EventoService {
 		Pessoa p = pessoaService.buscarPorEmail(req);
 		if(eventodto.getIdEvento() <= 0 && p.getTipo_usuario().getNome() == "comum")
 			throw new CustomException("Você não tem permissão para criar um evento", HttpStatus.FORBIDDEN);
-    	if(eventodto.getIdEvento() > 0 && (p.getTipo_usuario().getNome() == "petiano" || p.getTipo_usuario().getNome() == "comum")) {
+		if(eventodto.getIdEvento() > 0 && (p.getTipo_usuario().getNome() == "petiano" || p.getTipo_usuario().getNome() == "comum")) {
     		List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
     		Boolean organiza = false;
     		for (Organizadores organizadores : o) {
