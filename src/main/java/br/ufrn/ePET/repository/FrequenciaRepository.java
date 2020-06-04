@@ -10,4 +10,7 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	@Query(value = "SELECT SUM(assiduidade) FROM frequencia i, periodo_evento p WHERE i.id_participante = ?1 AND "
 			+ "i.id_periodo_evento = p.id_periodo_evento AND p.id_evento = ?2", nativeQuery = true)
 	int findAssiduidadeByParticipante(Long id, Long id_evento);
+
+	@Query(value = "SELECT * FROM frequencia f WHERE f.id_periodo_evento = ?1 AND f.id_participante = ?2", nativeQuery = true)
+	Frequencia findByPeriodoAndParticipante(Long id_periodo_evento, Long id_participante);
 }
