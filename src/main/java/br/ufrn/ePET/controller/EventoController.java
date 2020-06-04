@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.EventoDTO;
 import br.ufrn.ePET.service.EventoService;
 
 @RestController
@@ -121,9 +122,9 @@ public class EventoController {
 	
 	@PostMapping(value = "/eventos-cadastrar")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@ApiOperation(value = "Cadastra um novo evento no sistema.")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> saveEventos(@Valid @RequestBody Evento evento, HttpServletRequest req){
+	@ApiOperation(value = "Cadastra ou edita um evento no sistema.(petianos e comuns só podem editar eventos que organizam)")
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> saveEventos(@Valid @RequestBody EventoDTO evento, HttpServletRequest req){
 		//try {
 			eventoService.salvar(evento, req);
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -135,11 +136,11 @@ public class EventoController {
 	@CrossOrigin
 	@DeleteMapping(value="/eventos-remove/{id}")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@ApiOperation(value = "Remove um evento do sistema a partir de seu ID.")
+	@ApiOperation(value = "Remove um evento do sistema a partir de seu ID.(Só remove se não ouver organizadores, participantes, periodo_evento e anexos cadastrado para esse evento)")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> removeEventos(@ApiParam(value = "Id do evento a ser removido") @PathVariable Long id){
+	public ResponseEntity<?> removeEventos(@ApiParam(value = "Id do evento a ser removido") @PathVariable Long id, HttpServletRequest req){
 		//try {
-			eventoService.remover(id);
+			eventoService.remover(id, req);
 		return new ResponseEntity<>(HttpStatus.OK);
 		//} catch (Exception e) {
 			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);

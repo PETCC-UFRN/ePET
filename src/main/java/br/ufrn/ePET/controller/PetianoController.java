@@ -1,5 +1,6 @@
 package br.ufrn.ePET.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -68,9 +69,9 @@ public class PetianoController {
 	@GetMapping(value="/petianos/{id}")
 	@ApiOperation(value = "Retorna todos os petianos do sistema(atuais e egressos).")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public Petiano getPetianos(@PathVariable Long id){
-		Petiano petiano = petianoservice.buscar(id);
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public Petiano getPetianos(@PathVariable Long id, HttpServletRequest req){
+		Petiano petiano = petianoservice.buscar(id, req);
 		if (petiano == null)
 			throw new ResourceNotFoundException("Nenhum petiano com id "+ id +" cadastrado!");
 		return petiano;
@@ -106,8 +107,8 @@ public class PetianoController {
 	@ApiOperation(value = "Torna um petiano em egresso.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured("ROLE_tutor")
-	public ResponseEntity<?> removePetianos(@ApiParam(value = "Id do petiano que irá se tornar egresso.")@PathVariable Long id){
-		Petiano petiano = petianoservice.buscar(id);
+	public ResponseEntity<?> removePetianos(@ApiParam(value = "Id do petiano que irá se tornar egresso.")@PathVariable Long id, HttpServletRequest req){
+		Petiano petiano = petianoservice.buscar(id, req);
 		if (petiano == null)
 			throw new ResourceNotFoundException("Nenhum petiano com id "+ id +" cadastrado!");
 		//try {
