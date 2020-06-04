@@ -1,14 +1,20 @@
 package br.ufrn.ePET.service;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import br.ufrn.ePET.error.CustomException;
 import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
+import br.ufrn.ePET.models.Organizadores;
 import br.ufrn.ePET.models.Participante;
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.repository.EventoRepository;
@@ -21,22 +27,46 @@ public class ParticipanteService {
 	private final ParticipanteRepository participanteRepository;
 	private final EventoRepository eventoRepository;
 	private final PessoaRepository pessoaRepository;
+	private final PessoaService pessoaService;
+	private final OrganizadoresService organizadoresService;
 	
 	@Autowired
 	public ParticipanteService(ParticipanteRepository participanteRepository, EventoRepository eventoRepository,
-			PessoaRepository pessoaRepository) {
+			PessoaRepository pessoaRepository, PessoaService pessoaService, OrganizadoresService organizadoresService) {
 		this.participanteRepository = participanteRepository;
 		this.eventoRepository = eventoRepository;
 		this.pessoaRepository = pessoaRepository;
+		this.pessoaService = pessoaService;
+		this.organizadoresService = organizadoresService;
 	}
 	
 	public Page<Participante> buscar(Pageable pageable){
 		return participanteRepository.findAll(pageable);
 	}
 	
-	public Participante buscar(Long id) {
-		return participanteRepository.findById(id).isPresent() ? 
-				participanteRepository.findById(id).get(): null;
+	public Participante buscar(HttpServletRequest req, Long id) {
+		if (participanteRepository.findById(id).isPresent()) 
+		{
+			Participante part = participanteRepository.findById(id).get();
+			Pessoa p = pessoaService.buscarPorEmail(req);
+			if(p.getTipo_usuario().getNome() != "tutor") {
+				List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
+				Boolean organiza = false;
+				for (Organizadores organizador : o) {
+					if(organizador.getEvento().getIdEvento() == part.getEvento().getIdEvento())
+					{
+						organiza = true;
+						break;
+					}
+				}
+				if (!organiza && (p.getTipo_usuario().getNome() == "comum" || p.getTipo_usuario().getNome() == "petiano"))
+					throw new CustomException("Você não tem permissão para listar os participantes desse evento!", HttpStatus.FORBIDDEN);
+			}
+			return part;
+		}
+		else {
+			throw new ResourceNotFoundException("Nenhum participante com id "+ id + " encontrado!");
+		}
 	}
 	
 	public Page<Participante> buscarPessoa(Long id, Pageable pageable){
@@ -54,12 +84,43 @@ public class ParticipanteService {
 		return participanteRepository.findByNomeOuCpfPessoa(search, pageable);
 	}
 
-	public Page<Participante> buscarPorTituloEvento(String search, Pageable pageable){
-		return participanteRepository.findByTituloEvento(search, pageable);
+	public Page<Participante> buscarPorTituloEvento(HttpServletRequest req, String search, Pageable pageable){
+		Page<Participante> parts =  participanteRepository.findByTituloEvento(search, pageable);
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		if(p.getTipo_usuario().getNome() != "tutor") {
+			List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
+			Boolean organiza = false;
+			for (Organizadores organizadores : o) {
+				if(organizadores.getEvento().getIdEvento() == parts.getContent().get(0).getEvento().getIdEvento())
+				{
+					organiza = true;
+					break;
+				}
+			}
+			if (!organiza && (p.getTipo_usuario().getNome() == "comum" || p.getTipo_usuario().getNome() == "petiano"))
+				throw new CustomException("Você não tem permissão para listar os participantes desse evento!", HttpStatus.FORBIDDEN);
+		}		
+		return parts;
+		
 	}
 
-	public Page<Participante> buscarPorEvento(Long id, Pageable pageable){
-		return participanteRepository.findByEvento(id, pageable);
+	public Page<Participante> buscarPorEvento(HttpServletRequest req, Long id, Pageable pageable){
+		Page<Participante> page = participanteRepository.findByEvento(id, pageable);
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		if(p.getTipo_usuario().getNome() != "tutor") {
+			List<Organizadores>o = organizadoresService.buscarPessoa(p.getIdPessoa());
+			Boolean organiza = false;
+			for (Organizadores organizadores : o) {
+				if(organizadores.getEvento().getIdEvento() == id)
+				{
+					organiza = true;
+					break;
+				}
+			}
+			if (!organiza && (p.getTipo_usuario().getNome() == "comum" || p.getTipo_usuario().getNome() == "petiano"))
+				throw new CustomException("Você não tem permissão para listar os participantes desse evento!", HttpStatus.FORBIDDEN);
+		}
+		return page;
 	}
 
 	public void salvar(Long id_evento, Long id_pessoa) {
