@@ -45,7 +45,19 @@ public class Tutoria_MinistradaService {
 	public Page<Tutoria_Ministrada> buscarPorPessoa(Long id, Pageable pageable){
 		if(pessoaRepository.findById(id).isPresent()) {
 			//Pessoa p = pessoaRepository.findById(id).get();
-			return tutoria_Ministrada_Repository.findByPessoa(id, pageable);
+	        LocalDate today = LocalDate.now();
+			return tutoria_Ministrada_Repository.findByPessoa(id, today,pageable);
+		} else {
+			throw new ResourceNotFoundException("Nenhuma Tutoria encontrada para a pessoa informada");
+		}
+	}
+	
+	public Page<Tutoria_Ministrada> buscarPorPessoaConcluida(Long id, Pageable pageable){
+		if(pessoaRepository.findById(id).isPresent()) {
+			//Pessoa p = pessoaRepository.findById(id).get();
+
+	        LocalDate today = LocalDate.now();
+			return tutoria_Ministrada_Repository.findByPessoaConcluida(id, today, pageable);
 		} else {
 			throw new ResourceNotFoundException("Nenhuma Tutoria encontrada para a pessoa informada");
 		}
