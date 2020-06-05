@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -18,11 +17,11 @@ public class Frequencia {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idFrequencia;
 	
-	@NotEmpty
+	//@NotEmpty
 	@ApiModelProperty(
 	  value = "Assiduidade da frequencia",
 	  dataType = "String",
-	  example = "260ed4cbb913e500d6626f7fd60bea5f191ea5ad")
+	  example = "5")
 	private int assiduidade;
 	
 	@ManyToOne

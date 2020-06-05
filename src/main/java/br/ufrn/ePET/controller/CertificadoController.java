@@ -74,6 +74,35 @@ public class CertificadoController {
 //		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 	
+
+
+	@GetMapping(value = "/certificado/gerarOrganizador/{id_pessoa}/{id_evento}")
+	@ApiOperation(value = "Método que gera uma declaração para determinada pessoa em um determinado evento.")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public HttpEntity<byte[]>  gerarCertificadoOrganizador(@ApiParam(value = "Id da pessoa que está solicitando a declaração.") @PathVariable Long id_pessoa, 
+												@ApiParam(value = "Id do evento que o usuário está solitando a declaração.") @PathVariable Long id_evento,
+												HttpServletRequest req) throws IOException{
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		if(p == null){
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		if(p.getIdPessoa() != id_pessoa && p.getTipo_usuario().getNome() == "comum" ) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+
+		String fileName = certificadoService.gerarCertificadoOrganizador(id_pessoa,id_evento);
+		byte[] arquivo = Files.readAllBytes( Paths.get(fileName));
+		HttpHeaders httpHeaders = new HttpHeaders();
+
+        httpHeaders.add("Content-Disposition", "attachment;filename=\"certificado.pdf\"");
+
+        HttpEntity<byte[]> entity = new HttpEntity<byte[]>( arquivo, httpHeaders);
+        Files.deleteIfExists(Paths.get(fileName));
+        return entity;
+//		return new ResponseEntity<>(HttpStatus.OK);	
+	}
+	
 	
 
 }

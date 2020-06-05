@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +35,7 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes")
-	@ApiOperation(value = "Método responsável por retornar os participantes de todos os eventos.")
+	@ApiOperation(value = "Método responsável por retornar os participantes de todos os eventos.(Rota de Tutores e petianos)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantes(Pageable pageable){
@@ -48,10 +50,11 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes/{id}")
-	@ApiOperation(value = "Método que busca o participante através de seu ID.")
+	@ApiOperation(value = "Método que busca o participante através de seu ID.(Rota de Tutores, petianos e comuns)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> getParticipantes(@ApiParam(value = "Id do participante") @PathVariable Long id){
-		Participante participantes = participanteService.buscar(id);
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> getParticipantes(HttpServletRequest req, @ApiParam(value = "Id do participante") @PathVariable Long id){
+		Participante participantes = participanteService.buscar(req, id);
 		if (participantes.isEspera())
 			throw new ResourceNotFoundException("Participante com id "+id+" não encontrado");
 		//try {
@@ -62,9 +65,9 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes-pessoa/{id}")
-	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do ID da PESSOA.")
+	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do ID da PESSOA.(Rota de Tutores e petianos)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantesPessoa(@ApiParam(value = "ID da PESSOA a ser solicitada as participações") @PathVariable Long id, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPessoa(id, pageable);
 		if (participantes.isEmpty())
@@ -77,19 +80,19 @@ public class ParticipanteController {
 	}
 
 	@GetMapping(value = "/participantes-evento/{id}")
-	@ApiOperation(value = "Método que retorna todos os participantes de um evento à partir do id do evento")
+	@ApiOperation(value = "Método que retorna todos os participantes de um evento à partir do id do evento.(Rota de Tutores, petianos e comuns)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getParticipantesEvento(@PathVariable Long id, Pageable pageable){
-		Page<Participante> participantes = participanteService.buscarPorEvento(id, pageable);
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> getParticipantesEvento(HttpServletRequest req, @PathVariable Long id, Pageable pageable){
+		Page<Participante> participantes = participanteService.buscarPorEvento(req, id, pageable);
 		return new ResponseEntity<>(participantes, HttpStatus.OK);
 	}
 
 
 	@GetMapping(value = "pesquisar-pessoa-participante/{search}")
-	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do Nome ou CPF da PESSOA.")
+	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do Nome ou CPF da PESSOA.(Rota de Tutores e petianos)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getParticipantesPorPessoa(@ApiParam(value = "Nome ou CPF da pessoa a ser solicitada" )@PathVariable String search, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPorNomeOuCpfPessoa(search, pageable);
 		if(participantes.isEmpty()){
@@ -100,11 +103,11 @@ public class ParticipanteController {
 	}
 
 	@GetMapping(value = "pesquisar-evento-participante/{search}")
-	@ApiOperation(value = "Método responsável por retornar os participantes de um evento através do Titulo do evento.")
+	@ApiOperation(value = "Método responsável por retornar os participantes de um evento através do Titulo do evento.(Rota de Tutores, petianos e comuns)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> getParticipantesPorEvento(@PathVariable String search, Pageable pageable){
-		Page<Participante> participantes = participanteService.buscarPorTituloEvento(search, pageable);
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> getParticipantesPorEvento(HttpServletRequest req, @PathVariable String search, Pageable pageable){
+		Page<Participante> participantes = participanteService.buscarPorTituloEvento(req, search, pageable);
 		if(participantes.isEmpty()){
 			throw new ResourceNotFoundException("Nenhuma pessoa encontrada com esse nome");
 		} else {
@@ -113,9 +116,9 @@ public class ParticipanteController {
 	}
 	
 	@PostMapping(value = "/participantes-cadastrar/{id_evento}/{id_pessoa}")
-	@ApiOperation(value = "Método que cadastra uma pessoa a participar de um evento.")
+	@ApiOperation(value = "Método que cadastra uma pessoa a participar de um evento.(Rota de Tutores e petianos)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> salvarParticipantes(@ApiParam(value = "id do evento que se deseja participar") @PathVariable Long id_evento,
 												 @ApiParam(value = "id da pessoa que quer participar do evento") @PathVariable Long id_pessoa){
 		participanteService.salvar(id_evento, id_pessoa);
@@ -123,7 +126,7 @@ public class ParticipanteController {
 	}
 	
 	@DeleteMapping(value = "/participantes-remove/{id}")
-	@ApiOperation(value = "Remove a participação de uma pessoa passada por ID.")
+	@ApiOperation(value = "Remove a participação de uma pessoa passada por ID.(Rota de Tutores e petianos)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> deleteParticipantes(@ApiParam(value = "id participante a ser removido") @PathVariable Long id){
@@ -132,7 +135,7 @@ public class ParticipanteController {
 	}
 	
 	@PostMapping(value = "/participantes-confirmar/{id}")
-	@ApiOperation(value = "Método Confirma a participação de uma pessoa ao evento.")
+	@ApiOperation(value = "Método Confirma a participação de uma pessoa ao evento.(Rota de Tutores e petianos)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> confirmarParticipantes(@PathVariable Long id){

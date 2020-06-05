@@ -54,7 +54,7 @@ public class FrequenciaController {
 		return new ResponseEntity<>(f, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "frequencia-pessoa/{id_participante}/{id_evento}")
+	@GetMapping(value = "/frequencia-pessoa/{id_participante}/{id_evento}")
 	@ApiOperation(value = "Método que busca a frequencia de um participante do evento pelo seu ID. Esse método retorna a Assiduidade do participante no evento passado")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getFrequenciaPessoa(@ApiParam(value = "Id do participante que se busca a frequencia") @PathVariable Long id_participante, 
@@ -62,7 +62,7 @@ public class FrequenciaController {
 		return new ResponseEntity<>(frequenciaService.buscarPorParticipante(id_participante, id_evento), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "frequencia-cadastrar/{id_periodo_evento}/{id_participante}")
+	@PostMapping(value = "/frequencia-cadastrar/{id_periodo_evento}/{id_participante}")
 	@ApiOperation(value = "Método que cadastra uma nova frequencia.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> salvarFrequencia(@ApiParam(value = "Id do periodo a ser confirmada a presença") @PathVariable Long id_periodo_evento, 
@@ -72,7 +72,7 @@ public class FrequenciaController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "frequencia-remove/{id}")
+	@DeleteMapping(value = "/frequencia-remove/{id}")
 	@ApiOperation(value = "Método que remove uma frequencia.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> removerFrequencia(@ApiParam(value = "Id da frequencia a ser removida") @PathVariable Long id){

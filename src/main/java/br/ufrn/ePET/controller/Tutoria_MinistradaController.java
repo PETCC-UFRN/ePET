@@ -25,7 +25,6 @@ import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Tutoria_Ministrada;
 import br.ufrn.ePET.service.Tutoria_MinistradaService;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -48,11 +47,11 @@ public class Tutoria_MinistradaController {
 	public ResponseEntity<?> getTutoriaMinistrada(HttpServletRequest  req, @PathVariable Long id){
 		Tutoria_Ministrada tutoria_Ministrada = tutoria_MinistradaService.buscar(id);
 		Pessoa p = pessoaService.buscarPorEmail(req);
+		if(tutoria_Ministrada == null)
+			throw new ResourceNotFoundException("Tutoria com o id: "+ id +" não encontrada.");
 		if(tutoria_Ministrada.getPessoa().getIdPessoa() != p.getIdPessoa() && p.getTipo_usuario().getNome().equalsIgnoreCase("comum")){
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
-		if(tutoria_Ministrada == null)
-			throw new ResourceNotFoundException("Tutoria com o id: "+ id +" não encontrada.");
 		
 		return new ResponseEntity<>(tutoria_Ministrada, HttpStatus.OK);
 	}
@@ -70,7 +69,7 @@ public class Tutoria_MinistradaController {
 	}
 
 	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas/{id}")
-	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID e que está ativa")
+	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID e que está ativa e que ainda irão ocorrer")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	///@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoriasMinistradasPessoa(HttpServletRequest req, @ApiParam(value = "Id da pessoa que terá suas solicitações de tutorias listadas.") @PathVariable Long id, Pageable pageable){
@@ -78,6 +77,23 @@ public class Tutoria_MinistradaController {
 			Pessoa p = pessoaService.buscarPorEmail(req);
 			if(p.getIdPessoa() == id){
 				return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoa(id, pageable), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping(value = "/pesquisar-pessoa-tutorias-ministradas-concluidas/{id}")
+	@ApiOperation(value = "Método responsável por retornar as tutorias solicitadas por um determinado usuário passado pelo ID e que está ativa e que já foi concluída")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	///@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> getTutoriasMinistradasPessoaConcluidas(HttpServletRequest req, @ApiParam(value = "Id da pessoa que terá suas solicitações de tutorias listadas.") @PathVariable Long id, Pageable pageable){
+		try{
+			Pessoa p = pessoaService.buscarPorEmail(req);
+			if(p.getIdPessoa() == id){
+				return new ResponseEntity<>(tutoria_MinistradaService.buscarPorPessoaConcluida(id, pageable), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
@@ -141,7 +157,6 @@ public class Tutoria_MinistradaController {
 	public ResponseEntity<?> salvarTutoriasMinistradas(@ApiParam(value = "ID da PESSOA(usuário comum) que está solicitando uma tutoria", required = true) @PathVariable Long id_pessoa, 
 			 										   @ApiParam(value = "ID da tutoria a ser solicitada", required = true) @PathVariable Long id_tutoria){
 		Tutoria_Ministrada tutoria_ministrada = new Tutoria_Ministrada();
-		System.out.println("rodando aq");
 		tutoria_MinistradaService.salvar(id_pessoa, id_tutoria, tutoria_ministrada);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

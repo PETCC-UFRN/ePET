@@ -50,6 +50,10 @@ public class FrequenciaService {
 			throw new ResourceNotFoundException("Periodo evento com id "+ id_periodo_evento + " não encontrado.");
 		if(pa == null)
 			throw new ResourceNotFoundException("Participante com id "+ id_participante + " não encontrado.");
+		Frequencia freq = frequenciaRepository.findByPeriodoAndParticipante(id_periodo_evento, id_participante);
+		if(freq != null) {
+			f.setIdFrequencia(freq.getIdFrequencia());
+		}
 		f.setParticipante(pa);
 		f.setPeriodo_evento(pe);
 		frequenciaRepository.save(f);

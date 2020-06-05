@@ -2,7 +2,6 @@ package br.ufrn.ePET.repository;
 
 import java.util.List;
 
-import br.ufrn.ePET.models.Participante;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
