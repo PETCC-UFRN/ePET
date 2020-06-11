@@ -64,9 +64,9 @@ public class EventoController {
 	}
 
 	@GetMapping(value = "/eventos-abertos/{id}")
-	@ApiOperation(value = "Retorna todos um eventos aberto do sistema pelo seu ID.")
+	@ApiOperation(value = "Retorna um evento aberto do sistema pelo seu ID.")
 	public ResponseEntity<?> getEventosAbertosID(@ApiParam(value = "Id do evento procurado") @PathVariable Long id){
-			Evento e = eventoService.buscarAtivosId(id);
+			EventoDTO e = eventoService.buscarAtivosId(id);
 			if(e == null) {
 				throw new ResourceNotFoundException("Nenhum evento aberto com o id informado.");
 			}
@@ -77,7 +77,7 @@ public class EventoController {
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@ApiOperation(value = "Método que busca um evento a partir de um ID.")
 	public ResponseEntity<?> getEventos(@ApiParam(value = "Id do evento procurado") @PathVariable Long id){
-		Evento evento = eventoService.buscar(id);
+		EventoDTO evento = eventoService.buscar(id);
 		if(evento == null)
 			throw new ResourceNotFoundException("Nenhum evento com id "+id +" encontrado.");
 		//try {
