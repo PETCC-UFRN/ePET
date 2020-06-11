@@ -40,9 +40,39 @@ public class EventoService {
 		this.periodoEventoService = periodoEventoService;
 	}
 	
-	public Evento buscar(Long id) {
-		return eventoRepository.findById(id).isPresent() ? 
-				eventoRepository.findById(id).get(): null;
+	public EventoDTO buscar(Long id) {
+		Evento e = new Evento();
+		if (eventoRepository.findById(id).isPresent())
+			e = eventoRepository.findById(id).get();
+		else
+			throw new ResourceNotFoundException("Nenhum evento com id "+id+" encontrado.");
+		EventoDTO eventodto = new EventoDTO();
+		eventodto.setAtivo(e.isAtivo());
+		eventodto.setD_inscricao(e.getD_inscricao());
+		eventodto.setD_inscricao_fim(e.getD_inscricao_fim());
+		eventodto.setDescricao(e.getDescricao());
+		eventodto.setDias_compensacao(e.getDias_compensacao());
+		eventodto.setFim_rolagem(e.getFim_rolagem());
+		eventodto.setIdEvento(e.getIdEvento());
+		eventodto.setImagem(e.getImagem());
+		eventodto.setInicio_rolagem(e.getInicio_rolagem());
+		eventodto.setLocal(e.getLocal());
+		eventodto.setParticipante_anexos(e.isParticipante_anexos());
+		eventodto.setPercentual(e.getPercentual());
+		eventodto.setQtdCargaHoraria(e.getQtdCargaHoraria());
+		List<Periodo_Evento> list = periodoEventoService.buscarPorEvento(e);
+		ArrayList<LocalDate> arrayList = new ArrayList<LocalDate>();
+		for (Periodo_Evento data : list) {
+			arrayList.add(data.getDia());
+		}
+		eventodto.setPeriodo_evento(arrayList);
+		eventodto.setQtdVagas(e.getQtdVagas());
+		eventodto.setTextoDeclaracaoEvento(e.getTextoDeclaracaoEvento());
+		eventodto.setTextoDeclaracaoEventoOrganizador(e.getTextoDeclaracaoEventoOrganizador());
+		eventodto.setTitulo(e.getTitulo());
+		eventodto.setValor(e.getValor());
+		
+		return eventodto;
 	}
 	
 	public Page<Evento> buscar(Pageable pageable){
@@ -112,9 +142,7 @@ public class EventoService {
 		}
 		Evento e = new Evento();
 
-		System.out.println("A");
 		e.setIdEvento(eventodto.getIdEvento());
-		System.out.println("B");
 		e.setAtivo(eventodto.isAtivo());
 		if (eventodto.getD_inscricao() != null)
 			e.setD_inscricao(eventodto.getD_inscricao());
@@ -212,7 +240,36 @@ public class EventoService {
 		return eventoRepository.findEventosNaoOrganizoIna(p.getIdPessoa(), pageable);
 	}
 
-	public Evento buscarAtivosId(Long id){
-		return eventoRepository.findByAtivosId(id);
+	public EventoDTO buscarAtivosId(Long id){
+		Evento e =  eventoRepository.findByAtivosId(id);
+		if (e == null)
+			throw new ResourceNotFoundException("Nenhum evento com id "+id+" encontrado.");
+		EventoDTO eventodto = new EventoDTO();
+		eventodto.setAtivo(e.isAtivo());
+		eventodto.setD_inscricao(e.getD_inscricao());
+		eventodto.setD_inscricao_fim(e.getD_inscricao_fim());
+		eventodto.setDescricao(e.getDescricao());
+		eventodto.setDias_compensacao(e.getDias_compensacao());
+		eventodto.setFim_rolagem(e.getFim_rolagem());
+		eventodto.setIdEvento(e.getIdEvento());
+		eventodto.setImagem(e.getImagem());
+		eventodto.setInicio_rolagem(e.getInicio_rolagem());
+		eventodto.setLocal(e.getLocal());
+		eventodto.setParticipante_anexos(e.isParticipante_anexos());
+		eventodto.setPercentual(e.getPercentual());
+		eventodto.setQtdCargaHoraria(e.getQtdCargaHoraria());
+		List<Periodo_Evento> list = periodoEventoService.buscarPorEvento(e);
+		ArrayList<LocalDate> arrayList = new ArrayList<LocalDate>();
+		for (Periodo_Evento data : list) {
+			arrayList.add(data.getDia());
+		}
+		eventodto.setPeriodo_evento(arrayList);
+		eventodto.setQtdVagas(e.getQtdVagas());
+		eventodto.setTextoDeclaracaoEvento(e.getTextoDeclaracaoEvento());
+		eventodto.setTextoDeclaracaoEventoOrganizador(e.getTextoDeclaracaoEventoOrganizador());
+		eventodto.setTitulo(e.getTitulo());
+		eventodto.setValor(e.getValor());
+		
+		return eventodto;
 	}
 }
