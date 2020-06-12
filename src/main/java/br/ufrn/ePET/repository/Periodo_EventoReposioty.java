@@ -12,7 +12,7 @@ import br.ufrn.ePET.models.Periodo_Evento;
 
 public interface Periodo_EventoReposioty extends JpaRepository<Periodo_Evento, Long>{
 
-	@Query(value = "SELECT * FROM periodo_Evento p WHERE p.id_evento = ?1", nativeQuery = true)
+	@Query(value = "SELECT * FROM periodo_evento p WHERE p.id_evento = ?1", nativeQuery = true)
 	Page<Periodo_Evento> findByEventoID(Long id_evento, Pageable pageable);
 
 	List<Periodo_Evento> findByEvento(Evento evento);
