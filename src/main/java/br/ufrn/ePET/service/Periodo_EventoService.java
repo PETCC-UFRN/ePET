@@ -35,8 +35,8 @@ public class Periodo_EventoService {
 		return periodo_EventoReposioty.findAll(pageable);
 	}
 	
-	public Page<Periodo_Evento> buscarPorEvento(Long id_evento, Pageable pageable){
-		return periodo_EventoReposioty.findByEvento(id_evento, pageable);
+	public Page<Periodo_Evento> buscarPorEventoID(Long id_evento, Pageable pageable){
+		return periodo_EventoReposioty.findByEventoID(id_evento, pageable);
 	}
 	
 	public List<Periodo_Evento> buscarPorEvento(Evento e){
