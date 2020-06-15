@@ -71,8 +71,8 @@ public class Anexo_EventoController {
 	     if(filename != null) {
 	    	 Anexo_Evento anexo_Evento = new Anexo_Evento();
 	    	 anexo_Evento.setAnexos(filename);
-	    	 anexo_EventoService.salvar(id_evento, anexo_Evento);
-	    	 return new ResponseEntity<>(HttpStatus.OK);
+	    	 //Anexo_Evento a = anexo_EventoService.salvar(id_evento, anexo_Evento);
+	    	 return new ResponseEntity<>(anexo_EventoService.salvar(id_evento, anexo_Evento), HttpStatus.OK);
 	     } else {
 	    	 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	     }

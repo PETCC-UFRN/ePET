@@ -65,8 +65,8 @@ public class Anexo_ParticipanteController {
 	     if(filename != null) {
 	    	 Anexo_Participante anexo_Participante = new Anexo_Participante();
 	    	 anexo_Participante.setAnexos(filename);
-	    	 anexo_ParticipanteService.salvar(id_participante, anexo_Participante);
-	    	 return new ResponseEntity<>(HttpStatus.OK);
+	    	 //anexo_ParticipanteService.salvar(id_participante, anexo_Participante);
+	    	 return new ResponseEntity<>(anexo_ParticipanteService.salvar(id_participante, anexo_Participante), HttpStatus.OK);
 	     } else {
 	    	 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	     }

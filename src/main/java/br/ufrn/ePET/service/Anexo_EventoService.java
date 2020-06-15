@@ -27,14 +27,14 @@ public class Anexo_EventoService {
 		return anexo_EventoRepository.findByIdEvento(id_participante);
 	}
 
-	public void salvar(Long id_evento, Anexo_Evento anexo_Evento) {
+	public Anexo_Evento salvar(Long id_evento, Anexo_Evento anexo_Evento) {
 		Evento n = eventoRepository.findById(id_evento).isPresent() ?
 				eventoRepository.findById(id_evento).get() : null;
 		if(n == null) {
 			throw new ResourceNotFoundException("Evento com id " + id_evento + " não encontrado");
 		}
 		anexo_Evento.setEvento(n);
-		anexo_EventoRepository.save(anexo_Evento);
+		return anexo_EventoRepository.save(anexo_Evento);
  	}
 	
 	public void remover(Long id) {

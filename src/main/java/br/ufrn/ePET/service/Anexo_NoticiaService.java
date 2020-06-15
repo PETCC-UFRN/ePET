@@ -27,14 +27,14 @@ public class Anexo_NoticiaService {
 		return anexo_NoticiaRepository.findById_noticia(id_noticia);
 	}
 
-	public void salvar(Long id_noticia, Anexo_Noticia anexo_Noticia) {
+	public Anexo_Noticia salvar(Long id_noticia, Anexo_Noticia anexo_Noticia) {
 		Noticia n = noticiaRepository.findById(id_noticia).isPresent() ?
 				noticiaRepository.findById(id_noticia).get() : null;
 		if(n == null) {
 			throw new ResourceNotFoundException("Noticia com id " + id_noticia + " não encontrada");
 		}
 		anexo_Noticia.setNoticia(n);
-		anexo_NoticiaRepository.save(anexo_Noticia);
+		return anexo_NoticiaRepository.save(anexo_Noticia);
  	}
 	
 	public void remover(Long id) {

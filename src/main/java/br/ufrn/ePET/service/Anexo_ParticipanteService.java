@@ -27,14 +27,14 @@ public class Anexo_ParticipanteService {
 		return anexo_ParticipanteRepository.findByIdParticipante(id_participante);
 	}
 
-	public void salvar(Long id_participante, Anexo_Participante anexo_Participante) {
+	public Anexo_Participante salvar(Long id_participante, Anexo_Participante anexo_Participante) {
 		Participante n = participanteRepository.findById(id_participante).isPresent() ?
 				participanteRepository.findById(id_participante).get() : null;
 		if(n == null) {
 			throw new ResourceNotFoundException("Participante com id " + id_participante + " não encontrado");
 		}
 		anexo_Participante.setParticipante(n);
-		anexo_ParticipanteRepository.save(anexo_Participante);
+		return anexo_ParticipanteRepository.save(anexo_Participante);
  	}
 	
 	public void remover(Long id) {

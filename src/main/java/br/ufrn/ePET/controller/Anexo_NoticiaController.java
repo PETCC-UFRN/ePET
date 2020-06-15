@@ -71,8 +71,8 @@ public class Anexo_NoticiaController {
 	     if(filename != null) {
 	    	 Anexo_Noticia anexo_Noticia = new Anexo_Noticia();
 	    	 anexo_Noticia.setAnexos(filename);
-	    	 anexo_NoticiaService.salvar(id_noticia, anexo_Noticia);
-	    	 return new ResponseEntity<>(HttpStatus.OK);
+	    	 //anexo_NoticiaService.salvar(id_noticia, anexo_Noticia);
+	    	 return new ResponseEntity<>(anexo_NoticiaService.salvar(id_noticia, anexo_Noticia), HttpStatus.OK);
 	     } else {
 	    	 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	     }
