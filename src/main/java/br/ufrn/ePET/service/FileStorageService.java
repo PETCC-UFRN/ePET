@@ -53,7 +53,7 @@ public class FileStorageService {
             //System.out.println(targetLocation);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            return fileName;
+            return targetLocation.toAbsolutePath().toString();
         } catch (IOException ex) {
             //System.out.println(ex);
             throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);

@@ -67,6 +67,7 @@ public class Anexo_NoticiaController {
 	public ResponseEntity<?> uploadFile(@ApiParam(value = "arquivo a ser anexado") @RequestParam("file") MultipartFile file, 
 										@ApiParam(value = "id da notícia") @PathVariable Long id_noticia) {
 	     String filename = fileStorageService.storeFile(file);
+	     System.out.println(filename);
 	     if(filename != null) {
 	    	 Anexo_Noticia anexo_Noticia = new Anexo_Noticia();
 	    	 anexo_Noticia.setAnexos(filename);
