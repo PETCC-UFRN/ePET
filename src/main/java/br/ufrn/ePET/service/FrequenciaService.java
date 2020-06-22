@@ -41,6 +41,10 @@ public class FrequenciaService {
 		return frequenciaRepository.findAssiduidadeByParticipante(id, id_evento);
 	}
 	
+	public Page<Frequencia> buscarPorEvento(Long id_evento, Pageable pageable) {
+		return frequenciaRepository.findByEventoID(id_evento, pageable);
+	}
+	
 	public void salvar(Long id_periodo_evento, Long id_participante, Frequencia f) {
 		Periodo_Evento pe = peRepository.findById(id_periodo_evento).isPresent() ? 
 				peRepository.findById(id_periodo_evento).get() : null;

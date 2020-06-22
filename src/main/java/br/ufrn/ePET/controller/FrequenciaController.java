@@ -43,6 +43,18 @@ public class FrequenciaController {
 		return new ResponseEntity<>(f, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/frequencia-evento/{id_evento}")
+	@ApiOperation(value = "Método que retorna todas as frequencias cadastradas.")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	public ResponseEntity<?> getFrequencia(@ApiParam(value = "Id da frequência") @PathVariable Long id_evento, Pageable pageable){
+		Page<Frequencia> f = frequenciaService.buscarPorEvento(id_evento, pageable);
+		if(f == null || f.isEmpty()) {
+			throw new ResourceNotFoundException("Nenhuma frequencia encontrada para o evento solicitado");
+		}
+		return new ResponseEntity<>(f, HttpStatus.OK);
+	}
+	
+	
 	@GetMapping(value = "/frequencia/{id}")
 	@ApiOperation(value = "Método que faz retorna a frequencia a partir de seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
