@@ -2,6 +2,9 @@ package br.ufrn.ePET.service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.ufrn.ePET.error.CustomException;
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -332,4 +336,12 @@ public class CertificadoService {
 		return certificado;
 	}	
 	
+	public void modificarTemplate(MultipartFile file) {
+		Path fileNameAndPath = Paths.get("./template/", "template.pdf");
+		try {
+			Files.write(fileNameAndPath, file.getBytes());
+		} catch (IOException e) {
+			throw new CustomException("Erro na criação do certificado, entre em contado com nosso suporte!" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
