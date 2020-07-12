@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -15,8 +16,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.ufrn.ePET.models.Pessoa;
 import br.ufrn.ePET.service.CertificadoService;
@@ -102,7 +106,13 @@ public class CertificadoController {
         return entity;
 //		return new ResponseEntity<>(HttpStatus.OK);	
 	}
-	
-	
 
+	@PostMapping(value = "/certificado/mudarTemplate/")
+	@ApiOperation(value = "Método que faz o upload de um novo template para o certificado.")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	public ResponseEntity<?> mudarTemplate(@ApiParam(value = "arquivo a ser anexado") @RequestParam("file") MultipartFile file) {
+		certificadoService.modificarTemplate(file);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
