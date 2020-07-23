@@ -69,8 +69,13 @@ public class ParticipanteService {
 		}
 	}
 	
-	public Page<Participante> buscarPessoa(Long id, Pageable pageable){
-		return participanteRepository.findByPessoa(id, pageable);
+	public Page<Participante> buscarPessoa(HttpServletRequest req, Long id, Pageable pageable){
+		Pessoa p = pessoaService.buscarPorEmail(req);
+		if(p.getTipo_usuario().getNome() != "tutor" && p.getIdPessoa() != id) {
+			throw new CustomException("Você não tem permissão para listar as participações de outras pessoas!", HttpStatus.FORBIDDEN);
+		}
+		Page<Participante> parts = participanteRepository.findByPessoa(id, pageable);
+		return parts;
 	}
 	
 	/*public List<Participante> buscarEventosAtuais(Long id){
@@ -123,7 +128,11 @@ public class ParticipanteService {
 		return page;
 	}
 
-	public void salvar(Long id_evento, Long id_pessoa) {
+	public void salvar(HttpServletRequest req, Long id_evento, Long id_pessoa) {
+		Pessoa pessoa = pessoaService.buscarPorEmail(req);
+		if(pessoa.getTipo_usuario().getNome() == "comum" && pessoa.getIdPessoa() != id_pessoa) {
+			throw new CustomException("Você não tem permissão para cadastrar outras pessoas!", HttpStatus.FORBIDDEN);
+		}
 		Participante p = new Participante();
 		//Evento e = eventoRepository.findById(id_evento).get();
 		//Pessoa pe = pessoaRepository.findById(id_pessoa).get();

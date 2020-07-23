@@ -65,11 +65,11 @@ public class ParticipanteController {
 	}
 	
 	@GetMapping(value = "/participantes-pessoa/{id}")
-	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do ID da PESSOA.(Rota de Tutores e petianos)")
+	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do ID da PESSOA.(Rota de Tutores, petianos e comuns)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
-	public ResponseEntity<?> getParticipantesPessoa(@ApiParam(value = "ID da PESSOA a ser solicitada as participações") @PathVariable Long id, Pageable pageable){
-		Page<Participante> participantes = participanteService.buscarPessoa(id, pageable);
+	public ResponseEntity<?> getParticipantesPessoa(HttpServletRequest req, @ApiParam(value = "ID da PESSOA a ser solicitada as participações") @PathVariable Long id, Pageable pageable){
+		Page<Participante> participantes = participanteService.buscarPessoa(req, id, pageable);
 		if (participantes.isEmpty())
 			throw new ResourceNotFoundException("Não há participações de uma pessoa com id" + id + " no sistema");
 		//try {
@@ -118,10 +118,11 @@ public class ParticipanteController {
 	@PostMapping(value = "/participantes-cadastrar/{id_evento}/{id_pessoa}")
 	@ApiOperation(value = "Método que cadastra uma pessoa a participar de um evento.(Rota de Tutores e petianos)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> salvarParticipantes(@ApiParam(value = "id do evento que se deseja participar") @PathVariable Long id_evento,
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> salvarParticipantes(HttpServletRequest req, 
+												 @ApiParam(value = "id do evento que se deseja participar") @PathVariable Long id_evento,
 												 @ApiParam(value = "id da pessoa que quer participar do evento") @PathVariable Long id_pessoa){
-		participanteService.salvar(id_evento, id_pessoa);
+		participanteService.salvar(req, id_evento, id_pessoa);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
