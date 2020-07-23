@@ -67,7 +67,7 @@ public class ParticipanteController {
 	@GetMapping(value = "/participantes-pessoa/{id}")
 	@ApiOperation(value = "Método que busca as participações em evento de uma Pessoa através do ID da PESSOA.(Rota de Tutores e petianos)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	@Secured({"ROLE_tutor", "ROLE_petiano"})
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
 	public ResponseEntity<?> getParticipantesPessoa(@ApiParam(value = "ID da PESSOA a ser solicitada as participações") @PathVariable Long id, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPessoa(id, pageable);
 		if (participantes.isEmpty())
