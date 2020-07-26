@@ -71,7 +71,7 @@ public class ParticipanteService {
 	
 	public Page<Participante> buscarPessoa(HttpServletRequest req, Long id, Pageable pageable){
 		Pessoa p = pessoaService.buscarPorEmail(req);
-		if(p.getTipo_usuario().getNome() != "tutor" && p.getIdPessoa() != id) {
+		if(p.getTipo_usuario().getNome() == "comum" && p.getIdPessoa() != id) {
 			throw new CustomException("Você não tem permissão para listar as participações de outras pessoas!", HttpStatus.FORBIDDEN);
 		}
 		Page<Participante> parts = participanteRepository.findByPessoa(id, pageable);
