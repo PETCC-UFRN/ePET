@@ -43,7 +43,7 @@ public class FileStorageController {
 	
 	@GetMapping("/downloadfile/{filename:.+}")
 	@ApiOperation(value = "Método que faz o download de um arquivo.")
-	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	//@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 		public ResponseEntity<Resource> downloadFile(@ApiParam(value = "Link do arquivo") @PathVariable String filename, HttpServletRequest request){
 			Resource resource = fileStorageService.loadFileAsResource(filename);
 			

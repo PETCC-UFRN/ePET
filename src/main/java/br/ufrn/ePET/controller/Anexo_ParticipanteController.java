@@ -2,6 +2,7 @@ package br.ufrn.ePET.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
@@ -25,6 +28,8 @@ import br.ufrn.ePET.models.Anexo_Participante;
 import br.ufrn.ePET.service.Anexo_ParticipanteService;
 import br.ufrn.ePET.service.FileStorageService;
 
+@RestController
+@RequestMapping(value = "/api")
 public class Anexo_ParticipanteController {
 	
 	private final Anexo_ParticipanteService anexo_ParticipanteService;
@@ -60,13 +65,13 @@ public class Anexo_ParticipanteController {
 	@ApiOperation(value = "Método que faz o upload dos arquivos.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> uploadFile(@ApiParam(value = "arquivo a ser anexado") @RequestParam("file") MultipartFile file,
-										@ApiParam(value = "id do participante") @PathVariable Long id_participante) {
+										@ApiParam(value = "id do participante") @PathVariable Long id_participante, HttpServletRequest req) {
 	     String filename = fileStorageService.storeFile(file);
 	     if(filename != null) {
 	    	 Anexo_Participante anexo_Participante = new Anexo_Participante();
 	    	 anexo_Participante.setAnexos(filename);
 	    	 //anexo_ParticipanteService.salvar(id_participante, anexo_Participante);
-	    	 return new ResponseEntity<>(anexo_ParticipanteService.salvar(id_participante, anexo_Participante), HttpStatus.OK);
+	    	 return new ResponseEntity<>(anexo_ParticipanteService.salvar(id_participante, anexo_Participante, req), HttpStatus.OK);
 	     } else {
 	    	 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	     }
@@ -77,8 +82,8 @@ public class Anexo_ParticipanteController {
 	@ApiOperation(value = "Método que remove os anexos de um participante.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
-	public ResponseEntity<?> removeAnexos(@ApiParam(value = "id do anexo a ser removido") @PathVariable Long id){
-		anexo_ParticipanteService.remover(id);
+	public ResponseEntity<?> removeAnexos(@ApiParam(value = "id do anexo a ser removido") @PathVariable Long id, HttpServletRequest req){
+		anexo_ParticipanteService.remover(id, req);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
