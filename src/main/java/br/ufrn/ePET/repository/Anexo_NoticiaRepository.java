@@ -14,6 +14,6 @@ public interface Anexo_NoticiaRepository extends JpaRepository<Anexo_Noticia, Lo
 	List<Anexo_Noticia> findById_noticia(Long id_noticia);
 
 	@Modifying
-	@Query(value = "DELETE FROM anexo_noticia a WHERE a.id_noticia = ?1", nativeQuery = true)
+	@Query(value = "DELETE FROM anexo_noticia WHERE anexo_noticia.id_noticia = ?1", nativeQuery = true)
 	void deleteByIdNoticia(Long id_noticia);
 }

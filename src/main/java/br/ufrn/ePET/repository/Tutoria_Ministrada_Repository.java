@@ -13,7 +13,7 @@ import br.ufrn.ePET.models.Tutoria_Ministrada;
 public interface Tutoria_Ministrada_Repository extends JpaRepository<Tutoria_Ministrada, Long>{
 
 	@Modifying
-	@Query(value = "UPDATE tutoria_ministrada tm SET tm.ativo = 0 WHERE id_tutoria = ?1", nativeQuery = true)
+	@Query(value = "UPDATE tutoria_ministrada tm SET tm.ativo = 0 WHERE tm.id_tutoria = ?1", nativeQuery = true)
 	void desativarAtivos(Long id);
 
 	@Modifying
