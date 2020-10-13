@@ -37,16 +37,12 @@ public class PagamentoController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	/*
-	@GetMapping(value = "/verificar-status/{reference}")
-	public ResponseEntity<?> verificar(@PathVariable String reference){
-		try {
-			return new ResponseEntity<>(pagamentoService.verificarStatusPagamento(reference), HttpStatus.OK);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-		}
-	}*/
+	@GetMapping(value = "/verificar-status/{id_participante}")
+	@ApiOperation(value = "Método que retorna o status de pagamento de um participante.")
+	public ResponseEntity<?> verificar(@PathVariable Long id_participante){
+		return new ResponseEntity<>(pagamentoService.verificarStatusPagamento(id_participante), HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/pagseguro-notificacao/")
 	@ApiOperation(value = "Método que verifica o status do pagamento.")
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

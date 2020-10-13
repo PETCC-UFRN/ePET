@@ -122,23 +122,14 @@ public class PagamentoService {
 		}
 
 	}
-	/*
-	public Pagamento verificarStatusPagamento(String reference) throws IOException{
-		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
-				getCredentials(), PagSeguroEnv.SANDBOX);
-		
-		Pagamento p;
-		if(pagamentoRepository.findByReferencia(reference).isEmpty()) {
-			throw new ResourceNotFoundException("Não foi encontrado nenhum pagamento com a referência " + reference);
-		} else {
-			p = pagamentoRepository.findByReferencia(reference).get(0);
+	
+	public String verificarStatusPagamento(Long id_participante){
+		Pagamento p = pagamentoRepository.findByParticipante(id_participante);
+		if (p == null) {
+			throw new ResourceNotFoundException("Nenhum pagamento cadastrado para esse participante");
 		}
-		TransactionDetail t = pagSeguro.transactions().search().byCode(p.getId_transacao_pagseguro());
-		p.setData(Instant.ofEpochMilli(t.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
-		p.setStatus(t.getStatus().getStatus().name());
-		pagamentoRepository.save(p);
-		return p;
-	}*/
+		return p.getStatus();
+	}
 
 	public void verifiarStatusPagamento(String nCode, String nType){
 		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
