@@ -1,6 +1,7 @@
 package br.ufrn.ePET.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import br.ufrn.ePET.models.Participante;
 import br.ufrn.ePET.repository.ParticipanteRepository;
@@ -61,6 +62,9 @@ public class PagamentoService {
 		
 		Pessoa pessoa = participante.getPessoa();
 		Evento evento = participante.getEvento();
+		if (evento.getFim_rolagem().compareTo(LocalDate.now()) < 0) {
+			throw new ResourceNotFoundException("Período de inscrição finalizado!");
+		}
 
 		if(evento.getValor() > 0.0){
 			RegisteredCheckout registeredCheckout = pagSeguro.checkouts().register(
