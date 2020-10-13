@@ -62,7 +62,7 @@ public class PagamentoService {
 		
 		Pessoa pessoa = participante.getPessoa();
 		Evento evento = participante.getEvento();
-		if (evento.getFim_rolagem().compareTo(LocalDate.now()) < 0) {
+		if (evento.getD_evento_inicio().compareTo(LocalDate.now()) < 0) {
 			throw new ResourceNotFoundException("Período de inscrição finalizado!");
 		}
 

@@ -15,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.DuplicatedEntryException;
@@ -25,7 +24,6 @@ import br.ufrn.ePET.repository.UsuarioRepository;
 
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.UUID;
 
 @Service
 public class UsuarioService {
@@ -61,7 +59,9 @@ public class UsuarioService {
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 				return "Bearer " + jwtTokenProvider.createToken(username, pessoaRepository.findByUsuario(u).getTipo_usuario().getNome());
 			} else {
-				throw new CustomException("Usuario nao validado", HttpStatus.UNPROCESSABLE_ENTITY);
+				ValidadorUsuario validadorUsuario = validadorUsuarioRepository.findByUsuario(u);
+				enviarEmail(validadorUsuario, username);
+				throw new CustomException("Usuário nao validado, foi reenviado o email de confirmação", HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 		} catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
