@@ -70,16 +70,6 @@ public class UsuarioController {
 		//}
 	}
 
-	/*@PostMapping(value="/sign-up")
-	public ResponseEntity<?> saveUsuarios(@Valid @RequestBody UsuarioDTO usuarioDTO){
-		//try {
-			usuarioService.signup(usuarioDTO);
-			return new ResponseEntity<>(HttpStatus.OK);
-		//} catch(Exception e) {
-			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		//}
-	}*/
-
 	@PostMapping(value="/usuarios-atualizar/")
 	@ApiOperation(value = "Método que atualiza os dados de um usuário.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")

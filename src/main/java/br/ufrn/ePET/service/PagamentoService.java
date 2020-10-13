@@ -1,17 +1,10 @@
 package br.ufrn.ePET.service;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.List;
 
-import br.com.uol.pagseguro.api.direct.preapproval.Transaction;
 import br.ufrn.ePET.models.Participante;
 import br.ufrn.ePET.repository.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Service;
 
 import br.com.uol.pagseguro.api.PagSeguro;
@@ -33,25 +26,19 @@ import br.ufrn.ePET.error.ResourceNotFoundException;
 import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.models.Pagamento;
 import br.ufrn.ePET.models.Pessoa;
-import br.ufrn.ePET.repository.EventoRepository;
 import br.ufrn.ePET.repository.PagamentoRepository;
-import br.ufrn.ePET.repository.PessoaRepository;
 
 @Service
 public class PagamentoService {
 
 	private final PagamentoRepository pagamentoRepository;
-	private final String EMAIL = "abraaovld@gmail.com";
-	private final String TOKEN = "9068F1E6809245E08070D78DB8EAE14F";
-	private final EventoRepository eventoRepository;
-	private final PessoaRepository pessoaRepository;
+	private final String EMAIL = "danielhenriquefg@gmail.com";
+	private final String TOKEN = "FBFC86DB79E645CDBDB8FD4AA05E6F72";
 	private final ParticipanteRepository participanteRepository;
 	
 	@Autowired
-	public PagamentoService(PagamentoRepository pagamentoRepository, EventoRepository eventoRepository, PessoaRepository pessoaRepository, ParticipanteRepository participanteRepository) {
+	public PagamentoService(PagamentoRepository pagamentoRepository, ParticipanteRepository participanteRepository) {
 		this.pagamentoRepository = pagamentoRepository;
-		this.eventoRepository = eventoRepository;
-		this.pessoaRepository = pessoaRepository;
 		this.participanteRepository = participanteRepository;
 	}
 	
@@ -60,22 +47,17 @@ public class PagamentoService {
 	}
 	
 	public String criarPagamento(Long id_participante){
-		//Evento evento = new Evento();
-		/*if(eventoRepository.findById(id_evento).isPresent())
-			evento = eventoRepository.findById(id_evento).get();
-		else throw new ResourceNotFoundException("Evento com id "+ id_evento + " não encontrado");
-		
-		Pessoa pessoa = new Pessoa();
-		if(pessoaRepository.findById(id_pessoa).isPresent())
-			pessoa = pessoaRepository.findById(id_pessoa).get();
-		else throw new ResourceNotFoundException("Pessoa com id "+ id_pessoa + " não encontrada");*/
+		Pagamento existsPagamento = pagamentoRepository.findByParticipante(id_participante);
+		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
+				getCredentials(), PagSeguroEnv.SANDBOX);
+		if(existsPagamento != null) {
+			TransactionDetail transactionDetail = pagSeguro.transactions().search().byCode(existsPagamento.getId_transacao_pagseguro());
+			return transactionDetail.getPaymentLink();
+		}
 		Participante participante = new Participante();
 		if(participanteRepository.findById(id_participante).isPresent())
 			participante = participanteRepository.findById(id_participante).get();
 		else throw new ResourceNotFoundException("Participante com id "+ id_participante + " não encontrada");
-		
-		PagSeguro pagSeguro = PagSeguro.instance(new SimpleLoggerFactory(), new JSEHttpClient(),
-				getCredentials(), PagSeguroEnv.SANDBOX);
 		
 		Pessoa pessoa = participante.getPessoa();
 		Evento evento = participante.getEvento();
@@ -102,7 +84,6 @@ public class PagamentoService {
 									)
 
 							)
-
 
 			);
 

@@ -49,6 +49,7 @@ public class PagamentoController {
 	}*/
 	@PostMapping(value = "/pagseguro-notificacao/")
 	@ApiOperation(value = "Método que verifica o status do pagamento.")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> verificar(@ApiParam(value = "codigo da notificação") @RequestParam("notificationCode") String nCode, 
 									   @ApiParam(value = "tipo de notificação (Váriável nao usada, checkar!!!!)") @RequestParam("notificationType") String nType){
 		//System.out.println();
