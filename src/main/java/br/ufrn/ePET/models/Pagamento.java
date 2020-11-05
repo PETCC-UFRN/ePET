@@ -1,8 +1,5 @@
 package br.ufrn.ePET.models;
 
-import org.hibernate.annotations.ColumnDefault;
-
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;

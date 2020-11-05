@@ -1,7 +1,6 @@
 package br.ufrn.ePET.models;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 public class ValidadorUsuario {
