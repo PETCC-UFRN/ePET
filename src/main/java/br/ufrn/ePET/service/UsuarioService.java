@@ -18,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.DuplicatedEntryException;
-import br.ufrn.ePET.repository.PessoaRepository;
+import br.ufrn...repository.PessoaRepository;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
 import br.ufrn.ePET.repository.UsuarioRepository;
 
@@ -129,7 +129,7 @@ public class UsuarioService {
 		SimpleMailMessage smm = new SimpleMailMessage();
 		smm.setTo(pessoa.getUsuario().getEmail());
 		smm.setText("Olá " + pessoa.getNome() + "!\n"
-				+ "Esse é o seu código de ativação!\n" + "https://epet.imd.ufrn.br:8443/api/validation/?code=" + validadorUsuario.getCode());
+				+ "Esse é o seu código de ativação!\n" + "https://petcc.dimap.ufrn.br:8443/api/validation/?code=" + validadorUsuario.getCode());
 		try {
 			javaMailSender.send(smm);
 		} catch (Exception e) {
@@ -141,7 +141,7 @@ public class UsuarioService {
 		SimpleMailMessage smm = new SimpleMailMessage();
 		smm.setTo(email);
 		smm.setText("Olá!\n"
-				+ "Esse é o link para mudança da sua senha!\n" + "https://epet.imd.ufrn.br/mudarSenha/?code=" + validadorUsuario.getCode());
+				+ "Esse é o link para mudança da sua senha!\n" + "https://petcc.dimap.ufrn.br/mudarSenha/?code=" + validadorUsuario.getCode());
 		try {
 			javaMailSender.send(smm);
 		} catch (Exception e) {
