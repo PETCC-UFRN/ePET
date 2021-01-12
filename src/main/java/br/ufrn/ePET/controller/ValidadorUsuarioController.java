@@ -25,7 +25,7 @@ public class ValidadorUsuarioController {
     public RedirectView validador(@ApiParam(value = "Código a ser validádo") @RequestParam String code){
         validadorUsuarioService.validar(code);
         RedirectView rv = new RedirectView();
-        rv.setUrl("http://epet.imd.ufrn.br/email/confirmacao-cadastro");
+        rv.setUrl("http://petcc.dimap.ufrn.br/email/confirmacao-cadastro");
         return rv;
     }
 
@@ -34,7 +34,7 @@ public class ValidadorUsuarioController {
     public RedirectView validadorSenha(@RequestBody ResetDTO resetDTO){
         validadorUsuarioService.validarSenha(resetDTO);
         RedirectView rv = new RedirectView();
-        rv.setUrl("http://epet.imd.ufrn.br/email/confirmacao-reset");
+        rv.setUrl("http://petcc.dimap.ufrn.br/email/confirmacao-reset");
         return rv;
     }
 }
