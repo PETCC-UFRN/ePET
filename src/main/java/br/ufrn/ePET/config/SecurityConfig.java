@@ -79,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 .antMatchers(HttpMethod.GET, "/api/eventos-abertos").permitAll()
 				 .antMatchers(HttpMethod.GET, "/api/eventos-abertos/**").permitAll()
 				 .antMatchers(HttpMethod.GET, "/api/downloadfile/{filename:.+}").permitAll()
+				 .antMatchers(HttpMethod.GET, "/downloadfile/{filename:.+}").permitAll()
 				 .antMatchers(HttpMethod.POST, "/api/pagseguro-notificacao/**").permitAll()
 				 .antMatchers(HttpMethod.GET, "/api/certificado/validar/{hash}").permitAll()
 				 .antMatchers("/api/redirecionamento-pagamento/**").permitAll()
