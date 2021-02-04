@@ -18,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.ePET.error.DuplicatedEntryException;
-import br.ufrn...repository.PessoaRepository;
+import br.ufrn.epet.repository.PessoaRepository;
 import br.ufrn.ePET.repository.Tipo_UsuarioRepository;
 import br.ufrn.ePET.repository.UsuarioRepository;
 
