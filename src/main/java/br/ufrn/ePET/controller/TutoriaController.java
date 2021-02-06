@@ -34,7 +34,7 @@ public class TutoriaController {
 	
 	@GetMapping(value="/tutorias")
 	@ApiOperation(value ="Método responsável por retornar as tutorias ativas." )
-	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	//@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutorias(Pageable pageable){
 		Page<Tutoria> tutorias = tutoriaService.buscar(pageable);
@@ -47,7 +47,7 @@ public class TutoriaController {
 	
 	@GetMapping(value="/tutorias/{id}")
 	@ApiOperation(value="Método responsábel por buscar uma determinada tutoria, passada por seu ID.")
-	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	//@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	//@Secured({"ROLE_tutor", "ROLE_comum", "ROLE_petiano"})
 	public ResponseEntity<?> getTutoria(@ApiParam(value="Id da tutoria a ser solicitada.") @PathVariable Long id){
 		Tutoria tutoria = tutoriaService.buscar(id);

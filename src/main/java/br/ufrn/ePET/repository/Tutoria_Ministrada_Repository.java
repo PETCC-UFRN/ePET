@@ -17,7 +17,7 @@ public interface Tutoria_Ministrada_Repository extends JpaRepository<Tutoria_Min
 	void desativarAtivos(Long id);
 
 	@Modifying
-	@Query(value = "UPDATE tutoria_ministrada SET tm.ativo = 0 FROM tutoria_ministrada tm, Tutoria t WHERE tm.id_tutoria = t.id_tutoria AND t.id_petiano =?1", nativeQuery = true)
+	@Query(value = "UPDATE tutoria_ministrada as tm, tutoria as t SET tm.ativo = 0 WHERE tm.id_tutoria = t.id_tutoria AND t.id_petiano=?1", nativeQuery = true)
 	void desativarAtivosPorPetiano(Long id);
 	
 	@Query(value = "SELECT * FROM tutoria_ministrada tm WHERE tm.ativo = true", nativeQuery = true)
