@@ -144,7 +144,7 @@ public class CertificadoService {
             ColumnText ctLink= new ColumnText(content);
             ctLink.setSimpleColumn(rectLink);
             Font catLink = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
-            Paragraph paragraphLink = new Paragraph("Para validar essa declaração acesse: https://epet.imd.ufrn.br/validacao", catLink);
+            Paragraph paragraphLink = new Paragraph("Para validar essa declaração acesse: https://petcc.dimap.ufrn.br/validacao", catLink);
             paragraphLink.setAlignment(Element.ALIGN_JUSTIFIED);
             ctLink.addElement(paragraphLink);
             ctLink.go();
@@ -212,8 +212,8 @@ public class CertificadoService {
 			certificado = new CertificadoOrganizador();
 		certificado.setOrganizadores(organizador);
         LocalDate today = LocalDate.now();
-        if(organizador.getEvento().getD_evento_fim().compareTo(today) <= 0)
-        	throw new ResourceNotFoundException("O certificado de organização só pode ser gerado após a conclusão do evento!");
+		if(organizador.getEvento().getD_evento_fim().isAfter(today))
+        		throw new ResourceNotFoundException("O certificado de organização só pode ser gerado após a conclusão do evento!");
         	
         String formattedDate = today.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		certificado.setDataCriacao(today);
