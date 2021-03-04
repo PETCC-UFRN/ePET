@@ -51,6 +51,15 @@ public class CertificadoController {
 		return new ResponseEntity<>( HttpStatus.OK);
 	}
 
+	
+	@GetMapping(value = "/certificado/validarOrganizador/{hash}")
+	@ApiOperation(value = "Método que faz a validação de uma hash de uma declaração.")
+	public ResponseEntity<?> getVerificarOrganizadorCertificado(@ApiParam(value = "hash code que está na declaração") @PathVariable String hash){
+		certificadoService.verificarOrganizadorCertificado(hash);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+
+
 	@GetMapping(value = "/certificado/gerar/{id_pessoa}/{id_evento}")
 	@ApiOperation(value = "Método que gera uma declaração para determinada pessoa em um determinado evento.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")

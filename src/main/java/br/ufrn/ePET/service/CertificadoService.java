@@ -269,7 +269,7 @@ public class CertificadoService {
             ColumnText ctLink= new ColumnText(content);
             ctLink.setSimpleColumn(rectLink);
             Font catLink = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
-            Paragraph paragraphLink = new Paragraph("Para validar essa declaração acesse: https://epet.imd.ufrn.br/validacao", catLink);
+            Paragraph paragraphLink = new Paragraph("Para validar essa declaração acesse: https://petcc.dimap.ufrn.br/validacaoOrganizador", catLink);
             paragraphLink.setAlignment(Element.ALIGN_JUSTIFIED);
             ctLink.addElement(paragraphLink);
             ctLink.go();
@@ -329,6 +329,14 @@ public class CertificadoService {
 	}
 	
 	public Certificado verificarCertificado(String hash) {
+		Certificado certificado = certificadoRepository.findByHash(hash);
+		if (certificado == null) {
+			throw new ResourceNotFoundException("Certificado inválido!");
+		}
+		return certificado;
+	}	
+	
+	public Certificado verificarOrganizadorCertificado(String hash) {
 		Certificado certificado = certificadoRepository.findByHash(hash);
 		if (certificado == null) {
 			throw new ResourceNotFoundException("Certificado inválido!");
