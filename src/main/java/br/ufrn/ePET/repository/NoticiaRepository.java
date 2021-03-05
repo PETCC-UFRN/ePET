@@ -16,4 +16,7 @@ public interface NoticiaRepository extends JpaRepository<Noticia, Long> {
 
     @Query(value = "SELECT * FROM noticia n WHERE DATE(CURRENT_DATE()) BETWEEN n.inicio_exibicao AND n.limite_exibicao", nativeQuery = true)
     Page<Noticia> findAtuais(Pageable pageable);
+
+    @Query(value = "SELECT * FROM noticia n WHERE DATE(CURRENT_DATE()) > n.limite_exibicao", nativeQuery = true)
+    Page<Noticia> findAntigas(Pageable pageable);
 }

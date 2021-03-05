@@ -59,6 +59,17 @@ public class NoticiaController {
 		}
 		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
+
+	@GetMapping(value = "/noticias-antigas")
+	@ApiOperation(value = "Método responsável por retornar todas as notícias que estão dentro do limite de exibição.")
+	@CrossOrigin(origins="*")
+	public ResponseEntity<?> getNoticiasAntigas(Pageable pageable){
+		Page<Noticia> page = noticiaService.buscarAntigas(pageable);
+		if(page == null || page.isEmpty()) {
+			throw new ResourceNotFoundException("Não há notícias cadastradas");
+		}
+		return new ResponseEntity<>(page, HttpStatus.OK);
+	}
 	
 
 	@GetMapping(value = "/pesquisar-noticia/{search}")

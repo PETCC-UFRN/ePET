@@ -58,8 +58,8 @@ public class Noticia {
 	@ApiModelProperty(
 	  value = "Id do petiano que cadastrou a notícia.",
 	  name = "petiano",
-	  dataType = "String",
-	  example = "O PETCC da UFRN abre processo seletivo interno para novos integrantes.")
+	  example = "retirar do swagger pois o petiano é pego pelo id passado ",
+	  dataType = "Petiano")
 	private Petiano petiano;
 
 	public long getIdNoticia() {
