@@ -100,6 +100,25 @@ public class EventoService {
 			throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição");
 		return aux;
 	}
+	
+	public List<Evento> buscarAtivosFinalizados(){
+		List<Evento> lista_aux = eventoRepository.findByAtivos();
+		LocalDate ld = LocalDate.now();
+		List<Evento> aux = new ArrayList<Evento>();
+		for(Evento e : lista_aux) {
+			if(e.getD_evento_fim().isAfter(ld)) {
+				//System.out.println(e.getTitulo());
+				aux.add(e);
+			}
+		}
+		//lista_aux.clear();
+		/*java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
+		Page<Evento> lista = eventoRepository.findByAtivos(sqlDate, pageable);
+		System.out.println(LocalDate.now());*/
+		if(lista_aux.isEmpty())
+			throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição");
+		return aux;
+	}
 
 	public Page<Evento> buscarPorTitulo(String titulo, Pageable pageable){
 		return eventoRepository.findByTitulo(titulo, pageable);
@@ -178,12 +197,12 @@ public class EventoService {
 		eventoRepository.save(e);
 		System.out.println("C");
 		if (eventodto.getIdEvento() == 0 ) {
-		organizadoresService.salvar(e.getIdEvento(), p.getIdPessoa());
-		for (LocalDate dia : periodo_evento) {
-			Periodo_Evento pe = new Periodo_Evento();
-			pe.setDia(dia);
-			periodoEventoService.salvar(e.getIdEvento(), pe);
-		}
+			organizadoresService.salvar(e.getIdEvento(), p.getIdPessoa());
+			for (LocalDate dia : periodo_evento) {
+				Periodo_Evento pe = new Periodo_Evento();
+				pe.setDia(dia);
+				periodoEventoService.salvar(e.getIdEvento(), pe);
+			}
 		}
 		else {
 			List<Periodo_Evento> lpe = periodoEventoService.buscarPorEvento(e);

@@ -62,6 +62,21 @@ public class EventoController {
 			//throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição");
 		//}
 	}
+	
+	@GetMapping(value = "/eventos-abertos-finalizados")
+	@ApiOperation(value = "Retorna todos os eventos abertos do sistema.")
+	public ResponseEntity<?> getEventosAbertosFinalizados(Pageable pageable){
+		//try {
+			List<Evento> page = eventoService.buscarAtivosFinalizados();
+			if(page.isEmpty()) {
+				throw new ResourceNotFoundException("Nenhum evento finalizado.");
+			}
+			return new ResponseEntity<>(page, HttpStatus.OK);
+		//} catch (Exception e) {
+			//throw new ResourceNotFoundException("Nenhum evento aberto para a inscrição");
+		//}
+	}
+
 
 	@GetMapping(value = "/eventos-abertos/{id}")
 	@ApiOperation(value = "Retorna um evento aberto do sistema pelo seu ID.")
