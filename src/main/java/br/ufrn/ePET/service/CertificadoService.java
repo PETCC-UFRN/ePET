@@ -144,7 +144,7 @@ public class CertificadoService {
             ColumnText ctLink= new ColumnText(content);
             ctLink.setSimpleColumn(rectLink);
             Font catLink = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
-            Paragraph paragraphLink = new Paragraph("Para validar essa declaração acesse: https://petcc.dimap.ufrn.br/validacao", catLink);
+            Paragraph paragraphLink = new Paragraph("Para validar acesse: https://petcc.dimap.ufrn.br/validacao", catLink);
             paragraphLink.setAlignment(Element.ALIGN_JUSTIFIED);
             ctLink.addElement(paragraphLink);
             ctLink.go();
@@ -269,7 +269,7 @@ public class CertificadoService {
             ColumnText ctLink= new ColumnText(content);
             ctLink.setSimpleColumn(rectLink);
             Font catLink = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
-            Paragraph paragraphLink = new Paragraph("Para validar essa declaração acesse: https://petcc.dimap.ufrn.br/validacaoOrganizador", catLink);
+            Paragraph paragraphLink = new Paragraph("Para validar acesse: https://petcc.dimap.ufrn.br/validacaoOrganizador", catLink);
             paragraphLink.setAlignment(Element.ALIGN_JUSTIFIED);
             ctLink.addElement(paragraphLink);
             ctLink.go();

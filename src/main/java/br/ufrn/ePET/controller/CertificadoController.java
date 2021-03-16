@@ -108,7 +108,7 @@ public class CertificadoController {
 		byte[] arquivo = Files.readAllBytes( Paths.get(fileName));
 		HttpHeaders httpHeaders = new HttpHeaders();
 
-        httpHeaders.add("Content-Disposition", "attachment;filename=\"certificado.pdf\"");
+        httpHeaders.add("Content-Disposition", "attachment;filename=\"certificado.pdf.pdf\"");
 
         HttpEntity<byte[]> entity = new HttpEntity<byte[]>( arquivo, httpHeaders);
         Files.deleteIfExists(Paths.get(fileName));
