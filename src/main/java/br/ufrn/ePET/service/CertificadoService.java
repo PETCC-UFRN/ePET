@@ -336,8 +336,8 @@ public class CertificadoService {
 		return certificado;
 	}	
 	
-	public Certificado verificarOrganizadorCertificado(String hash) {
-		Certificado certificado = certificadoRepository.findByHash(hash);
+	public CertificadoOrganizador verificarOrganizadorCertificado(String hash) {
+		CertificadoOrganizador certificado = certificadoOrganizadorRepository.findByHash(hash);
 		if (certificado == null) {
 			throw new ResourceNotFoundException("Certificado inválido!");
 		}
