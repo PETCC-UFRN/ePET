@@ -89,6 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 .antMatchers(HttpMethod.GET, "/api/certificado/validar/{hash}").permitAll()
 				 .antMatchers(HttpMethod.GET, "/api/atividades").permitAll()
 				 .antMatchers(HttpMethod.GET, "/api/atividades/**").permitAll()
+				 .antMatchers(HttpMethod.GET, "/api/certificado/validarOrganizador/{hash}").permitAll()
 				 .antMatchers("/api/redirecionamento-pagamento/**").permitAll()
 				 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
 				 .anyRequest().authenticated();
