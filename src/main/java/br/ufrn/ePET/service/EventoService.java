@@ -87,7 +87,7 @@ public class EventoService {
 		LocalDate ld = LocalDate.now();
 		List<Evento> aux = new ArrayList<Evento>();
 		for(Evento e : lista_aux) {
-			if(!(ld.compareTo(e.getD_inscricao()) < 0) && !(ld.compareTo(e.getD_inscricao_fim()) > 0) ) {
+			if((e.getD_evento_fim().isBefore(ld) ) ) {
 				//System.out.println(e.getTitulo());
 				aux.add(e);
 			}
