@@ -87,7 +87,7 @@ public class EventoService {
 		LocalDate ld = LocalDate.now();
 		List<Evento> aux = new ArrayList<Evento>();
 		for(Evento e : lista_aux) {
-			if((e.getD_evento_fim().isBefore(ld) ) ) {
+			if((e.getD_evento_fim().isAfter(ld) ) ) {
 				//System.out.println(e.getTitulo());
 				aux.add(e);
 			}
@@ -106,7 +106,7 @@ public class EventoService {
 		LocalDate ld = LocalDate.now();
 		List<Evento> aux = new ArrayList<Evento>();
 		for(Evento e : lista_aux) {
-			if(e.getD_evento_fim().isAfter(ld)) {
+			if(e.getD_evento_fim().isBefore(ld)) {
 				//System.out.println(e.getTitulo());
 				aux.add(e);
 			}
