@@ -64,7 +64,7 @@ public class DisciplinaController {
 		}
 	}
 
-	@GetMapping(value = "pesquisar-disciplina/{search}")
+	@GetMapping(value = "/pesquisar-disciplina/{search}")
 	@ApiOperation(value = "Método que busca disciplinas por nome ou código.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
@@ -77,7 +77,7 @@ public class DisciplinaController {
 		}
 	}
 
-	@GetMapping(value = "pesquisar-disciplina-ativa/{search}")
+	@GetMapping(value = "/pesquisar-disciplina-ativa/{search}")
 	@ApiOperation(value = "Método que busca disciplinas por nome ou código.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
@@ -103,7 +103,7 @@ public class DisciplinaController {
 		}
 	}
 
-	/*@DeleteMapping(value = "disciplinas-remover/{id}")
+	@DeleteMapping(value = "/disciplinas-remover/{id}")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
 	public ResponseEntity<?> deleteDisciplinas(@PathVariable Long id){
 		try {
@@ -112,7 +112,7 @@ public class DisciplinaController {
 		} catch (Exception e) {
 			throw new ResourceNotFoundException("A disciplina que se tentou deletar não existe!");
 		}
-	}*/
+	}
 	
 	
 }

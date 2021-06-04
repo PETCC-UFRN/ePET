@@ -44,7 +44,7 @@ public class Anexo_NoticiaController {
 	@GetMapping(value = "/anexos-noticias/{id}")
 	@ApiOperation(value = "Método que retorna os anexos de determinada notícia através de seu ID.")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> getAnexos(@ApiParam(value = "Id da notpicia que se solicita os anexos") @PathVariable Long id){
+	public ResponseEntity<?> getAnexos(@ApiParam(value = "Id da noticia que se solicita os anexos") @PathVariable Long id){
 		List<Anexo_Noticia> lista = anexo_NoticiaService.buscarPorNoticia(id);
 		if(lista.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhum anexo cadastrado.");

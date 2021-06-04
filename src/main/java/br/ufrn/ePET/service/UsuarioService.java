@@ -169,8 +169,8 @@ public class UsuarioService {
 	}
 
 	// Ao mudar email a validade do usuário é setada para false, requerendo que ele valide o e-mail novamente
-	public void atualizarEmail(String email){
-		Usuario usuario = usuarioRepository.findByEmail(email);
+	public void atualizarEmail(String email, String emailAntigo){
+		Usuario usuario = usuarioRepository.findByEmail(emailAntigo);
 		Pessoa pessoa = pessoaRepository.findByUsuario(usuario);
 		if(usuario != null){
 			usuario.setEmail(email);

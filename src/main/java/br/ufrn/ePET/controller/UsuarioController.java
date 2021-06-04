@@ -87,13 +87,13 @@ public class UsuarioController {
 		//}
 	}
 
-	@PostMapping(value = "/usuarios-atualizar-email/")
+	@PostMapping(value = "/usuarios-atualizar-email/{email}")
 	@ApiOperation(value = "Método que atualiza o email de um usuário")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
-	public ResponseEntity<?> atualizarEmail(HttpServletRequest req, @Valid @RequestBody EmailDTO emailDTO){
+	public ResponseEntity<?> atualizarEmail(HttpServletRequest req, @ApiParam(value = "Email antigo") @PathVariable String email, @Valid @RequestBody EmailDTO emailDTO){
 		Pessoa p = pessoaService.buscarPorEmail(req);
 		if(p.getUsuario().getidUsuario() == emailDTO.getId() || p.getTipo_usuario().getNome().equalsIgnoreCase("tutor")){
-			usuarioService.atualizarEmail(emailDTO.getEmail());
+			usuarioService.atualizarEmail(emailDTO.getEmail(), email);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
