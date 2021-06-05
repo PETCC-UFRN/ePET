@@ -66,6 +66,7 @@ public class PagamentoService {
 	}
 	
 	public String criarPagamento(Long id_participante){
+		
 		//Evento evento = new Evento();
 		/*if(eventoRepository.findById(id_evento).isPresent())
 			evento = eventoRepository.findById(id_evento).get();
@@ -85,6 +86,12 @@ public class PagamentoService {
 		
 		Pessoa pessoa = participante.getPessoa();
 		Evento evento = participante.getEvento();
+		
+		Pagamento existsPagamento = pagamentoRepository.findByParticipante(id_participante);
+		if(existsPagamento != null) {
+			TransactionDetail transactionDetail = pagSeguro.transactions().search().byCode(existsPagamento.getId_transacao_pagseguro());
+			return transactionDetail.getPaymentLink();
+		}
 
 		if(evento.getValor() > 0.0){
 			RegisteredCheckout registeredCheckout = pagSeguro.checkouts().register(
