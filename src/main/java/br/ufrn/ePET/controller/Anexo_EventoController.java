@@ -42,7 +42,7 @@ public class Anexo_EventoController {
 	
 	@GetMapping(value = "/anexos-evento/{id}")
 	@ApiOperation(value = "Método que retorna os anexos de determinado evento através de seu ID.")
-	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	//@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> getAnexos(@ApiParam(value = "Id do evento") @PathVariable Long id){
 		List<Anexo_Evento> lista = anexo_EventoService.buscarPorEvento(id);
 		if(lista.isEmpty()) {

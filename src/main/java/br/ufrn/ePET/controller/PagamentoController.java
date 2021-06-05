@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,12 +44,24 @@ public class PagamentoController {
 	public ResponseEntity<?> verificar(@PathVariable Long id_participante){
 		return new ResponseEntity<>(pagamentoService.verificarStatusPagamento(id_participante), HttpStatus.OK);
 	}
-	
+	/*
+	@GetMapping(value = "/verificar-status/{reference}")
+	public ResponseEntity<?> verificar(@PathVariable String reference){
+		try {
+			return new ResponseEntity<>(pagamentoService.verificarStatusPagamento(reference), HttpStatus.OK);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+		}
+	}*/
 	@PostMapping(value = "/pagseguro-notificacao/")
 	@ApiOperation(value = "Método que verifica o status do pagamento.")
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> verificar(@ApiParam(value = "codigo da notificação") @RequestParam("notificationCode") String nCode, 
-									   @ApiParam(value = "tipo de notificação (Váriável nao usada, checkar!!!!)") @RequestParam("notificationType") String nType){
+									   @ApiParam(value = "tipo de notificação (Váriável nao usada, checkar!!!!)") @RequestParam("notificationType") String nType,
+									   HttpServletResponse response){
+		response.addHeader("Access-Control-Allow-Origin", "https://ws.pagseguro.uol.com.br");
+		response.addHeader("Access-Control-Allow-Origin", "https://sandbox.pagseguro.uol.com.br");
 		//System.out.println();
 		pagamentoService.verifiarStatusPagamento(nCode, nType);
 		return new ResponseEntity<>(HttpStatus.OK);
