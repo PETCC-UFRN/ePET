@@ -121,4 +121,8 @@ public class PetianoService {
 		petiano.setData_egresso(null);
 		return petianoRepository.save(petiano);
 	}
+	
+	public Page<Petiano> getTutores(Pageable pageable) {
+		return petianoRepository.findTutores(pageable);		
+	}
 }

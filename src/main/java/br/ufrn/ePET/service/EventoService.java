@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import br.ufrn.ePET.models.EventoDTO;
 import br.ufrn.ePET.models.Organizadores;
 import br.ufrn.ePET.models.Periodo_Evento;
 import br.ufrn.ePET.models.Pessoa;
+import br.ufrn.ePET.models.Petiano;
 import br.ufrn.ePET.repository.EventoRepository;
 
 @Service
@@ -31,13 +33,15 @@ public class EventoService {
 	private final OrganizadoresService organizadoresService;
 	private final PessoaService pessoaService;
 	private final Periodo_EventoService periodoEventoService;
+	private final PetianoService petianoService;
 	
 	@Autowired
-	public EventoService(EventoRepository eventoRepository, OrganizadoresService organizadorService, PessoaService pessoaService, Periodo_EventoService periodoEventoService) {
+	public EventoService(EventoRepository eventoRepository, OrganizadoresService organizadorService, PessoaService pessoaService, Periodo_EventoService periodoEventoService, PetianoService petianoService) {
 		this.eventoRepository = eventoRepository;
 		this.organizadoresService = organizadorService;
 		this.pessoaService = pessoaService;
 		this.periodoEventoService = periodoEventoService;
+		this.petianoService = petianoService;
 	}
 	
 	public EventoDTO buscar(Long id) {
@@ -195,13 +199,17 @@ public class EventoService {
 		e.setD_evento_fim(evento_fim);
 		e.setD_evento_inicio(evento_inicio);
 		eventoRepository.save(e);
-		System.out.println("C");
 		if (eventodto.getIdEvento() == 0 ) {
 			organizadoresService.salvar(e.getIdEvento(), p.getIdPessoa());
 			for (LocalDate dia : periodo_evento) {
 				Periodo_Evento pe = new Periodo_Evento();
 				pe.setDia(dia);
 				periodoEventoService.salvar(e.getIdEvento(), pe);
+			}
+			Pageable pageable = PageRequest.of(0, 5);
+			for ( Petiano petiano: petianoService.getTutores(pageable).getContent()) {
+				if(petiano.getPessoa().getIdPessoa() != p.getIdPessoa())
+					organizadoresService.salvar(e.getIdEvento(), petiano.getPessoa().getIdPessoa());
 			}
 		}
 		else {

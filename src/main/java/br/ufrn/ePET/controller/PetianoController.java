@@ -137,6 +137,7 @@ public class PetianoController {
 	
 	@GetMapping(value = "/petianos-pessoa/{id_pessoa}")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@ApiOperation(value = "Método responsável por buscar os dados de um petiano com base no seu idpessoa.")
 	//@Secured({"ROLE_tutor"})
 	public ResponseEntity<?> getPetianosPorPessoa(@PathVariable Long id_pessoa){
 		Petiano petiano = petianoservice.buscarPorPessoa(id_pessoa);
@@ -146,4 +147,14 @@ public class PetianoController {
 		
 	}
 	
+	@GetMapping(value = "/petianos-tutor")
+	@ApiOperation(value = "Método responsável por retornar todos os tutores do sistema.")
+	public ResponseEntity<?> getTutores(Pageable pageable){
+		Page<Petiano> petianos = petianoservice.getTutores(pageable);
+		if (petianos == null || petianos.isEmpty())
+			throw new ResourceNotFoundException("Nenhum tutor encontrado!");
+		return new ResponseEntity<>(petianos, HttpStatus.OK);
+
+	}
+
 }
