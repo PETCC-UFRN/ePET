@@ -9,6 +9,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,5 +63,15 @@ public class AtividadesController {
 
 		return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    @DeleteMapping(value = "/atividades-remover")
+    @ApiOperation(value = "Método que remove as atividades do PET.")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano"})
+    public ResponseEntity<?> removerAtividades(@ApiParam(value = "Id da atividade a ser removida") @PathVariable Long id){
+    	atividadesService.delete(id);
+    	return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
 
 }
