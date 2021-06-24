@@ -64,7 +64,7 @@ public class AtividadesController {
 		return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    @DeleteMapping(value = "/atividades-remover")
+    @DeleteMapping(value = "/atividades-remover/{id}")
     @ApiOperation(value = "Método que remove as atividades do PET.")
     @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano"})
