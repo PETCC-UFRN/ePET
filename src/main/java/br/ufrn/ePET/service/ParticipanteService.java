@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import br.ufrn.ePET.error.CustomException;
 import br.ufrn.ePET.error.ResourceNotFoundException;
+import br.ufrn.ePET.models.ConteudoEmail;
 import br.ufrn.ePET.models.Evento;
 import br.ufrn.ePET.models.Organizadores;
 import br.ufrn.ePET.models.Participante;
@@ -29,15 +33,18 @@ public class ParticipanteService {
 	private final PessoaRepository pessoaRepository;
 	private final PessoaService pessoaService;
 	private final OrganizadoresService organizadoresService;
+	private JavaMailSender javaMailSender;
 	
 	@Autowired
 	public ParticipanteService(ParticipanteRepository participanteRepository, EventoRepository eventoRepository,
-			PessoaRepository pessoaRepository, PessoaService pessoaService, OrganizadoresService organizadoresService) {
+			PessoaRepository pessoaRepository, PessoaService pessoaService, OrganizadoresService organizadoresService,
+			JavaMailSender javaMailSender) {
 		this.participanteRepository = participanteRepository;
 		this.eventoRepository = eventoRepository;
 		this.pessoaRepository = pessoaRepository;
 		this.pessoaService = pessoaService;
 		this.organizadoresService = organizadoresService;
+		this.javaMailSender = javaMailSender;
 	}
 	
 	public Page<Participante> buscar(Pageable pageable){
@@ -198,6 +205,29 @@ public class ParticipanteService {
 		}
 		p.setConfirmado(true);
 		participanteRepository.save(p);
+	}
+	
+	public void enviarEmailPorEvento(HttpServletRequest req, @PathVariable Long id, ConteudoEmail cont, Pageable pageable) {
+		List<String> list_participantes = participanteRepository.findEmailParticipantes(id.intValue());
+		if(list_participantes != null)
+		{
+			if(list_participantes.isEmpty())
+				throw new ResourceNotFoundException("Nenhum participante cadastrado neste evento");
+			for (String email : list_participantes) {
+				SimpleMailMessage smm = new SimpleMailMessage();
+				smm.setTo(email);
+				smm.setSubject(cont.getAssunto());
+				smm.setText(cont.getConteudo());
+				try {
+					javaMailSender.send(smm);
+				} catch (Exception e) {
+					throw new RuntimeException("Houve algum erro no envio do seu email!\n" + e);
+				}
+			}
+		}
+		else {
+			throw new ResourceNotFoundException("Nenhum participante cadastrado neste evento");			
+		}
 	}
 	
 }

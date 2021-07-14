@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.ePET.error.ResourceNotFoundException;
+import br.ufrn.ePET.models.ConteudoEmail;
 import br.ufrn.ePET.models.Participante;
 import br.ufrn.ePET.service.ParticipanteService;
 
@@ -86,6 +88,15 @@ public class ParticipanteController {
 	public ResponseEntity<?> getParticipantesEvento(HttpServletRequest req, @PathVariable Long id, Pageable pageable){
 		Page<Participante> participantes = participanteService.buscarPorEvento(req, id, pageable);
 		return new ResponseEntity<>(participantes, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/participantes-enviar-email/{id_evento}")
+	@ApiOperation(value = "Método que envia um email para todos os participantes de um evento à partir do id do evento.(Rota de Tutores, petianos e comuns)")
+	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
+	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
+	public ResponseEntity<?> enviarEmailParticipantesEvento(HttpServletRequest req, @PathVariable Long id, @RequestBody ConteudoEmail cont, Pageable pageable){
+		participanteService.enviarEmailPorEvento(req, id, cont, pageable);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 
