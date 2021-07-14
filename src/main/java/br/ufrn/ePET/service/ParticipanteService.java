@@ -207,7 +207,7 @@ public class ParticipanteService {
 		participanteRepository.save(p);
 	}
 	
-	public void enviarEmailPorEvento(HttpServletRequest req, @PathVariable Long id, ConteudoEmail cont, Pageable pageable) {
+	public void enviarEmailPorEvento(HttpServletRequest req, Long id, ConteudoEmail cont) {
 		List<String> list_participantes = participanteRepository.findEmailParticipantes(id.intValue());
 		if(list_participantes != null)
 		{

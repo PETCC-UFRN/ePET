@@ -7,7 +7,6 @@ public class ConteudoEmail {
     String conteudo;
 
 	public ConteudoEmail(String assunto, String conteudo) {
-		super();
 		this.assunto = assunto;
 		this.conteudo = conteudo;
 	}

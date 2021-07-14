@@ -90,12 +90,12 @@ public class ParticipanteController {
 		return new ResponseEntity<>(participantes, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/participantes-enviar-email/{id_evento}")
+	@PostMapping(value = "/participantes-enviar-email/{id}")
 	@ApiOperation(value = "Método que envia um email para todos os participantes de um evento à partir do id do evento.(Rota de Tutores, petianos e comuns)")
 	@ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer access_token")
 	@Secured({"ROLE_tutor", "ROLE_petiano", "ROLE_comum"})
-	public ResponseEntity<?> enviarEmailParticipantesEvento(HttpServletRequest req, @PathVariable Long id, @RequestBody ConteudoEmail cont, Pageable pageable){
-		participanteService.enviarEmailPorEvento(req, id, cont, pageable);
+	public ResponseEntity<?> enviarEmailParticipantesEvento(HttpServletRequest req, @PathVariable Long id, @RequestBody ConteudoEmail cont){
+		participanteService.enviarEmailPorEvento(req, id, cont);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
